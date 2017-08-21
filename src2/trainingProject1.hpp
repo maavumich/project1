@@ -13,6 +13,10 @@
 #include "../src/deps/Circle.hpp"
 #include "../src/deps/Rectangle.hpp"
 #include "../src/deps/Triangle.hpp"
+#include "Shape.hpp"
+#include "Circle.hpp"
+#include "Rectangle.hpp"
+#include "Triangle.hpp"
 
 class arenaSimulator
 {
