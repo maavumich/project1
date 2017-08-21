@@ -1,5 +1,8 @@
 
 # Builds the opengl tutorial
+
+#include(FindPkgConfig REQUIRED)
+#pkg_check_modules(EPOXY REQUIRED epoxy)
 find_package(GLM REQUIRED)
 find_package(Epoxy REQUIRED)
 find_package(glfw3 REQUIRED)
