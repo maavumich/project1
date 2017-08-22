@@ -45,7 +45,4 @@ float Triangle::getAngle()
 	return angle;
 }
 
-void Triangle::setScale(float arenaSize)
-{
 
-}

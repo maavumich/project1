@@ -2,11 +2,13 @@
 #include <iostream>
 #include <cstdint>
 #include <epoxy/gl.h>
-#include <GLFW/glfw3.h>
 
 class Entity
 {
 public:
+	Entity(float xInit, float yInit, float angleInit, float radiusInit,
+		unsigned int shaderProgramIdIn, float arenaSizeXIn,
+		float arenaSizeYIn);
 	virtual void setPosition(float inX, float inY);
 	virtual void setAngle(float inTheta);
 	virtual void update();
@@ -17,6 +19,14 @@ public:
 	virtual float getAngle();
 	virtual float getRadius();
 protected:
+	// Posiition, orientation, color data, as well as the shader program to use
+	float x;
+	float y;
+	float angle;
+	float radius;
+	unsigned int shaderProgramId;
+	float arenaSizeX;
+	float arenaSizeY;
 	constexpr static float pi = 3.14159265358979f;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{
