@@ -7,3 +7,29 @@ Entity::Entity(float xInit, float yInit, float angleInit, float radiusInit,
 {
 
 }
+
+void Entity::setPosition(float inX, float inY)
+{
+	x = inX;
+	y = inY;
+}
+
+void Entity::setAngle(float inTheta)
+{
+	angle = inTheta;
+}
+
+float Entity::getXPos()
+{
+	return x;
+}
+
+float Entity::getYPos()
+{
+	return y;
+}
+
+float Entity::getAngle()
+{
+	return angle;
+}
