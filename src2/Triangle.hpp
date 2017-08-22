@@ -1,6 +1,6 @@
-#include "Shape.hpp"
+#include "Entity.hpp"
 
-class Triangle
+class Triangle : public Entity
 {
 public:
 	Triangle(float xInit, float yInit, float angleInit, float distToVertexIn,
