@@ -2,6 +2,7 @@
 #define _ROOMBA_HPP_
 
 #include "AnimatedEntity.hpp"
+#include "Entity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include <cstdint>
@@ -23,8 +24,6 @@ public:
 	float getSpeed();
 	// Sets the new speed
 	void setSpeed(float newSpeed);
-	// Updates the location of this object
-	std::function<void(Roomba&)> updateLocation;
 private:
 	float color[3];
 	Circle border;
