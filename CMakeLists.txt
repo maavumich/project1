@@ -5,6 +5,8 @@ project(project0)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
 
 add_subdirectory(src2)
+add_subdirectory(src)
+add_subdirectory("gtk tutorial")
 
 message(STATUS "")
 message(STATUS "Building a ${CMAKE_BUILD_TYPE} build")
