@@ -6,6 +6,8 @@
 #include <epoxy/gl.h> // OpenGL function pointer manager
 #include <glm/glm.hpp> // OpenGL math library
 
+#include "Program.hpp"
+
 class Renderer
 {
 public:
