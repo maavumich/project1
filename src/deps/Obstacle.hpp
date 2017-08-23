@@ -1,21 +1,17 @@
-#include "Entity.hpp"
+#include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include <cstdint>
 #include <vector>
 #include <functional>
 
-class Obstacle : public Entity
+class Obstacle : public AnimatedEntity
 {
 	Obstacle(float xInit, float yInit, float angleInit, float radiusInit,
-		unsigned int shaderProgramIdIn, float *color,
-		std::function <void(Obstacle&)> func = [](Obstacle&){});
+		unsigned int shaderProgramIdIn, float *color);
 	virtual void update();
 	virtual void render();
-	float getSpeed();
-	void setSpeed(float newSpeed);
 private:
-	float speed;
 	virtual void setup();
 	Circle roombaBody;
 	Circle pillar;

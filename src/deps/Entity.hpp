@@ -28,7 +28,7 @@ public:
 	virtual float getYPos();
 	// return current yaw
 	virtual float getYaw();
-	// reutrn current radius
+	// return current radius, sidelength for vehicle collsion
 	virtual float getRadius();
 protected:
 	// Do opengl setup
