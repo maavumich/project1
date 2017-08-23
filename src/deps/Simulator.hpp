@@ -71,7 +71,7 @@ private:
 	std::function<void(Obstacle&)> updateObstacleLocation;
 
 	// Objects in the environment
-	std::vector<Roomba> roombaLisvoid addAction(std::function <void(Vehicle&)> action);t;
+	std::vector<Roomba> roombaList;
 	std::vector<Obstacle> obstacleList; 
 	Vehicle vehicle;
 
@@ -82,7 +82,7 @@ private:
 	int score = 0;
 	bool gameResults = false;
 
-	std::queue<std::function<void(Vehicle&)> > actionQueue;
+	std::queue<std::function <void(Vehicle&)> > actionQueue;
 
 };
 

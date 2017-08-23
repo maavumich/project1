@@ -11,17 +11,22 @@
 
 using std::vector;
 using std::queue;
+using std::atan2;
+using std::cos;
+using std::sin;
+
 using glm::normalize;
 using glm::dot;
 using glm::vec2;
-using glm::sin;
-using glm::cos;
-using glm::atan;
+
 
 //Updates positions of objects, detects collisions, wins game,destroys obj 
+//Called at 16.7 ms
 void Simulator::simulate(const unsigned dt)
 {
-	//update position of all objects
+	//Apply Action and update position of vehicle
+
+	//Update position of all objects
 	for(auto obstacle: obstacleList)
 	{
 		updateObstacleLocation(obstacle);
@@ -36,6 +41,8 @@ void Simulator::simulate(const unsigned dt)
 
 	
 	//re-update position or lose game
+
+
 	//check game logic (should we score any points?) -->destroy some roombas
 
 }
@@ -98,21 +105,35 @@ void Simulator::addAction(std::function <void(Vehicle&)> action)
 }
 
 // Checks if two objects are colliding
-bool Simulator::isCollision(const AnimatedEntity& aEnt1, const AnimatedEntity& aEnt2)
+bool Simulator::isCollision(const AnimatedEntity& aEnt1, 
+	const AnimatedEntity& aEnt2)
 {
-	assert(false);
+	// Get the positions of both objects
+	vec2 aEnt1Pos(aEnt1.getXPos(), aEnt1.getYPos()); 
+	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
+
+	//Get the distance between the objects
+	double dist = normalize(aEnt1Pos - aEnt2Pos);
+
+	//Check to see if radius between entities 
+	if(dist < (aEnt1.getRadius() +  aEnt2.getRadius()))
+	{
+		return true;
+	}
+
+	return false;
 }
 
-//Objects collided so what happens to them?
-//Effects updates positions of the animated entities
+// Implement physics for a collision between entities
+// Effects updates positions, yaw, and speed of the entities in collision
 Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, 
 	const unsigned dt)
 {
 	int mass1 = aEnt1.getMass(), mass2 = aEnt2.getMass();
 
 	// Get the positions of both objects
-	vec2 aEnt1Pos(aEnt1.getXPos, aEnt1.getYPos()); 
-	vec2 aEnt2Pos(aEnt2.getXPos, aEnt2.getYPos());
+	vec2 aEnt1Pos(aEnt1.getXPos(), aEnt1.getYPos()); 
+	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
 
 	// Unit normal vector and unit tangent vector to the objects
 	vec2 unormal = (aEnt1Pos - aEnt2Pos) / normalize((aEnt1Pos - aEnt2Pos));
@@ -148,7 +169,7 @@ Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	vec2 v1final = vf1norm + vf1tan;
 	vec2 v2final = vf2norm + vf2tan;
 
-	// set new positions of both objects to right before collision (overlap)
+	// Set new positions of both objects to right before collision (overlap)
 	vec2 aEnt1FPos = aEnt1Pos; 
 	vec2 aEnt2FPos = aEnt2Pos;
 	double timestep = dt / 10.0;
@@ -156,6 +177,17 @@ Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	// Go back in time until there is no collision between objects 
 	while(isCollision(aEnt1, aEnt2))
 	{
-		aEnt1FPos = -1 * vi1 * timestep + aEnt1Pos}
+		aEnt1FPos = -1 * vi1 * timestep + aEnt1Pos;
+		aEnt2FPos = -1 * vi2 * timestep + aEnt2Pos;
 
+		//Set the new positions then check for the collision
+		aEnt1.setPosition(aEnt1FPos[0], aEnt1FPos[1]);
+		aEnt2.setPosition(aEnt2FPos[0], aEnt2FPos[1]);
+	}
+
+	// Set the new speed and yaw of the objects
+	aEnt1.setSpeed(normalize(v1final));
+	aEnt1.setYaw(atan2(v1final[1], v1final[0]));
+	aEnt2.setSpeed(normalize(v2final));
+	aEnt2.setYaw(atan2(v2final[1], v2final[0]));
 }

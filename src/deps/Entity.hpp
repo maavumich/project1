@@ -28,7 +28,7 @@ public:
 	virtual float getYPos();
 	// return current yaw
 	virtual float getYaw();
-	// return current radius, side length for vehicle collision
+	// Defines the collision radius
 	virtual float getRadius();
 protected:
 	// Posiition, orientation, color data, as well as the shader program to use
