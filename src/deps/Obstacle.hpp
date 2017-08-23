@@ -1,6 +1,7 @@
 #ifndef _OBSTACLE_HPP_
 #define _OBSTACLE_HPP_
 
+#include "Entity.hpp"
 #include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"

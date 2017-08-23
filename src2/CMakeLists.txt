@@ -28,4 +28,5 @@ target_link_libraries(tutorial
 
 target_link_libraries(test
 	${EPOXY_LIBRARIES}
+	${GLFW3_LIBRARIES}
 	)
