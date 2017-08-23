@@ -12,13 +12,13 @@ enum class LinePosition {top, bottom, left, right};
 class Entity
 {
 public:
-	// Constructor, creates entity, pass iin all initial conditions and shader program id
+	// Constructor, creates entity, pass in all initial conditions and shader program id
 	Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program);
 	// Set the new position
 	virtual void setPosition(float inX, float inY);
 	// Set the new yaw
 	virtual void setYaw(float inTheta);
-	// Update the position of subobjects based on new pos
+	// Update the position of sub objects based on new position
 	virtual void update();
 	// Renders this object
 	virtual void render();
@@ -28,7 +28,7 @@ public:
 	virtual float getYPos();
 	// return current yaw
 	virtual float getYaw();
-	// return current radius, sidelength for vehicle collsion
+	// return current radius, side length for vehicle collision
 	virtual float getRadius();
 protected:
 	// Do opengl setup

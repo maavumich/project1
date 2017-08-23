@@ -18,31 +18,3 @@ Triangle::Triangle(float xInit, float yInit, float yawInit, float radiusInit,
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER,0);
 }
-
-void Triangle::setPosition(float inX, float inY)
-{
-	x = inX;
-	y = inY;
-}
-
-void Triangle::setAngle(float inTheta)
-{
-	angle = inTheta;
-}
-
-float Triangle::getXPos()
-{
-	return x;
-}
-
-float Triangle::getYPos()
-{
-	return y;
-}
-
-float Triangle::getAngle()
-{
-	return angle;
-}
-
-
