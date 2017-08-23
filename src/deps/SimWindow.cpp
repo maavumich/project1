@@ -2,7 +2,8 @@
 
 using namespace std;
 
-RenderArea::RenderArea() : ObjectBase{nullptr}
+RenderArea::RenderArea(shared_ptr<Simulator> sim_in)
+: ObjectBase{nullptr}, sim{sim_in}
 {
 	set_required_version(3, 3); // Require OpenGL 3.3
 
@@ -37,22 +38,26 @@ void RenderArea::on_resize(int width, int height)
 bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 {
 	if(renderer) {
-		renderer.draw();
-		renderer.blit();
+		renderer->render();
+		renderer->blit();
 	}
 	return true;
 }
 
 ////////////////////////////////////////Window//////////////////////////////////////////////////////
 
-SimWindow::SimWindow()
+SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 {
 	set_default_size(800,600);
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
 	Glib::signal_timeout().connect([this]() {
-		sim.simulate(SIMULATION_DT_MS);
+		for(const auto& handler : holdHandlers) {
+			sim->addAction(handler.second.first);
+		}
+		sim->simulate(SIMULATION_DT_MS);
 		renderArea.queue_render();
+		return true;
 	}, SIMULATION_DT_MS);
 
 	renderArea.set_vexpand(true);
@@ -67,17 +72,19 @@ SimWindow::SimWindow()
 	layoutGrid.attach(renderArea, 0, 0, 1, 1);
 
 	// Add the grid to this window
-	add(grid);
+	add(layoutGrid);
 	show_all_children();
 
 	// Signal handler for key release
+	signal_key_press_event().connect(
+		sigc::mem_fun(*this, &SimWindow::on_key_press), false);
 	signal_key_release_event().connect(
 		sigc::mem_fun(*this, &SimWindow::on_key_release), false);
 
 	// The proper event masks must be added before this window can respond to the corresponding
 	// event. Multiple masks can be added using the bitwise or operator as such:
-	// 	add_event(Gdk::KEY_RELEASE_MASK | Gdk::KEY_PRESS_MASK | Gdk::SCROLL_MASK)
-	add_event(Gdk::KEY_RELEASE_MASK);
+	// 	add_events(Gdk::KEY_RELEASE_MASK | Gdk::KEY_PRESS_MASK | Gdk::SCROLL_MASK)
+	add_events(Gdk::KEY_RELEASE_MASK | Gdk::KEY_PRESS_MASK);
 }
 
 SimWindow::~SimWindow()
@@ -85,15 +92,27 @@ SimWindow::~SimWindow()
 	timeout.disconnect();
 }
 
-bool SimWindow::on_key_release(GdkEventKey* e)
+bool SimWindow::on_key_press(GdkEventKey* e)
 {
-	auto func = keyHandlers.find(e->keyval);
-	if(func != keyHandlers.end()) {
-		(*func)(sim);
+	const auto& act = holdHandlers.find(e->keyval);
+	if(act != holdHandlers.end()) {
+		act->second.second = true;
+
 	}
+	return true;
 }
 
-bool SimWindow::attachKeyHandler(int key, function<void(Simulator)> func)
+bool SimWindow::on_key_release(GdkEventKey* e)
 {
-	return get<1>(keyHandlers.insert_or_assign(key, func));
+	const auto& act = holdHandlers.find(e->keyval);
+	if(act != holdHandlers.end()) {
+		act->second.second = false;
+	}
+	return true;
+}
+
+bool SimWindow::attachHoldHandler(int key, VehiCallback func)
+{
+	return get<1>(holdHandlers.insert(
+		pair<int, pair<VehiCallback, bool> >(key, {func, false})));
 }

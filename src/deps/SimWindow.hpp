@@ -33,6 +33,9 @@ constexpr unsigned FPS{60};
 // The simulation time step in milliseconds calculated based on FPS above
 constexpr unsigned SIMULATION_DT_MS{1000 / FPS};
 
+// The callback functions for key presses that affect the vehicle
+typedef std::function<void(Vehicle&)> VehiCallback;
+
 /**
 * @brief RenderArea provides a widget-style interface for using the Renderer with a Simulator.
 */
@@ -42,12 +45,14 @@ public:
 	/**
 	* @brief Constructs a GLArea for the Renderer to draw on
 	*/
-	RenderArea();
+	explicit RenderArea(std::shared_ptr<Simulator> sim_in);
 
 private:
 	// The renderer which draws in this area
 	std::unique_ptr<Renderer> renderer;
 
+	// A shard pointer to the simulator
+	std::shared_ptr<Simulator> sim;
 	// Sets up a new renderer when the window is mapped.
 	void on_map();
 
@@ -95,23 +100,29 @@ public:
 	*
 	* @return True if this event handler is new, false if it replaced a previous event handler
 	*/
-	bool attachEventHandler(int key, const std::function<void(Simulator)> func);
+	bool attachHoldHandler(int key, const VehiCallback func);
 
 protected:
 	/**
-	* @brief Handles the key release event based on attached handlers. Does nothing if no
-	* handler is attached for a key.
+	* @brief Handles key press events by setting the `pressed` flag to true
 	*
-	* @return True to stop signal propagation, false otherwise (This always returns true)
+	* @return Whether this signal should stop propagating
 	*/
-	bool on_key_release();
+	bool on_key_press(GdkEventKey* e);
+
+	/**
+	* @brief Handles the key release event by setting the `pressed` flag to false on the button
+	*
+	* @return Whether this signal should stop propagating
+	*/
+	bool on_key_release(GdkEventKey* e);
 
 private:
+	// The Simulator
+	std::shared_ptr<Simulator> sim;
+
 	// Holds the OpenGL rendered field
 	RenderArea renderArea;
-
-	// The Simulator
-	Simulator sim;
 
 	// Container for RenderArea and other widgets that need to be added
 	Gtk::Grid layoutGrid;
@@ -120,7 +131,7 @@ private:
 	sigc::connection timeout;
 
 	// Container for all attached key handlers
-	std::map<int, std::function<void(Simulator)> > keyHandlers;
+	std::map<int, std::pair<VehiCallback, bool> > holdHandlers;
 }; // Class SimWindow
 
 #endif

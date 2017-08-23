@@ -13,6 +13,9 @@
 class Renderer
 {
 public:
+
+	Renderer();
+
 	/**
 	* @brief Draws a scene to the offscreen framebuffer given current state of
 	* the simulator objects

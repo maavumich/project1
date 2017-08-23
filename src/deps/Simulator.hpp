@@ -1,6 +1,6 @@
 /**
 * @file Simulator.hpp
-* 
+*
 * @author Ryan Wunderly (rywunder@umich.edu)
 * @date 2017-08-22
 */
@@ -21,13 +21,13 @@ class Simulator
 {
 public:
 
-	//Updates positions of objects, detects collisions, wins game 
+	//Updates positions of objects, detects collisions, wins game
 	//return true when the game ends, member function for if we won or lost
 	bool simulate(const unsigned dt);
 
 	// Adds Roomba to roombaList, the function pointer should be nothing by default
 	void createRoomba(float xInit, float yInit, float angleInit, float radiusInit,
-		unsigned int shaderProgramIdIn, float *color, 
+		unsigned int shaderProgramIdIn, float *color,
 		std::function <void(Roomba&)> func = [](Roomba&){});
 
 	// Adds Obstacle to obstacleList
@@ -55,6 +55,8 @@ public:
 
 	void addAction(std::function <void(Vehicle&)> action);
 
+	void addAction(std::function<void(Vehicle&)> func);
+
 private:
 
 	// Checks if two objects are colliding
@@ -72,7 +74,7 @@ private:
 
 	// Objects in the environment
 	std::vector<Roomba> roombaList;
-	std::vector<Obstacle> obstacleList; 
+	std::vector<Obstacle> obstacleList;
 	Vehicle vehicle;
 
 	LinePosition redLinePosition;
