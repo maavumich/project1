@@ -1,14 +1,14 @@
 #ifndef _ROOMBA_HPP_
 #define _ROOMBA_HPP_
 
-#include "Entity.hpp"
+#include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include <cstdint>
 #include <vector>
 #include <functional>
 
-class Roomba : public Entity
+class Roomba : public AnimatedEntity
 {
 public:
 	Roomba(float xInit, float yInit, float angleInit, float radiusInit,

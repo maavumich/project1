@@ -1,14 +1,14 @@
 #ifndef _OBSTACLE_HPP_
 #define _OBSTACLE_HPP_
 
-#include "Entity.hpp"
+#include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include <cstdint>
 #include <vector>
 #include <functional>
 
-class Obstacle : public Entity
+class Obstacle : public AnimatedEntity
 {
 	Obstacle(float xInit, float yInit, float angleInit, float radiusInit,
 		unsigned int shaderProgramIdIn, float *color);
