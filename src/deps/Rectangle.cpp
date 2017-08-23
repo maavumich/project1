@@ -41,7 +41,7 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 	update();
 }
 
-Rectangle::update()
+void Rectangle::update()
 {
 
 }

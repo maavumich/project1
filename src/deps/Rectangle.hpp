@@ -10,6 +10,8 @@ public:
 		float colorIn[], Program *program, float widthIn, float heightIn);
 	virtual void update();
 	virtual void render();
+	float getWidth();
+	float getHeight();
 private:
 	// Characteristics by which renderData is determined
 	float width;
