@@ -40,9 +40,6 @@ public:
 	// Creates and intializes the vehicle on the environment
 	void createVehicle(Program* prog);
 
-	//Returns true if payer won game or false if player lost the game
-	bool getGameResults();
-
 	// Returns the vector of Roombas
 	const std::vector<Roomba>& getRoombaList();
 
@@ -79,6 +76,9 @@ private:
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);
 
+	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	int roombaInGoal(Roomba&);
+
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
 
@@ -95,7 +95,6 @@ private:
 
 	int sizeEnvironment = 10; // Default 10X10m
 	int score = 0;
-	bool gameResults = false;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
 };
