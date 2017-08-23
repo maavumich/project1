@@ -14,6 +14,8 @@ constexpr float PI = 3.14159265358979f;
 constexpr float ARENASIZEX = 10;
 constexpr float ARENASIZEY = 10;
 
+enum class LinePosition {top, bottom, left, right};
+
 class Entity
 {
 public:
