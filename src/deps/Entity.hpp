@@ -42,6 +42,9 @@ protected:
 	float radius;
 	unsigned int shaderProgramId;
 	// Constant expressions to
+	constexpr static float ARENASIZEX = 10;
+	constexpr static float ARENASIZEY = 10;
+	constexpr static float PI = 3.14159265358979f;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{
 		thetaVal += incrementVal;
