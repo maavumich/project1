@@ -1,3 +1,6 @@
+#ifndef _OBSTACLE_HPP_
+#define _OBSTACLE_HPP_
+
 #include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
@@ -8,7 +11,7 @@
 class Obstacle : public AnimatedEntity
 {
 	Obstacle(float xInit, float yInit, float angleInit, float radiusInit,
-		unsigned int shaderProgramIdIn, float *color);
+		Program *program, float *color);
 	virtual void update();
 	virtual void render();
 private:
@@ -16,3 +19,5 @@ private:
 	Circle roombaBody;
 	Circle pillar;
 };
+
+#endif

@@ -26,12 +26,14 @@ Program::Program()
 	const GLuint vtxShader = makeShader(GL_VERTEX_SHADER, R"glsl(
 		#version 330
 		in vec3 vert;
-		in vec3 color;
+		in vec3 fragColor;
 		out vec3 color;
 
 		void main() {
 			gl_Position = vec4(vert.x, vert.y, vert.z, 1.0f);
+			color = fragColor;
 		}
+
 	)glsl");
 
 	// Create the fragment shader

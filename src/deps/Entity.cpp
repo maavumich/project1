@@ -1,9 +1,8 @@
 #include "Entity.hpp"
 
-Entity::Entity(float xInit, float yInit, float angleInit, float radiusInit,
-	unsigned int shaderProgramIdIn, float arenaSizeXIn, float arenaSizeYIn) :
-	x {xInit}, y {yInit}, angle {angleInit}, radius {radiusInit},
-	shaderProgramId {shaderProgramIdIn}, arenaSizeX {arenaSizeXIn}, arenaSizeY {arenaSizeYIn}
+Entity::Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program) :
+	x {xInit}, y {yInit}, yaw {yawInit}, radius {radiusInit},
+	shaderProgramId {program->prog()}
 {
 
 }
@@ -14,9 +13,9 @@ void Entity::setPosition(float inX, float inY)
 	y = inY;
 }
 
-void Entity::setAngle(float inTheta)
+void Entity::setYaw(float inTheta)
 {
-	angle = inTheta;
+	yaw = inTheta;
 }
 
 float Entity::getXPos()
@@ -29,7 +28,12 @@ float Entity::getYPos()
 	return y;
 }
 
-float Entity::getAngle()
+float Entity::getYaw()
 {
-	return angle;
+	return yaw;
+}
+
+float Entity::getRadius()
+{
+	return radius;
 }

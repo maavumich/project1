@@ -1,3 +1,6 @@
+#ifndef _VEHICLE_HPP_
+#define _VEHICLE_HPP_
+
 #include "AnimatedEntity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
@@ -6,5 +9,16 @@
 
 class Vehicle : public AnimatedEntity
 {
-	Vehicle()
+public:
+	Vehicle(float xInit, float yInit, float angleInit, float radiusInit,
+		Program *program, float *color);
+	virtual void update();
+	virtual void render();
+private:
+	virtual void setup();
+	Rectangle body;
+	std::vector<Rectangle> rectangles;
+	std::vector<Circle> circles;
 };
+
+#endif
