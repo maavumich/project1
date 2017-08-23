@@ -21,6 +21,8 @@ private:
 	unsigned int VBO;
 	unsigned int VAO;
 	unsigned int EBO;
+	// Holds the vertices to be put into an EBO buffer
+	unsigned int rectangleIndices[6] {0,3,2,2,3,1};
 	// Holds the vertices to be rendered as well as the color to use
 	float renderData[24];
 };
