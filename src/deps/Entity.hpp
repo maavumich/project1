@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdint>
 #include <epoxy/gl.h>
+#include "Program.hpp"
 
 enum class LinePosition {top, bottom, left, right};
 
@@ -12,8 +13,7 @@ class Entity
 {
 public:
 	// Constructor, creates entity, pass iin all initial conditions and shader program id
-	Entity(float xInit, float yInit, float yawInit, float radiusInit,
-		unsigned int shaderProgramIdI);
+	Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program);
 	// Set the new position
 	virtual void setPosition(float inX, float inY);
 	// Set the new yaw
@@ -40,8 +40,8 @@ protected:
 	float radius;
 	unsigned int shaderProgramId;
 	// Constant expressions to
-	constexpr static float ARENASIZEX = 20;
-	constexpr static float ARENASIZEY = 20;
+	constexpr static float ARENASIZEX = 10;
+	constexpr static float ARENASIZEY = 10;
 	constexpr static float PI = 3.14159265358979f;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{

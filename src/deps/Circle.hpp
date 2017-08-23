@@ -6,9 +6,19 @@
 class Circle : public Entity
 {
 public:
-
+	Circle(float xInit, float yInit, float angleInit, float radiusInit,
+		float colorIn[], Program *program);
+	virtual void update();
+	virtual void render();
 private:
-
+	virtual void setup();
+	float color[3];
+	// Data holding the opengl object ids needed to render
+	unsigned int VBO;
+	unsigned int VAO;
+	// Holds the vertices to be rendered as well as the color to use
+	// Will contain 360 triangles to be rendered to make a circle
+	float renderData[360 * 9 * 2];
 };
 
 #endif

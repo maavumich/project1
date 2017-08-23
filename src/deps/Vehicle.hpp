@@ -9,7 +9,16 @@
 
 class Vehicle : public Entity
 {
-	Vehicle()
+public:
+	Vehicle(float xInit, float yInit, float angleInit, float radiusInit,
+		unsigned int shaderProgramIdIn, float *color);
+	virtual void update();
+	virtual void render();
+private:
+	virtual void setup();
+	Rectangle body;
+	std::vector<Rectangle> rectangles;
+	std::vector<Circle> circles;
 };
 
 #endif
