@@ -20,7 +20,7 @@ public:
 	virtual void setYaw(float inTheta);
 	// Update the position of sub objects based on new position
 	virtual void update();
-	// Renders this object
+	// Puts render data into openGL buffer and  renders this object
 	virtual void render();
 	// return current x coordinate
 	virtual float getXPos();
@@ -31,8 +31,6 @@ public:
 	// return current radius, side length for vehicle collision
 	virtual float getRadius();
 protected:
-	// Do opengl setup
-	virtual void setup();
 	// Posiition, orientation, color data, as well as the shader program to use
 	float x;
 	float y;

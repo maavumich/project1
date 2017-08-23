@@ -2,11 +2,13 @@
 #define RENDERER_HPP
 
 #include <array>
+#include <vector>
 
 #include <epoxy/gl.h> // OpenGL function pointer manager
 #include <glm/glm.hpp> // OpenGL math library
 
 #include "Program.hpp"
+#include "Entity.hpp"
 
 class Renderer
 {
@@ -16,8 +18,11 @@ public:
 	* the simulator objects
 	*
 	* @param INCLUDE ANY PARAMS NECESSARY FOR SIMULATOR OBJECTS
+	* Pass in the vectors of Entity* to be rendered as well as the vehicle
+	* as an Entity*
 	*/
-	void draw();
+	void render(Entity *vehicle, std::vector<Entity*> &roombas,
+		std::vector<Entity*> &obstacles, std::vector<Entity*> &rectangles);
 
 	/**
 	* @brief Blits the drawn scene from the offscreen framebuffer to the

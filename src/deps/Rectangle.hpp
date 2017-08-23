@@ -6,12 +6,11 @@
 class Rectangle : public Entity
 {
 public:
-	Rectangle(float xInit, float yInit, float angleInit, float radiusInit,
+	Rectangle(float xInit, float yInit, float yawInit, float radiusInit,
 		float colorIn[], Program *program, float widthIn, float heightIn);
 	virtual void update();
 	virtual void render();
 private:
-	virtual void setup();
 	// Characteristics by which renderData is determined
 	float width;
 	float height;
