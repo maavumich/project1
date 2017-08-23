@@ -27,11 +27,13 @@ Program::Program()
 		#version 330
 		in vec3 vert;
 		in vec3 color;
-		out vec3 color;
+		out vec3 fragColor;
 
 		void main() {
 			gl_Position = vec4(vert.x, vert.y, vert.z, 1.0f);
+			fragColor = color;
 		}
+
 	)glsl");
 
 	// Create the fragment shader
