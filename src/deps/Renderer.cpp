@@ -28,25 +28,6 @@ Renderer::Renderer()
 	glBindFramebuffer(GL_FRAMEBUFFER,0);
 }
 
-void Renderer::recreateRenderBuffers()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER,offsFB);
-	glDeleteRenderbuffers(2,offsRBS.data());
-	glGenRenderbuffers(2,offsRBS.data());
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[0]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,cur_size.x,cur_size.y);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,
-		GL_RENDERBUFFER,offsRBS[0]);
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[1]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,
-		cur_size.x,cur_size.y);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,
-		GL_RENDERBUFFER,offsRBS[1]);
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
-}
-
 void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Roomba> &roombas,
 	const std::vector<Obstacle> &obstacles)
 {
