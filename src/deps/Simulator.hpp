@@ -38,9 +38,6 @@ public:
 	// Creates and intializes the vehicle on the environment
 	void createVehicle();
 
-	//Returns true if payer won game or false if player lost the game
-	bool getGameResults();
-
 	// Returns the vector of Roombas
 	const std::vector<Roomba>& getRoombaList();
 
@@ -55,7 +52,15 @@ public:
 
 	void addAction(std::function <void(Vehicle&)> action);
 
-	void addAction(std::function<void(Vehicle&)> func);
+	void setGreenLinePosition(LinePosition newPos)
+	{
+		greenLinePosition = newPos;
+	}
+
+	void setRedLinePosition(LinePosition newPos)
+	{
+		redLinePosition = newPos;
+	}
 
 private:
 
@@ -65,6 +70,9 @@ private:
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities to point at collision
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2);
+
+	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	int roombaInGoal(Roomba&);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
@@ -80,9 +88,8 @@ private:
 	LinePosition redLinePosition;
 	LinePosition greenLinePosition;
 
-	int sizeEnvironment = 10; // Default 10X10 m
+	int sizeEnvironment = 10; // Default 10X10m
 	int score = 0;
-	bool gameResults = false;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
 

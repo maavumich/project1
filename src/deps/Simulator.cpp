@@ -8,6 +8,7 @@
 #include <glm/geometric.hpp>// glm::dot, glm::normalize
 #include <cassert>
 #include <iostream>
+#include <algorithm>
 
 #include "Simulator.hpp"
 
@@ -107,7 +108,6 @@ bool Simulator::simulate(const unsigned dt)
 				//physicsCollision(*it, vehicle);
 
 				// We have lost the game!
-				gameResults = false; //
 				cout << "Collsion with an obstacle! You LOSE\n";
 
 				return true; // return that the game ended
@@ -115,8 +115,38 @@ bool Simulator::simulate(const unsigned dt)
 		}
 	}
 
-
 	//check game logic (should we score any points?)-->destroy some roombas
+	//Check did any roombas pass the goal line?
+	for(size_t i = 0; i < roombaList.size(); ++i)
+	{	
+		//int: 1 if correct goal 2 if wrong goal, 0 if not in any goal
+		int inGoal = roombaInGoal(roombaList[i])
+		if(inGoal)
+		{
+			//swap and pop the roomba to destroy it.
+			std::iter_swap(roombaList.begin() + i, roombaList.end() - 1);
+			roombaList.pop_back(); //remove the roomba from the list
+
+			//Update player score
+			if(inGoal == 1)
+			{
+				score += 69;
+			}
+			else // The player put it in wrong goal
+			{
+				score -= 42;
+			}
+		}
+	}
+
+	//The game has ended
+	if(roombaList.empty())
+	{
+		cout << "All roombas have been scored!\n";
+		return true; // return that the game ended
+	}
+
+	return false; //The game should continue
 
 }
 
@@ -166,10 +196,6 @@ const Vehicle& Simulator::getVehicle()
 int Simulator::getScore()
 {
 	return score;
-}
-bool Simulator::getGameResults()
-{
-	return gameResults;
 }
 
 void Simulator::addAction(std::function <void(Vehicle&)> action)
@@ -263,4 +289,50 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	aEnt1.setYaw(atan2(v1final[1], v1final[0]));
 	aEnt2.setSpeed(normalize(v2final));
 	aEnt2.setYaw(atan2(v2final[1], v2final[0]));
+}
+
+// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+int Simulator::roombaInGoal(Roomba&)
+{
+	switch(greenLinePosition)
+	{
+		case LinePosition::top :
+			if(Roomba.getYPos() > sizeEnvironment) 
+				return 1;
+			break;
+		case LinePosition::bottom :
+			if(Roomba.getYPos() < 0)
+				return 1;
+			break;
+		case LinePosition::left :
+			if(Roomba.getXPos() < 0)
+				return 1;
+			break;
+		case LinePosition::right :
+			if(Roomba.getXPos() > sizeEnvironment)
+				return 1;
+			break;
+	}
+
+	switch(redLinePosition)
+	{
+		case LinePosition::top :
+			if(Roomba.getYPos() > sizeEnvironment) 
+				return 2;
+			break;
+		case LinePosition::bottom :
+			if(Roomba.getYPos() < 0)
+				return 2;
+			break;
+		case LinePosition::left :
+			if(Roomba.getXPos() < 0)
+				return 2;
+			break;
+		case LinePosition::right :
+			if(Roomba.getXPos() > sizeEnvironment)
+				return 2;
+			break;
+	}
+
+	return 0;
 }
