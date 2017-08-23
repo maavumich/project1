@@ -46,29 +46,29 @@ Program::Program()
 	)glsl");
 
 	// Create the program by linking the vertex and fragment shaders
-	prog = glCreateProgram();
-	glAttachShader(prog, vtxShader);
-	glAttachShader(prog, fragShader);
-	glLinkProgram(prog);
+	prog_ = glCreateProgram();
+	glAttachShader(prog_, vtxShader);
+	glAttachShader(prog_, fragShader);
+	glLinkProgram(prog_);
 	GLint logLenght;
-	glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLenght);
+	glGetProgramiv(prog_, GL_INFO_LOG_LENGTH, &logLenght);
 	if(logLenght > 1) {
 		string what(logLenght - 1, '\0');
-		glGetProgramInfoLog(prog, logLenght, nullptr, &what.front());
+		glGetProgramInfoLog(prog_, logLenght, nullptr, &what.front());
 		cerr << what << endl;
 	}
-	glUseProgram(prog);
+	glUseProgram(prog_);
 
 	// Clean up shaders
 	glDeleteShader(vtxShader);
 	glDeleteShader(fragShader);
 
 	// Get the attributes indices
-	color_ = glGetAttribLocation(prog, "color");
-	vert_ = glGetAttribLocation(prog, "vert");
+	color_ = glGetAttribLocation(prog_, "color");
+	vert_ = glGetAttribLocation(prog_, "vert");
 }
 
 Program::~Program()
 {
-	glDeleteProgram(prog);
+	glDeleteProgram(prog_);
 }
