@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <epoxy/gl.h>
 
+enum class LinePosition {top, bottom, left, right};
+
 class Entity
 {
 public:
