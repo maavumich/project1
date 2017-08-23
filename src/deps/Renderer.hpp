@@ -11,6 +11,7 @@
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
 #include "Vehicle.hpp"
+#include "Entity.hpp"
 
 class Renderer
 {
