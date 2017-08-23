@@ -18,6 +18,7 @@ public:
 	virtual void render();
 	float getSpeed();
 	void setSpeed(float newSpeed);
+	std::function<void(Obstacle&)> updateLocation;
 private:
 	Circle border;
 	Circle roombaBody;

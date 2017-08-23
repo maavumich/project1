@@ -45,6 +45,8 @@ add_executable(simtest simtest.cpp
 	../src/deps/Vehicle.cpp
 )
 
+add_executable(test test.cpp ../src/deps/Program.cpp)
+
 target_link_libraries(tutorial
 	${EPOXY_LIBRARIES}
 	${GLFW3_LIBRARIES}

@@ -24,6 +24,8 @@ public:
 	float getSpeed();
 	// Sets the new speed
 	void setSpeed(float newSpeed);
+	// Updates the location of this object
+	std::function<void(Roomba&)> updateLocation;
 private:
 	float color[3];
 	Circle border;
