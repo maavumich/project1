@@ -11,8 +11,6 @@
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
 #include "Vehicle.hpp"
-#include "Entity.hpp"
-#include "Rectangle.hpp"
 
 class Renderer
 {
@@ -56,8 +54,6 @@ private:
 		Constants::defaultChangeColors[2]};
 	// updates the clear color if using the changing colors mode
 	void updateColor();
-	// Create new render buffers
-	void recreateRenderBuffers();
 	// Offscreen rendering objects
 	GLuint offsFB; // offscreen framebuffer
 	std::array<GLuint, 2> offsRBS; //offscreen renderbuffers
