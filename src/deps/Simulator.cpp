@@ -7,6 +7,8 @@
 #include <glm/vec2.hpp>// glm::vec2
 #include <glm/geometric.hpp>// glm::dot, glm::normalize
 #include <cassert>
+#include <iostream>
+
 #include "Simulator.hpp"
 
 using std::vector;
@@ -22,9 +24,14 @@ using glm::vec2;
 
 //Updates positions of objects, detects collisions, wins game,destroys obj 
 //Called at 16.7 ms
-void Simulator::simulate(const unsigned dt)
+bool Simulator::simulate(const unsigned dt)
 {
-	//Apply Action and update position of vehicle
+	//Apply Action which updates position of vehicle
+	if(!actionQueue.empty())
+	{
+		actionQueue.front()(vehicle);
+		actionQueue.pop_front();
+	}
 
 	//Update position of all objects
 	for(auto obstacle: obstacleList)
@@ -37,13 +44,79 @@ void Simulator::simulate(const unsigned dt)
 		updateRoombaLocation(roomba);
 	}
 
-	//Check for any collisions
+	// Check for any collisions and update the positions until no overlapping 
+	// occurs
+	bool collisionOccurred = true;
 
-	
-	//re-update position or lose game
+	while(collisionOccurred)
+	{
+		collisionOccurred = false; //First assume no collsions
+
+		// Comparisons with roombas to check for collisions
+
+		for(auto it = roombaList.begin(), auto end = roombaList.end(); 
+			it != end; ++it)
+		{
+			// Compare all roombas to eachother
+			for(auto it2 = it + 1; it2 != end; ++it2)
+			{
+				if(isCollision(*it, *it2))
+				{
+					collisionOccurred = true;
+					physicsCollision(*it, *it2);
+				}
+			}
+
+			// Compare each roomba to each obstacle
+			for(auto itO = obstacleList.begin(), auto endO = obstacleList.end(); 
+				itO != endO; ++itO)
+			{
+				if(isCollision(*it, *itO))
+				{
+					collisionOccurred = true;
+					physicsCollision(*it, *itO);
+				}
+			}
+
+			//Compare each roomba to the vehicle
+			if(isCollision(*it, vehicle))
+			{
+				collisionOccurred = true;
+				physicsCollision(*it, vehicle);
+			}
+		}
+
+		// Comparisons with obstacles
+		for(auto it = obstacleList.begin(), auto end = obstacleList.end(); 
+			it != end; ++it)
+		{
+			// Compare all obstacles to eachother
+			for(auto it2 = it + 1; it2 != end; ++it2)
+			{
+				if(isCollision(*it, *it2))
+				{
+					collisionOccurred = true;
+					physicsCollision(*it, *it2);
+				}
+			}
+
+			//Compare each obstacle to the vehicle
+			if(isCollision(*it, vehicle))
+			{
+				collisionOccurred = true;
+				//physicsCollision(*it, vehicle);
+
+				// We have lost the game!
+				gameResults = false; //
+				cout << "Collsion with an obstacle! You LOSE\n";
+
+				return true; // return that the game ended
+			}
+		}
+	}
 
 
-	//check game logic (should we score any points?) -->destroy some roombas
+	//check game logic (should we score any points?)-->destroy some roombas
 
 }
 
@@ -126,7 +199,7 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 
 // Implement physics for a collision between entities
 // Effects updates positions, yaw, and speed of the entities in collision
-Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, 
+void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, 
 	const unsigned dt)
 {
 	int mass1 = aEnt1.getMass(), mass2 = aEnt2.getMass();

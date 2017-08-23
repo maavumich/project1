@@ -61,8 +61,8 @@ private:
 	bool isCollision(const AnimatedEntity& aEnt1, const AnimatedEntity& aEnt2);
 
 	//Objects collided so what happens to them?
-	//Effects updates positions of the animated entities
-	physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2);
+	//Effects updates positions of the animated entities to point at collision
+	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
