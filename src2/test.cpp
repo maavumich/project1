@@ -1,10 +1,10 @@
-#include "trainingProject1.hpp"
 #include <iostream>
 #include <string>
 #include <cstdint>
 #include <cmath>
+#include "../src/deps/Program.hpp"
 
 int main()
 {
-	std::cout << "This has compiled and works.\n";
+	Program program;
 }

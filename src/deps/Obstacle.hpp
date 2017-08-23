@@ -14,6 +14,7 @@ class Obstacle : public Entity
 	virtual void render();
 	float getSpeed();
 	void setSpeed(float newSpeed);
+	std::function<void(Obstacle&)> updateLocation;
 private:
 	float speed;
 	virtual void setup();
