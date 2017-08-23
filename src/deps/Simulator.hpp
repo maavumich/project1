@@ -9,6 +9,8 @@
 #define SIMULATOR_HPP
 
 #include <vector>
+#include <queue>
+
 #include "Vehicle.hpp"
 
 #include "Roomba.hpp"
@@ -51,21 +53,25 @@ public:
 	// Get score to update text
 	int getScore();
 
-	// Function keeps roombas stationary
-	std::function <void(Roomba&)> updateObstacleLocation;
-
-	// Function defined by the student
-	std::function<void(Obstacle&)> updateObstacleLocation;
+	void addAction(std::function <void(Vehicle&)> action);
 
 private:
+
+	// Checks if two objects are colliding
+	bool isCollision(const AnimatedEntity& aEnt1, const AnimatedEntity& aEnt2);
 
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities
 	physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2);
 
+	// Function keeps roombas stationary
+	std::function <void(Roomba&)> updateRoombaLocation;
+
+	// Function defined by the student
+	std::function<void(Obstacle&)> updateObstacleLocation;
 
 	// Objects in the environment
-	std::vector<Roomba> roombaList;
+	std::vector<Roomba> roombaLisvoid addAction(std::function <void(Vehicle&)> action);t;
 	std::vector<Obstacle> obstacleList; 
 	Vehicle vehicle;
 
@@ -75,6 +81,9 @@ private:
 	int sizeEnvironment = 10; // Default 10X10 m
 	int score = 0;
 	bool gameResults = false;
+
+	std::queue<std::function<void(Vehicle&)> > actionQueue;
+
 };
 
 #endif

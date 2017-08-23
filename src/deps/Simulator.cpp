@@ -6,9 +6,11 @@
 */
 #include <glm/vec2.hpp>// glm::vec2
 #include <glm/geometric.hpp>// glm::dot, glm::normalize
+#include <cassert>
 #include "Simulator.hpp"
 
 using std::vector;
+using std::queue;
 using glm::normalize;
 using glm::dot;
 using glm::vec2;
@@ -90,6 +92,16 @@ bool Simulator::getGameResults()
 	return gameResults;
 }
 
+void Simulator::addAction(std::function <void(Vehicle&)> action)
+{
+	actionQueue.push_back(action);
+}
+
+// Checks if two objects are colliding
+bool Simulator::isCollision(const AnimatedEntity& aEnt1, const AnimatedEntity& aEnt2)
+{
+	assert(false);
+}
 
 //Objects collided so what happens to them?
 //Effects updates positions of the animated entities
@@ -136,7 +148,14 @@ Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	vec2 v1final = vf1norm + vf1tan;
 	vec2 v2final = vf2norm + vf2tan;
 
+	// set new positions of both objects to right before collision (overlap)
+	vec2 aEnt1FPos = aEnt1Pos; 
+	vec2 aEnt2FPos = aEnt2Pos;
+	double timestep = dt / 10.0;
+
 	// Go back in time until there is no collision between objects 
-	aEnt1
+	while(isCollision(aEnt1, aEnt2))
+	{
+		aEnt1FPos = -1 * vi1 * timestep + aEnt1Pos}
 
 }
