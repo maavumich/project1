@@ -11,6 +11,7 @@ public:
 	virtual void update();
 	virtual void render();
 private:
+	virtual void setup();
 	float color[3];
 	// Data holding the opengl object ids needed to render
 	unsigned int VBO;
