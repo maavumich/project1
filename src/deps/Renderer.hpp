@@ -8,7 +8,9 @@
 #include <glm/glm.hpp> // OpenGL math library
 
 #include "Program.hpp"
-#include "Entity.hpp"
+#include "Roomba.hpp"
+#include "Obstacle.hpp"
+#include "Vehicle.hpp"
 
 class Renderer
 {
@@ -24,8 +26,9 @@ public:
 	* Pass in the vectors of Entity* to be rendered as well as the vehicle
 	* as an Entity*
 	*/
-	void render(Entity *vehicle, std::vector<Entity*> &roombas,
-		std::vector<Entity*> &obstacles, std::vector<Entity*> &rectangles);
+	void render(const Vehicle& vehicle,
+		    const std::vector<Roomba>& roombas,
+		    const std::vector<Obstacle>& obstacles);
 
 	/**
 	* @brief Blits the drawn scene from the offscreen framebuffer to the
@@ -41,6 +44,8 @@ public:
 	void resize(const glm::ivec2& size);
 
 	Program* getProgram();
+	void addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
+		float colorIn[], Program *program, float widthIn, float heightIn);
 
 private:
 	// Offscreen rendering objects
@@ -49,6 +54,8 @@ private:
 
 	// Shader program class that holds the shader program and ids of certain things
 	Program program;
+	// The field composed of rectangles
+	std::vector<Rectangle> field;
 
 	// Current image size
 	glm::ivec2 cur_size;

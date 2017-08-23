@@ -21,6 +21,8 @@ class Simulator
 {
 public:
 
+	Simulator();
+
 	//Updates positions of objects, detects collisions, wins game
 	//return true when the game ends, member function for if we won or lost
 	bool simulate(const unsigned dt);

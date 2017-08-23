@@ -38,7 +38,8 @@ void RenderArea::on_resize(int width, int height)
 bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 {
 	if(renderer) {
-		renderer->render();
+		renderer->render(sim->getVehicle(), sim->getRoombaList(),
+				 sim->getObstacleList());
 		renderer->blit();
 	}
 	return true;
@@ -48,6 +49,7 @@ bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 
 SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 {
+	sim = make_shared<Simulator>();
 	set_default_size(800,600);
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
