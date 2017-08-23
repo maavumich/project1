@@ -43,7 +43,14 @@ public:
 	// Returns the vector of Vehicles
 	const Vehicle& getVehicle();
 
+	// Updates the location of roomba
+	std::function<void(Roomba&)> updateRoombaLocation;
+
+	// Updates the location of the obstacle
+	std::function<void(Obstacle&)> updateObstacleLocation;
+
 private:
+
 	// Objects in the environment
 	std::vector<Roomba> roombaList;
 	std::vector<Obstacle> obstacleList; 

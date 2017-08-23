@@ -6,5 +6,5 @@
 
 class Vehicle : public Entity
 {
-
+	Vehicle()
 };
