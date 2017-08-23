@@ -40,6 +40,9 @@ public:
 	// Creates and intializes the vehicle on the environment
 	void createVehicle(Program* prog);
 
+	//Returns true if payer won game or false if player lost the game
+	bool getGameResults();
+
 	// Returns the vector of Roombas
 	const std::vector<Roomba>& getRoombaList();
 
@@ -100,7 +103,6 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
-
 };
 
 #endif
