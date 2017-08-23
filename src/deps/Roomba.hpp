@@ -2,7 +2,6 @@
 #define _ROOMBA_HPP_
 
 #include "AnimatedEntity.hpp"
-#include "Entity.hpp"
 #include "Circle.hpp"
 #include "Rectangle.hpp"
 #include <cstdint>
