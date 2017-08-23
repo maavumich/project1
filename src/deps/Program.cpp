@@ -5,9 +5,9 @@
 
 using namespace std;
 
-static auto makeShader(GLenum type, const char* source)
+static GLuint makeShader(GLenum type, const char* source)
 {
-	auto shader = glCreateShader(type);
+	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, 1, &source, nullptr);
 	glCompileShader(shader);
 	GLint logLength;
@@ -23,7 +23,7 @@ static auto makeShader(GLenum type, const char* source)
 Program::Program()
 {
 	// Create the vertex shader
-	const auto vtxShader = makeShader(GL_VERTEX_SHADER, R"glsl(
+	const GLuint vtxShader = makeShader(GL_VERTEX_SHADER, R"glsl(
 		#version 330
 		in vec3 vert;
 		in vec3 color;
@@ -35,7 +35,7 @@ Program::Program()
 	)glsl");
 
 	// Create the fragment shader
-	const auto fragShader = makeShader(GL_FRAGMENT_SHADER, R"glsl(
+	const GLuint fragShader = makeShader(GL_FRAGMENT_SHADER, R"glsl(
 		#version 330
 		in vec3 color;
 		out vec4 fragColor;
@@ -46,7 +46,7 @@ Program::Program()
 	)glsl");
 
 	// Create the program by linking the vertex and fragment shaders
-	const auto prog = glCreateProgram();
+	prog = glCreateProgram();
 	glAttachShader(prog, vtxShader);
 	glAttachShader(prog, fragShader);
 	glLinkProgram(prog);
@@ -62,4 +62,13 @@ Program::Program()
 	// Clean up shaders
 	glDeleteShader(vtxShader);
 	glDeleteShader(fragShader);
+
+	// Get the attributes indices
+	color_ = glGetAttribLocation(prog, "color");
+	vert_ = glGetAttribLocation(prog, "vert");
+}
+
+Program::~Program()
+{
+	glDeleteProgram(prog);
 }

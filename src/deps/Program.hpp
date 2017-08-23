@@ -35,7 +35,7 @@ public:
 
 private:
 	// The program identifier
-	GLuint prodID;
+	GLuint prog;
 
 	// Locations of attributes
 	GLint vert_, color_;
