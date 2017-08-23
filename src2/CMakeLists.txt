@@ -19,6 +19,8 @@ add_executable(tutorial tutorial1.cpp ../src/deps/Program.cpp)
 
 add_executable(test test.cpp ../src/deps/Program.cpp)
 
+add_executable(test test.cpp ../src/deps/Program.cpp)
+
 target_link_libraries(tutorial
 	${EPOXY_LIBRARIES}
 	${GLFW3_LIBRARIES}
@@ -26,5 +28,4 @@ target_link_libraries(tutorial
 
 target_link_libraries(test
 	${EPOXY_LIBRARIES}
-	${GLFW3_LIBRARIES}
 	)

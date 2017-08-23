@@ -15,6 +15,9 @@ public:
 		Program *program, float *color);
 	virtual void update();
 	virtual void render();
+	float getSpeed();
+	void setSpeed(float newSpeed);
+	std::function<void(Obstacle&)> updateLocation;
 private:
 	virtual void setup();
 	Circle roombaBody;
