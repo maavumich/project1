@@ -95,6 +95,7 @@ private:
 
 	int sizeEnvironment = 10; // Default 10X10m
 	int score = 0;
+	bool gameResults = false;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
 };
