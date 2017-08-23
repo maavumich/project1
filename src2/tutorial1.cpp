@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <cmath>
+#include "../src/deps/Program.hpp"
 
 void cinEnder(std::atomic<bool> *run, std::condition_variable *cv)
 {
@@ -37,8 +38,11 @@ class Renderer
 public:
 	Renderer() : vertices {
 		-0.5f, -0.5f, 0.0f,
+		 0.0f, 0.0f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f },
+		 0.0f, 0.0f, 0.0f,
+		 0.0f,  0.5f, 0.0f,
+		 0.0f, 0.0f, 0.0f},
 		theta1 {0.0}, theta2 {2 * 3.1415926535 / 3},
 		theta3 {4 * 3.1415926535 / 3}, distToVertex {0.4},
 		rectangleVertices {
@@ -150,11 +154,11 @@ public:
 		vertices[0] = cos(theta1) * distToVertex;
 		vertices[1] = sin(theta1) * distToVertex;
 		// Calculate position of vertex 2
-		vertices[3] = cos(theta2) * distToVertex;
-		vertices[4] = sin(theta2) * distToVertex;
+		vertices[6] = cos(theta2) * distToVertex;
+		vertices[7] = sin(theta2) * distToVertex;
 		// Calculate position of vertex 3
-		vertices[6] = cos(theta3) * distToVertex;
-		vertices[7] = sin(theta3) * distToVertex;
+		vertices[12] = cos(theta3) * distToVertex;
+		vertices[13] = sin(theta3) * distToVertex;
 		// Update theta values for next iteration
 		updateTheta(theta1,0.05f);
 		updateTheta(theta2,0.05f);
@@ -164,8 +168,11 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STREAM_DRAW);
 		// Create a glVertexAttrib pointer
-		glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,3 * sizeof(float),(void*)0);
-		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(program.vert(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),(void*)0);
+		glEnableVertexAttribArray(program.vert());
+		glVertexAttribPointer(program.color(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),
+			(void*) (sizeof(float) * 3));
+		glEnableVertexAttribArray(program.color());
 		// Bins Element object buffer and stores indices
 		glBindBuffer(GL_ARRAY_BUFFER,0);
 		glBindVertexArray(0);
@@ -187,7 +194,7 @@ public:
 	void renderTriangle()
 	{
 		// Make openGL use this shader program
-		glUseProgram(shaderProgramId);
+		glUseProgram(program.prog());
 		glBindVertexArray(VAO);
 		// Draw the triangle
 		glDrawArrays(GL_TRIANGLES,0,3);
@@ -220,7 +227,7 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER,0);
 	}
 private:
-	float vertices[9];
+	float vertices[18];
 	float theta1;
 	float theta2;
 	float theta3;
@@ -239,6 +246,7 @@ private:
 	unsigned int VAORect;
 	unsigned int VBOCircle;
 	unsigned int VAOCircle;
+	Program program;
 };
 
 void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,

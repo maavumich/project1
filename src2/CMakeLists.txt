@@ -15,15 +15,15 @@ include_directories(
 	${GLM_INCLUDE_DIRS}
 )
 
-add_executable(tutorial tutorial1.cpp)
-#add_executable(training1 trainingProject1Driver.cpp #trainingProject1.cpp)
+add_executable(tutorial tutorial1.cpp ../src/deps/Program.cpp)
+
+add_executable(test test.cpp ../src/deps/Program.cpp)
 
 target_link_libraries(tutorial
 	${EPOXY_LIBRARIES}
 	${GLFW3_LIBRARIES}
 )
 
-#target_link_libraries(training1
-#	${EPOXY_LIBRARIES}
-#	${GLFW3_LIBRARIES}
-#)
+target_link_libraries(test
+	${EPOXY_LIBRARIES}
+	)

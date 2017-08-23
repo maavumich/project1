@@ -9,16 +9,16 @@
 #include <condition_variable>
 #include <atomic>
 #include <cmath>
-#include "Shape.hpp"
-#include "Circle.hpp"
-#include "Rectangle.hpp"
-#include "Triangle.hpp"
+#include "../src/deps/Entity.hpp"
+#include "../src/deps/Circle.hpp"
+#include "../src/deps/Rectangle.hpp"
+#include "../src/deps/Triangle.hpp"
 
 class arenaSimulator
 {
 public:
 private:
-	std::vector<Shape*> shapes;
+	std::vector<Entity*> entities;
 	// Processes key inputs, really just makes escape close the window
 	static void process_input(GLFWwindow* window);
 	// Called when the window is resized

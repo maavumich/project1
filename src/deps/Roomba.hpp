@@ -24,6 +24,8 @@ public:
 	float getSpeed();
 	// Sets the new speed
 	void setSpeed(float newSpeed);
+	// Updates the location of this object
+	std::function<void(Roomba&)> updateLocation;
 private:
 	// Called before render() by render to do pre render setup
 	virtual void setup();
