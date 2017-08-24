@@ -37,10 +37,15 @@ public:
 	*/
 	void resize(const glm::ivec2& size);
 
+	Program* getProgram();
+
 private:
 	// Offscreen rendering objects
 	GLuint offsFB; // offscreen framebuffer
 	std::array<GLuint, 2> offsRBS; //offscreen renderbuffers
+
+	// Shader program class that holds the shader program and ids of certain things
+	Program program;
 
 	// Current image size
 	glm::ivec2 cur_size;

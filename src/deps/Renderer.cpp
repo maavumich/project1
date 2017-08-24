@@ -23,3 +23,17 @@ void Renderer::render(Entity *vehicle, std::vector<Entity*> &roombas,
 	vehicle->render();
 }
 
+Program* Renderer::getProgram()
+{
+	return &program;
+}
+
+void Renderer::blit()
+{
+
+}
+
+void Renderer::resize(const glm::ivec2& size)
+{
+
+}

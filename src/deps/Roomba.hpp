@@ -20,8 +20,7 @@ public:
 	// Returns 'r' for red, 'g' for green, 'b' for blue
 	char getColor();
 private:
-	// Called before render() by render to do pre render setup
-	virtual void setup();
+	float color[3];
 	Circle roombaBody;
 	Rectangle panelLarge;
 	Rectangle panelSmall;

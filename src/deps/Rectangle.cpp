@@ -49,13 +49,21 @@ void Rectangle::update()
 	float wDiv2 = width / 2;
 	float distToVertex = sqrt(hDiv2 * hDiv2 + wDiv2 * wDiv2);
 	renderData[0] = cos(thetaGlobal) * distToVertex + x;
+	renderData[0] = renderData[0] / ARENASIZEX;
 	renderData[1] = sin(thetaGlobal) * distToVertex + y;
+	renderData[1] = renderData[1] / ARENASIZEY;
 	renderData[6] = -cos(thetaGlobal) * distToVertex + x;
+	renderData[6] = renderData[6] / ARENASIZEX;
 	renderData[7] = -sin(thetaGlobal) * distToVertex + y;
+	renderData[7] = renderData[7] / ARENASIZEY;
 	renderData[12] = cos(thetaGlobal2) * distToVertex + x;
+	renderData[12] = renderData[12] / ARENASIZEX;
 	renderData[13] = sin(thetaGlobal2) * distToVertex + y;
+	renderData[13] = renderData[13] / ARENASIZEY;
 	renderData[18] = -cos(thetaGlobal2) * distToVertex + x;
+	renderData[18] = renderData[18] / ARENASIZEX;
 	renderData[19] = -sin(thetaGlobal2) * distToVertex + y;
+	renderData[19] = renderData[19] / ARENASIZEY;
 }
 
 void Rectangle::render()
