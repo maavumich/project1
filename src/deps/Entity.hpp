@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <epoxy/gl.h>
 #include "Program.hpp"
+#include "Constants.hpp"
 
 enum class LinePosition {top, bottom, left, right};
 
@@ -42,9 +43,9 @@ protected:
 	float radius;
 	unsigned int shaderProgramId;
 	// Constant expressions to
-	constexpr static float ARENASIZEX = 10;
-	constexpr static float ARENASIZEY = 10;
-	constexpr static float PI = 3.14159265358979f;
+	constexpr static float ARENASIZEX = Constants::arenaSizeX;
+	constexpr static float ARENASIZEY = Constants::arenaSizeY;
+	constexpr static float PI = Constants::pi;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{
 		thetaVal += incrementVal;
