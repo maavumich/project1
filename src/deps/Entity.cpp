@@ -18,22 +18,22 @@ void Entity::setYaw(float inTheta)
 	yaw = inTheta;
 }
 
-float Entity::getXPos()
+float Entity::getXPos() const
 {
 	return x;
 }
 
-float Entity::getYPos()
+float Entity::getYPos() const
 {
 	return y;
 }
 
-float Entity::getYaw()
+float Entity::getYaw() const
 {
 	return yaw;
 }
 
-float Entity::getRadius()
+float Entity::getRadius() const
 {
 	return radius;
 }

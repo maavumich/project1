@@ -11,7 +11,7 @@ class Vehicle : public AnimatedEntity
 {
 public:
 	Vehicle(float xInit, float yInit, float angleInit, float radiusInit,
-		Program *program, float *color);
+		Program* prog, float *color);
 	virtual void update();
 	virtual void render();
 private:

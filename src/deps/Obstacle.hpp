@@ -10,6 +10,7 @@
 
 class Obstacle : public AnimatedEntity
 {
+public:
 	Obstacle(float xInit, float yInit, float angleInit, float radiusInit,
 		Program *program, float *color);
 	virtual void update();

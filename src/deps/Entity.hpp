@@ -9,6 +9,10 @@
 
 enum class LinePosition {top, bottom, left, right};
 
+constexpr float PI = 3.14159265358979f;
+constexpr float ARENASIZEX = 10;
+constexpr float ARENASIZEY = 10;
+
 class Entity
 {
 public:
@@ -23,13 +27,13 @@ public:
 	// Puts render data into openGL buffer and  renders this object
 	virtual void render();
 	// return current x coordinate
-	virtual float getXPos();
+	virtual float getXPos() const;
 	// return current y coordinate
-	virtual float getYPos();
+	virtual float getYPos() const;
 	// return current yaw
-	virtual float getYaw();
+	virtual float getYaw() const;
 	// Defines the collision radius
-	virtual float getRadius();
+	virtual float getRadius() const;
 protected:
 	// Posiition, orientation, color data, as well as the shader program to use
 	float x;
@@ -38,9 +42,6 @@ protected:
 	float radius;
 	unsigned int shaderProgramId;
 	// Constant expressions to
-	constexpr static float ARENASIZEX = 10;
-	constexpr static float ARENASIZEY = 10;
-	constexpr static float PI = 3.14159265358979f;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{
 		thetaVal += incrementVal;

@@ -29,16 +29,16 @@ public:
 
 	// Adds Roomba to roombaList, the function pointer should be nothing by default
 	void createRoomba(float xInit, float yInit, float angleInit, float radiusInit,
-		unsigned int shaderProgramIdIn, float *color,
+		Program* shaderProgramIdIn, float *color,
 		std::function <void(Roomba&)> func = [](Roomba&){});
 
 	// Adds Obstacle to obstacleList
 	void createObstacle(float xInit, float yInit, float angleInit, float radiusInit,
-		unsigned int shaderProgramIdIn, float *color,
+		Program* shaderProgramIdIn, float *color,
 		std::function <void(Obstacle&)> func = [](Obstacle&){});
 
 	// Creates and intializes the vehicle on the environment
-	void createVehicle();
+	void createVehicle(Program* prog);
 
 	// Returns the vector of Roombas
 	const std::vector<Roomba>& getRoombaList();
@@ -71,7 +71,7 @@ private:
 
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities to point at collision
-	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2);
+	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);
