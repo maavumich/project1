@@ -13,6 +13,7 @@ public:
 protected:
 	int mass;
 	float speed = 0; //default zero
+	float forceFriction;
 };
 
 #endif

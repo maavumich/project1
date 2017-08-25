@@ -73,8 +73,14 @@ private:
 	//Effects updates positions of the animated entities to point at collision
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
+	// Physics for a wall bounce
+	// Effects updates yaw of entity to bounce off of the wall
+	void physicsBounce(AnimatedEntity& aEnt);
+
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
+	int roombaInGoal(Roomba& roomba);
+
+	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
