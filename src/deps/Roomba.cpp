@@ -2,18 +2,20 @@
 #include "Constants.hpp"
 
 Roomba::Roomba(float xInit, float yInit, float yawInit, float radiusInit,
-	Program *program, const float *colorIn) :
+	const float *colorIn, Program *program) :
 	AnimatedEntity(Constants::defaultSpeed,
 		Constants::roombaMass,xInit,yInit,yawInit,radiusInit,program),
 
-	roombaBody {Circle(xInit,yInit,yawInit,radiusInit,
+	border {Circle(xInit,yInit,yawInit,radiusInit,Constants::black,program)},
+
+	roombaBody {Circle(xInit,yInit,yawInit,radiusInit * 0.98,
 		Constants::white,program)},
 
 	panelLarge {Rectangle(xInit,yInit,yawInit,radiusInit,
-		color,program,radiusInit * 0.8f,radiusInit * 0.3f)},
+		colorIn,program,radiusInit * 0.9f,radiusInit * 0.5f)},
 
 	panelSmall {Rectangle(xInit,yInit,
-		yawInit,radiusInit,color,program,radiusInit * 0.3f,radiusInit * 0.14f)}
+		yawInit,radiusInit,colorIn,program,radiusInit * 0.55f,radiusInit * 0.14f)}
 {
 	// Initialize color
 	color[0] = colorIn[0];
@@ -25,8 +27,8 @@ Roomba::Roomba(float xInit, float yInit, float yawInit, float radiusInit,
 void Roomba::update()
 {
 	// Set the position of the large panel
-	float panelX {radius * 0.15f * (float)cos(yaw) * -1.0f + x};
-	float panelY {radius * 0.15f * (float)cos(yaw) * -1.0f + y};
+	float panelX {radius * 0.3f * (float)cos(yaw) * -1.0f + x};
+	float panelY {radius * 0.3f * (float)sin(yaw) * -1.0f + y};
 	panelLarge.setPosition(panelX,panelY);
 	panelLarge.setYaw(yaw);
 	panelLarge.update();
@@ -38,11 +40,16 @@ void Roomba::update()
 	roombaBody.setPosition(x,y);
 	roombaBody.setYaw(yaw);
 	roombaBody.update();
+	// Set the border position and update
+	border.setPosition(x,y);
+	border.setYaw(yaw);
+	border.update();
 }
 
 void Roomba::render()
 {
 	// Renders the parts of the roomba starting from the body and then the panels
+	border.render();
 	roombaBody.render();
 	panelLarge.render();
 	panelSmall.render();

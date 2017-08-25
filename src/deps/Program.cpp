@@ -26,12 +26,12 @@ Program::Program()
 	const GLuint vtxShader = makeShader(GL_VERTEX_SHADER, R"glsl(
 		#version 330
 		in vec3 vert;
-		in vec3 fragColor;
+		in vec3 fragColorIn;
 		out vec3 color;
 
 		void main() {
 			gl_Position = vec4(vert.x, vert.y, vert.z, 1.0f);
-			color = fragColor;
+			color = fragColorIn;
 		}
 
 	)glsl");
@@ -66,7 +66,7 @@ Program::Program()
 	glDeleteShader(fragShader);
 
 	// Get the attributes indices
-	color_ = glGetAttribLocation(prog_, "color");
+	color_ = glGetAttribLocation(prog_, "fragColorIn");
 	vert_ = glGetAttribLocation(prog_, "vert");
 }
 

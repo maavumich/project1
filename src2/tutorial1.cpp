@@ -9,10 +9,14 @@
 #include <condition_variable>
 #include <atomic>
 #include <cmath>
+#include "../src/deps/Constants.hpp"
 #include "../src/deps/Program.hpp"
 #include "../src/deps/Triangle.hpp"
 #include "../src/deps/Rectangle.hpp"
 #include "../src/deps/Circle.hpp"
+#include "../src/deps/Roomba.hpp"
+#include "../src/deps/Obstacle.hpp"
+#include "../src/deps/Vehicle.hpp"
 #include <memory>
 
 void cinEnder(std::atomic<bool> *run, std::condition_variable *cv)
@@ -278,15 +282,24 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	Renderer renderer;
 	// Initialize array of floats that control clear color
 	float colors[3] {0.0,1.0,0.0};
+	float green[3] {0.0f,0.8f,0.0f};
 	float addOns[3] {0.05,-0.025,0.025};
 	// Create an entity to test the rendering with
-	float color[3] {0.5f,0.5f,0.5f};
+	float color[3] {0.0f,0.0f,0.0f};
 	std::shared_ptr<Entity> Trientity = std::make_shared<Triangle>(6.0f,6.0f,1.5f,2.0f,color,
 		&renderer.program);
-	std::shared_ptr<Entity> rectangleEntity = std::make_shared<Rectangle>(-6.0f,-6.0f,1.5f,2.0f,
+	std::shared_ptr<Entity> rectangleEntity = std::make_shared<Rectangle>(-6.0f,6.0f,1.5f,2.0f,
 		color,&renderer.program,4.0f,2.0f);
-	std::shared_ptr<Entity> circleEntity = std::make_shared<Circle>(-6.0f,0.0f,1.5f,2.0f,color,
+	std::shared_ptr<Entity> circleEntity = std::make_shared<Circle>(6.0f,-6.0f,1.5f,2.0f,color,
 		&renderer.program);
+	std::shared_ptr<Entity> roombaEntity = std::make_shared<Roomba>(-6.0f,-6.0f,1.5f,2.0f,green,
+		&renderer.program);
+	std::shared_ptr<Entity> obstacleEntity = std::make_shared<Obstacle>(6.0f,-6.0f,1.5f,2.0f,
+		Constants::black,&renderer.program);
+	std::shared_ptr<Entity> vehicle1 = std::make_shared<Vehicle>(-6.0f,6.0f,1.5f,3.0f,
+		Constants::playerOneColor,&renderer.program);
+	std::shared_ptr<Entity> vehicle2 = std::make_shared<Vehicle>(6.0f,6.0f,1.5f,3.0f,
+		Constants::playerTwoColor,&renderer.program);
 	while(*run && !glfwWindowShouldClose(window))
 	{
 		renderer.renderTriangleSetup();
@@ -297,8 +310,8 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Render Renderer objects
 		renderer.renderTriangle();
-		renderer.renderRectangle();
-		renderer.renderCircle();
+		// renderer.renderRectangle();
+		// renderer.renderCircle();
 		float yaw = Trientity->getYaw();
 		// Test entities from project0 / project1
 		Renderer::updateTheta(yaw,0.2);
@@ -311,6 +324,29 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 		circleEntity->setYaw(yaw);
 		circleEntity->update();
 		circleEntity->render();
+		// Testing roomba entity
+		roombaEntity->setPosition(roombaEntity->getXPos() + 0.05,
+			roombaEntity->getYPos() + 0.05);
+		roombaEntity->setYaw(yaw);
+		roombaEntity->update();
+		roombaEntity->render();
+		// Testing obstacle entity
+		obstacleEntity->setPosition(obstacleEntity->getXPos() - 0.05,
+			obstacleEntity->getYPos() + 0.01);
+		obstacleEntity->setYaw(yaw);
+		obstacleEntity->update();
+		obstacleEntity->render();
+		// Testing vehicle1 entity
+		vehicle1->setPosition(vehicle1->getXPos() + 0.005,
+			vehicle1->getYPos() - 0.1);
+		vehicle1->update();
+		vehicle1->render();
+		// Testing vehicle2 entity
+		vehicle2->setPosition(vehicle2->getXPos() - 0.05,
+			vehicle2->getYPos() - 0.01);
+		vehicle2->setYaw(yaw);
+		vehicle2->update();
+		vehicle2->render();
 		// Swap the buffers
 		glfwSwapBuffers(window);
 		// Sleep to take load off of my crappy vm
