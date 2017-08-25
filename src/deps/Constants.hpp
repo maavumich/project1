@@ -19,7 +19,7 @@ namespace Constants
 	constexpr float barColor[3] = {0.6f,0.6f,0.6f};
 	constexpr float propColor[3] = {0.7f,0.7f,0.7f};
 	constexpr float bodyColor[3] = {0.4f,0.4f,0.4f};
-	constexpr float ringColor[3] = {0.5f,0.5f,0.5f};
+	constexpr float ringColor[3] = {0.4f,0.4f,0.4f};
 	constexpr float propCapColor[3] = {0.65f,0.65f,0.65f};
 	// Prop speed in radians
 	constexpr float propSpeed = 0.3;
