@@ -116,6 +116,17 @@ bool Simulator::simulate(const unsigned dt)
 		}
 	}
 
+	//Apply the speed decay to each object
+	for(size_t i = 0; i < roombaList.size(); ++i)
+	{
+		speedDecay(roombaList[i], dt);
+	}
+
+	for(size_t i = 0; i < obstacleList.size(); ++i)
+	{
+		speedDecay(obstacleList[i], dt);
+	}
+
 	//check game logic (should we score any points?)-->destroy some roombas
 	//Check did any roombas pass the goal line?
 	for(size_t i = 0; i < roombaList.size(); ++i)
@@ -225,7 +236,8 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 	return false;
 }
 
-// Implement physics for a collision between entities
+// Implement physics for a collision between two moving entities
+// http://vobarian.com/collisions/2dcollisions2.pdf
 // Effects updates positions, yaw, and speed of the entities in collision
 void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	const unsigned dt)
@@ -337,4 +349,22 @@ int Simulator::roombaInGoal(Roomba& roomba)
 	}
 
 	return 0;
+}
+
+void speedDecay(AnimatedEntity& aEnt, const unsigned dt)
+{
+	aEnt.setSpeed(aEnt.getSpeed() - (aEnt.getForceFriction() * dt));
+}
+
+void physicsBounce(AnimatedEntity& aEnt)
+{
+
+	// Which wall did we bounce off of?
+	float x  = aEnt.getXPos(), y  = aEnt.getYPos();
+
+	
+	vec2 vinitial(aEnt.getSpeed()*sin(aEnt.getYaw()),
+		aEnt.getSpeed()*cos(aEnt.getYaw()));
+
+
 }

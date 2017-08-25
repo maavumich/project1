@@ -13,3 +13,13 @@ int main(int argc, char** argv)
 }
 
 // Write event handler function implementations here
+
+// Function Pointers for simulator class, passed to simwindow and used to create
+// Roomba and Obstacle
+
+// Modifies: Roomba object
+// Effects:  Gurantees that the roomba will stay in bounds
+void updateRoombaLocation(Roomba& roomba)
+{
+	
+}

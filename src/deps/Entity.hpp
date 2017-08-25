@@ -35,7 +35,7 @@ public:
 	// Defines the collision radius
 	virtual float getRadius() const;
 protected:
-	// Posiition, orientation, color data, as well as the shader program to use
+	// Position, orientation, color data, as well as the shader program to use
 	float x;
 	float y;
 	float yaw;
