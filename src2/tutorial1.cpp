@@ -10,6 +10,10 @@
 #include <atomic>
 #include <cmath>
 #include "../src/deps/Program.hpp"
+#include "../src/deps/Triangle.hpp"
+#include "../src/deps/Rectangle.hpp"
+#include "../src/deps/Circle.hpp"
+#include <memory>
 
 void cinEnder(std::atomic<bool> *run, std::condition_variable *cv)
 {
@@ -226,6 +230,7 @@ public:
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER,0);
 	}
+	Program program;
 private:
 	float vertices[18];
 	float theta1;
@@ -274,6 +279,14 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	// Initialize array of floats that control clear color
 	float colors[3] {0.0,1.0,0.0};
 	float addOns[3] {0.05,-0.025,0.025};
+	// Create an entity to test the rendering with
+	float color[3] {0.5f,0.5f,0.5f};
+	std::shared_ptr<Entity> Trientity = std::make_shared<Triangle>(6.0f,6.0f,1.5f,2.0f,color,
+		&renderer.program);
+	std::shared_ptr<Entity> rectangleEntity = std::make_shared<Rectangle>(-6.0f,-6.0f,1.5f,2.0f,
+		color,&renderer.program,4.0f,2.0f);
+	std::shared_ptr<Entity> circleEntity = std::make_shared<Circle>(-6.0f,0.0f,1.5f,2.0f,color,
+		&renderer.program);
 	while(*run && !glfwWindowShouldClose(window))
 	{
 		renderer.renderTriangleSetup();
@@ -282,9 +295,22 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 		// Rendering commands below
 		glClearColor(colors[0], colors[1], colors[2], 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		// Render Renderer objects
 		renderer.renderTriangle();
 		renderer.renderRectangle();
 		renderer.renderCircle();
+		float yaw = Trientity->getYaw();
+		// Test entities from project0 / project1
+		Renderer::updateTheta(yaw,0.2);
+		Trientity->setYaw(yaw);
+		Trientity->update();
+		Trientity->render();
+		rectangleEntity->setYaw(yaw);
+		rectangleEntity->update();
+		rectangleEntity->render();
+		circleEntity->setYaw(yaw);
+		circleEntity->update();
+		circleEntity->render();
 		// Swap the buffers
 		glfwSwapBuffers(window);
 		// Sleep to take load off of my crappy vm

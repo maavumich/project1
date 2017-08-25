@@ -7,7 +7,7 @@ class Rectangle : public Entity
 {
 public:
 	Rectangle(float xInit, float yInit, float yawInit, float radiusInit,
-		float colorIn[], Program *program, float widthIn, float heightIn);
+		const float *colorIn, Program *program, float widthIn, float heightIn);
 	virtual void update();
 	virtual void render();
 	float getWidth();

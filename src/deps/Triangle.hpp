@@ -7,7 +7,7 @@ class Triangle : public Entity
 {
 public:
 	Triangle(float xInit, float yInit, float yawInit, float radiusInit,
-		float *colorIn, Program *program);
+		const float *colorIn, Program *program);
 	virtual void update();
 	virtual void render();
 private:

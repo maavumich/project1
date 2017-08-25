@@ -11,8 +11,8 @@
 class Roomba : public AnimatedEntity
 {
 public:
-	Roomba(float xInit, float yInit, float angleInit, float radiusInit,
-		Program *program, float *color);
+	Roomba(float xInit, float yInit, float yawInit, float radiusInit,
+		Program *program, const float *color);
 	// Update
 	virtual void update();
 	// Called by renderer to render object

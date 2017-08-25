@@ -2,10 +2,13 @@
 
 
 Triangle::Triangle(float xInit, float yInit, float yawInit, float radiusInit,
-	float *color, Program *program) :
-	Entity(xInit,yInit,yawInit,radiusInit,program),
-	color {color[0],color[1],color[2]}
+	const float *colorIn, Program *program) :
+	Entity(xInit,yInit,yawInit,radiusInit,program)
 {
+	// Initialize color
+	color[0] = colorIn[0];
+	color[1] = colorIn[1];
+	color[2] = colorIn[2];
 	// Creates required openGL buffers and creates attrib pointers
 	glGenBuffers(1,&VBO);
 	glGenVertexArrays(1,&VAO);
@@ -36,15 +39,16 @@ void Triangle::update()
 {
 	for (int i {0}; i < 3; ++i)
 	{
-		renderData[i * 6] = cos(yaw + i * (2 * PI / 3)) * radius;
+		renderData[i * 6] = cos(yaw + i * (2 * PI / 3)) * radius + x;
 		renderData[i * 6] = renderData[i * 6] / ARENASIZEX;
-		renderData[i * 6 + 1] = sin(yaw + i * (2 * PI / 3)) * radius;
-		renderData[i * 6 + 1] = renderData[i * 6] / ARENASIZEY;
+		renderData[i * 6 + 1] = sin(yaw + i * (2 * PI / 3)) * radius + y;
+		renderData[i * 6 + 1] = renderData[i * 6 + 1] / ARENASIZEY;
 	}
 }
 
 void Triangle::render()
 {
+	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
