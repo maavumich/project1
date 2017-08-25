@@ -17,7 +17,7 @@ namespace Constants
 	constexpr int numRectsInRing = 360;
 	// Vehicle bars connecting to ring and prop caps
 	constexpr float barColor[3] = {0.6f,0.6f,0.6f};
-	constexpr float propColor[3] = {0.7f,0.7f,0.7f};
+	constexpr float propColor[3] = {0.3f,0.3f,0.3f};
 	constexpr float bodyColor[3] = {0.4f,0.4f,0.4f};
 	constexpr float ringColor[3] = {0.4f,0.4f,0.4f};
 	constexpr float propCapColor[3] = {0.65f,0.65f,0.65f};
