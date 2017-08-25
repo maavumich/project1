@@ -15,9 +15,14 @@ include_directories(
 	${GLM_INCLUDE_DIRS}
 )
 
-add_executable(tutorial tutorial1.cpp ../src/deps/Program.cpp)
-
-add_executable(test test.cpp ../src/deps/Program.cpp)
+add_executable(tutorial tutorial1.cpp
+	../src/deps/Program.cpp
+	../src/deps/Entity.cpp
+	../src/deps/AnimatedEntity.cpp
+	../src/deps/Triangle.cpp
+	../src/deps/Rectangle.cpp
+	../src/deps/Circle.cpp
+	)
 
 add_executable(test test.cpp ../src/deps/Program.cpp)
 

@@ -1,10 +1,13 @@
 #include "Circle.hpp"
 
 Circle::Circle(float xInit, float yInit, float yawInit, float radiusInit,
-	float *color, Program *program) :
-	Entity(xInit,yInit,yawInit,radiusInit,program),
-	color {color[0],color[1],color[2]}
+	const float *colorIn, Program *program) :
+	Entity(xInit,yInit,yawInit,radiusInit,program)
 {
+	// Initialize color
+	color[0] = colorIn[0];
+	color[1] = colorIn[1];
+	color[2] = colorIn[2];
 	// Creates required openGL buffers and creates attrib pointers
 	glGenBuffers(1,&VBO);
 	glGenVertexArrays(1,&VAO);
@@ -39,9 +42,9 @@ void Circle::update()
 		for (int ii {0}; ii < 3; ++ii)
 		{
 			renderData[i + 6 * ii] = x + cos(thetas[ii]) * radius;
-			renderData[i + 6 * ii] = renderData[i + 3 * ii] / ARENASIZEX;
+			renderData[i + 6 * ii] = renderData[i + 6 * ii] / ARENASIZEX;
 			renderData[i + 1 + 6 * ii] = y + sin(thetas[ii]) * radius;
-			renderData[i + 1 + 6 * ii] = renderData[i + 1 + 3 * ii] / ARENASIZEY;
+			renderData[i + 1 + 6 * ii] = renderData[i + 1 + 6 * ii] / ARENASIZEY;
 			updateTheta(thetas[ii], 2 * PI / (3 * 359));
 		}
 	}
@@ -49,6 +52,7 @@ void Circle::update()
 
 void Circle::render()
 {
+	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);

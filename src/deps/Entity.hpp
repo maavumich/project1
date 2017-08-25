@@ -24,9 +24,9 @@ public:
 	// Set the new yaw
 	virtual void setYaw(float inTheta);
 	// Update the position of sub objects based on new position
-	virtual void update();
+	virtual void update() = 0;
 	// Puts render data into openGL buffer and  renders this object
-	virtual void render();
+	virtual void render() = 0;
 	// return current x coordinate
 	virtual float getXPos() const;
 	// return current y coordinate
