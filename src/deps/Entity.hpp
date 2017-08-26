@@ -46,14 +46,7 @@ protected:
 	constexpr static float ARENASIZEX = Constants::arenaSizeX;
 	constexpr static float ARENASIZEY = Constants::arenaSizeY;
 	constexpr static float PI = Constants::pi;
-	static void updateTheta(float &thetaVal, float incrementVal)
-	{
-		thetaVal += incrementVal;
-		if (thetaVal > 2.0f * 3.14159265f - 0.01f)
-		{
-			thetaVal = 0.0f;
-		}
-	}
+	static void updateTheta(float &thetaVal, float incrementVal);
 };
 
 #endif
