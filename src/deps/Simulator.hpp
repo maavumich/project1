@@ -15,6 +15,7 @@
 
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
+#include "Constants.hpp"
 
 
 class Simulator
@@ -87,9 +88,6 @@ private:
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(const AnimatedEntity& roomba);
-
-	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;

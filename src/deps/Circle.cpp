@@ -9,17 +9,19 @@ Circle::Circle(float xInit, float yInit, float yawInit, float radiusInit,
 	color[1] = colorIn[1];
 	color[2] = colorIn[2];
 	// Creates required openGL buffers and creates attrib pointers
-	glGenBuffers(1,&VBO);
 	glGenVertexArrays(1,&VAO);
 	glBindVertexArray(VAO);
+	glGenBuffers(1,&VBO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glVertexAttribPointer(program->vert(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),(void*)0);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(renderData), renderData, GL_STREAM_DRAW);
 	glEnableVertexAttribArray(program->vert());
-	glVertexAttribPointer(program->color(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),
-		(void*)(sizeof(float) * 3));
+	glVertexAttribPointer(program->vert(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)0);
 	glEnableVertexAttribArray(program->color());
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glVertexAttribPointer(program->color(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)(sizeof(float) * 3));
+
 	// Sets the color in Render data, as well as depth (z)
 	// Only needs to be set once
 	for (int i {3}; i < 720 * 9; i += 6)
@@ -32,6 +34,12 @@ Circle::Circle(float xInit, float yInit, float yawInit, float radiusInit,
 	}
 	// Initializes the vertices
 	update();
+}
+
+Circle::~Circle() noexcept
+{
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void Circle::update()
@@ -50,13 +58,8 @@ void Circle::update()
 	}
 }
 
-void Circle::render()
+void Circle::render() const
 {
-	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
-	glDrawArrays(GL_TRIANGLES,0,360 * 3);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glDrawArrays(GL_TRIANGLES, 0, 360 * 3);
 }

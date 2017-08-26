@@ -14,8 +14,8 @@ class Obstacle : public AnimatedEntity
 public:
 	Obstacle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *colorIn, Program *program);
+	virtual void render() const;
 	virtual void update();
-	virtual void render();
 	float getSpeed();
 	void setSpeed(float newSpeed);
 	std::function<void(Obstacle&)> updateLocation;

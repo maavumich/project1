@@ -16,7 +16,7 @@ public:
 	// Update
 	virtual void update();
 	// Called by renderer to render object
-	virtual void render();
+	virtual void render() const;
 	// Returns 'r' for red, 'g' for green, 'b' for blue
 	char getColor();
 	// Returns current speed
