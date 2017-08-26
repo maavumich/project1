@@ -102,6 +102,7 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
+	//Comment 
 };
 
 #endif
