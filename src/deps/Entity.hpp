@@ -8,8 +8,6 @@
 #include "Program.hpp"
 #include "Constants.hpp"
 
-enum class LinePosition {top, bottom, left, right};
-
 constexpr float PI = 3.14159265358979f;
 constexpr float ARENASIZEX = 10;
 constexpr float ARENASIZEY = 10;
@@ -38,8 +36,6 @@ public:
 	// Defines the collision radius
 	virtual float getRadius() const;
 protected:
-	// Do opengl setup
-	virtual void setup();
 	// Posiition, orientation, color data, as well as the shader program to use
 	float x;
 	float y;
