@@ -37,3 +37,13 @@ float Entity::getRadius() const
 {
 	return radius;
 }
+
+void Entity::updateTheta(float &thetaVal, float incrementVal)
+{
+	thetaVal += incrementVal;
+	if (thetaVal > 2.0f * 3.14159265f - 0.01f)
+	{
+		thetaVal = 0.0f;
+	}
+}
+
