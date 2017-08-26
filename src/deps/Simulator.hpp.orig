@@ -20,7 +20,6 @@
 class Simulator
 {
 public:
-
 	Simulator();
 
 	//Updates positions of objects, detects collisions, wins game
@@ -29,13 +28,17 @@ public:
 
 	// Adds Roomba to roombaList, the function pointer should be nothing by default
 	void createRoomba(float xInit, float yInit, float angleInit, float radiusInit,
-		Program* shaderProgramIdIn, float *color,
-		std::function <void(Roomba&)> func = [](Roomba&){});
+		Program* shaderProgramIdIn, float *color);
 
 	// Adds Obstacle to obstacleList
 	void createObstacle(float xInit, float yInit, float angleInit, float radiusInit,
-		Program* shaderProgramIdIn, float *color,
-		std::function <void(Obstacle&)> func = [](Obstacle&){});
+		Program* shaderProgramIdIn, float *color);
+
+	// Sets the function to call for updating roombas
+	void setRoombaUpdateFunc(std::function<void(Roomba&)> func);
+
+	// Sets the function to call for updating obstacles
+	void setObstacleUpdateFunc(std::function<void(Obstacle&)> func);
 
 	// Creates and intializes the vehicle on the environment
 	void createVehicle(Program* prog);
@@ -47,7 +50,7 @@ public:
 	const std::vector<Obstacle>& getObstacleList();
 
 	// Returns the vector of Vehicles
-	const Vehicle& getVehicle();
+	const std::vector<Vehicle>& getVehicle();
 
 	// Get score to update text
 	int getScore();
@@ -84,12 +87,8 @@ private:
 
 	// Objects in the environment
 	std::vector<Roomba> roombaList;
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 	std::vector<Obstacle> obstacleList;
-=======
-	std::vector<Obstacle> obstacleList; 
->>>>>>> Physics are written
-	Vehicle vehicle;
+	std::vector<Vehicle> vehicles;
 
 	LinePosition redLinePosition;
 	LinePosition greenLinePosition;
@@ -98,7 +97,11 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
+<<<<<<< 83267638659c44514cd4a8321da7309a0d5a8efe
 
+=======
+	//Comment 
+>>>>>>> Commit before merge
 };
 
 #endif

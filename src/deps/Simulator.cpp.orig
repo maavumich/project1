@@ -4,13 +4,13 @@
 * @author Ryan Wunderly (rywunder@umich.edu)
 * @date 2017-08-22
 */
+#include "Simulator.hpp"
 #include <glm/vec2.hpp>// glm::vec2
 #include <glm/geometric.hpp>// glm::dot, glm::length
 #include <cassert>
 #include <iostream>
 #include <algorithm>
 
-#include "Simulator.hpp"
 
 using std::vector;
 using std::queue;
@@ -18,12 +18,12 @@ using std::atan2;
 using std::cos;
 using std::sin;
 
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 using glm::length;
 using glm::dot;
 using glm::vec2;
 using std::cout;
 
+Simulator::Simulator() {  }
 
 //Updates positions of objects, detects collisions, wins game,destroys obj
 //Called at 16.7 ms
@@ -32,21 +32,9 @@ bool Simulator::simulate(const unsigned dt)
 	//Apply Action which updates position of vehicle
 	if(!actionQueue.empty())
 	{
-		actionQueue.front()(vehicle);
-		actionQueue.pop();
+		actionQueue.front()(vehicles[0]);
+		actionQueue.front();
 	}
-=======
-using glm::normalize;
-using glm::dot;
-using glm::vec2;
-
-
-//Updates positions of objects, detects collisions, wins game,destroys obj 
-//Called at 16.7 ms
-void Simulator::simulate(const unsigned dt)
-{
-	//Apply Action and update position of vehicle
->>>>>>> Physics are written
 
 	//Update position of all objects
 	for(auto obstacle: obstacleList)
@@ -94,14 +82,13 @@ void Simulator::simulate(const unsigned dt)
 			}
 
 			//Compare each roomba to the vehicle
-			if(isCollision(*it, vehicle))
+			if(isCollision(*it, vehicles[0]))
 			{
 				collisionOccurred = true;
-				physicsCollision(*it, vehicle, dt);
+				physicsCollision(*it, vehicles[0], dt);
 			}
 		}
 
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 		// Comparisons with obstacles
 		for(auto it = obstacleList.begin(), end = obstacleList.end();
 			it != end; ++it)
@@ -117,7 +104,7 @@ void Simulator::simulate(const unsigned dt)
 			}
 
 			//Compare each obstacle to the vehicle
-			if(isCollision(*it, vehicle))
+			if(isCollision(*it, vehicles[0]))
 			{
 				collisionOccurred = true;
 				//physicsCollision(*it, vehicle);
@@ -162,42 +149,38 @@ void Simulator::simulate(const unsigned dt)
 	}
 
 	return false; //The game should continue
-=======
-	
-	//re-update position or lose game
-
-
-	//check game logic (should we score any points?) -->destroy some roombas
->>>>>>> Physics are written
 
 }
 
 // Adds Roomba to roombaList
 void Simulator::createRoomba(float xInit, float yInit, float angleInit,
-	float radiusInit, Program* shaderProgramIdIn, float *color,
-	std::function <void(Roomba&)> func)
+	float radiusInit, Program* shaderProgramIdIn, float *color)
 {
-	roombaList.emplace_back(xInit, yInit, angleInit, radiusInit,
-		shaderProgramIdIn, color);
-
-	updateRoombaLocation = func; // sets the path for roombas
+	roombaList.emplace_back(xInit, yInit, angleInit, radiusInit, color,
+		shaderProgramIdIn);
 }
 
 // Adds Obstacle to obstacleList
 void Simulator::createObstacle(float xInit, float yInit, float angleInit,
-	float radiusInit, Program* shaderProgramIdIn, float *color,
-	std::function <void(Obstacle&)> func)
+	float radiusInit, Program* shaderProgramIdIn, float *color)
 {
-	obstacleList.emplace_back(xInit, yInit, angleInit, radiusInit,
-		shaderProgramIdIn, color);
+	obstacleList.emplace_back(xInit, yInit, angleInit, radiusInit, color,
+	 shaderProgramIdIn);
+}
 
-	updateObstacleLocation = func; // sets the path for obstacles
+void Simulator::setRoombaUpdateFunc(std::function<void(Roomba&)> func)
+{
+	updateRoombaLocation = func;
+}
+
+void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
+{
+	updateObstacleLocation = func;
 }
 
 void Simulator::createVehicle(Program* prog)
 {
-	float color[] = {.85, .85, .85};
-	vehicle = Vehicle(0., 0., PI/4, 0.25, prog, color);
+	vehicles[0] = Vehicle{0.f, 0.f, PI / 4.f, .25f, {.85f, .85f, .85f}, prog};
 }
 
 const std::vector<Roomba>& Simulator::getRoombaList()
@@ -210,9 +193,9 @@ const std::vector<Obstacle>& Simulator::getObstacleList()
 	return obstacleList;
 }
 
-const Vehicle& Simulator::getVehicle()
+const std::vector<Vehicle>& Simulator::getVehicle()
 {
-	return vehicle;
+	return vehicles;
 }
 
 // Get score to update text
@@ -227,7 +210,6 @@ void Simulator::addAction(std::function <void(Vehicle&)> action)
 }
 
 // Checks if two objects are colliding
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 	const AnimatedEntity& aEnt2)
 {
@@ -236,22 +218,9 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
 
 	//Get the distance between the objects
-	float dist = length(aEnt1Pos - aEnt2Pos);
+	double dist = length(aEnt1Pos - aEnt2Pos);
 
 	//Check to see if radius between entities
-=======
-bool Simulator::isCollision(const AnimatedEntity& aEnt1, 
-	const AnimatedEntity& aEnt2)
-{
-	// Get the positions of both objects
-	vec2 aEnt1Pos(aEnt1.getXPos(), aEnt1.getYPos()); 
-	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
-
-	//Get the distance between the objects
-	double dist = normalize(aEnt1Pos - aEnt2Pos);
-
-	//Check to see if radius between entities 
->>>>>>> Physics are written
 	if(dist < (aEnt1.getRadius() +  aEnt2.getRadius()))
 	{
 		return true;
@@ -262,21 +231,13 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 
 // Implement physics for a collision between entities
 // Effects updates positions, yaw, and speed of the entities in collision
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
-=======
-Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, 
->>>>>>> Physics are written
 	const unsigned dt)
 {
 	int mass1 = aEnt1.getMass(), mass2 = aEnt2.getMass();
 
 	// Get the positions of both objects
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 	vec2 aEnt1Pos(aEnt1.getXPos(), aEnt1.getYPos());
-=======
-	vec2 aEnt1Pos(aEnt1.getXPos(), aEnt1.getYPos()); 
->>>>>>> Physics are written
 	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
 
 	// Unit normal vector and unit tangent vector to the objects
@@ -314,30 +275,20 @@ Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	vec2 v2final = vf2norm + vf2tan;
 
 	// Set new positions of both objects to right before collision (overlap)
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 	vec2 aEnt1FPos = aEnt1Pos;
-=======
-	vec2 aEnt1FPos = aEnt1Pos; 
->>>>>>> Physics are written
 	vec2 aEnt2FPos = aEnt2Pos;
 	float timestep = dt / 10.0;
 
 	// Go back in time until there is no collision between objects
 	while(isCollision(aEnt1, aEnt2))
 	{
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 		aEnt1FPos = -1.f * vi1 * timestep + aEnt1Pos;
 		aEnt2FPos = -1.f * vi2 * timestep + aEnt2Pos;
-=======
-		aEnt1FPos = -1 * vi1 * timestep + aEnt1Pos;
-		aEnt2FPos = -1 * vi2 * timestep + aEnt2Pos;
->>>>>>> Physics are written
 
 		//Set the new positions then check for the collision
 		aEnt1.setPosition(aEnt1FPos[0], aEnt1FPos[1]);
 		aEnt2.setPosition(aEnt2FPos[0], aEnt2FPos[1]);
 	}
-<<<<<<< aad5c95933f023e3782f0b5f3ddf3a11c8df97d3
 
 	// Set the new speed and yaw of the objects
 	aEnt1.setSpeed(length(v1final));
@@ -391,12 +342,57 @@ int Simulator::roombaInGoal(Roomba& roomba)
 
 	return 0;
 }
+<<<<<<< 83267638659c44514cd4a8321da7309a0d5a8efe
 =======
 
-	// Set the new speed and yaw of the objects
-	aEnt1.setSpeed(normalize(v1final));
-	aEnt1.setYaw(atan2(v1final[1], v1final[0]));
-	aEnt2.setSpeed(normalize(v2final));
-	aEnt2.setYaw(atan2(v2final[1], v2final[0]));
+void Simulator::speedDecay(AnimatedEntity& aEnt, const unsigned dt)
+{
+	aEnt.setSpeed(aEnt.getSpeed() - (aEnt.getForceFriction() * dt));
 }
->>>>>>> Physics are written
+
+void Simulator::physicsBounce(AnimatedEntity& aEnt)
+{
+
+	// Which wall did we bounce off of?
+	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
+
+	vec2 vinitial(aEnt.getSpeed()*sin(aEnt.getYaw()),
+		aEnt.getSpeed()*cos(aEnt.getYaw()));
+
+	vec2 vfinal;
+
+	if(x >= Constants::arenaSizeX - r || x <= r) // Right or Left wall
+	{
+		vec2 normalV = normalize(vec2(0, 10));
+		vfinal = reflect(vinitial, normalV);
+	} 
+	else // top or bottom wall
+	{
+		vec2 normalV = normalize(vec2(10, 0));
+		vfinal = reflect(vinitial, normalV);
+	}
+
+	
+	// Set the new speed and yaw of the objects
+	aEnt.setSpeed(length(vfinal));
+	aEnt.setYaw(atan2(vfinal[1], vfinal[0]));
+
+}
+
+bool Simulator::isWallCollsion(const AnimatedEntity& aEnt)
+{
+	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
+	if(roombaInGoal(aEnt) == 0)
+	{
+		if(y > Constants::arenaSizeY - r || y < r){
+			return true;
+		}
+		else if(x > Constants::arenaSizeX - r || x < r){
+			return true;
+		}
+	}
+	
+	return false;
+}
+//Comment
+>>>>>>> Commit before merge
