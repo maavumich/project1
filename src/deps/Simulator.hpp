@@ -15,12 +15,12 @@
 
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
+#include "Constants.hpp"
 
 
 class Simulator
 {
 public:
-
 	Simulator();
 
 	//Updates positions of objects, detects collisions, wins game
@@ -29,13 +29,17 @@ public:
 
 	// Adds Roomba to roombaList, the function pointer should be nothing by default
 	void createRoomba(float xInit, float yInit, float angleInit, float radiusInit,
-		Program* shaderProgramIdIn, float *color,
-		std::function <void(Roomba&)> func = [](Roomba&){});
+		Program* shaderProgramIdIn, float *color);
 
 	// Adds Obstacle to obstacleList
 	void createObstacle(float xInit, float yInit, float angleInit, float radiusInit,
-		Program* shaderProgramIdIn, float *color,
-		std::function <void(Obstacle&)> func = [](Obstacle&){});
+		Program* shaderProgramIdIn, float *color);
+
+	// Sets the function to call for updating roombas
+	void setRoombaUpdateFunc(std::function<void(Roomba&)> func);
+
+	// Sets the function to call for updating obstacles
+	void setObstacleUpdateFunc(std::function<void(Obstacle&)> func);
 
 	// Creates and intializes the vehicle on the environment
 	void createVehicle(Program* prog);
@@ -47,7 +51,7 @@ public:
 	const std::vector<Obstacle>& getObstacleList();
 
 	// Returns the vector of Vehicles
-	const Vehicle& getVehicle();
+	const std::vector<Vehicle>& getVehicle();
 
 	// Get score to update text
 	int getScore();
@@ -76,12 +80,6 @@ private:
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);
 
-	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
-
-	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
-
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
 
@@ -91,7 +89,7 @@ private:
 	// Objects in the environment
 	std::vector<Roomba> roombaList;
 	std::vector<Obstacle> obstacleList;
-	Vehicle vehicle;
+	std::vector<Vehicle> vehicles;
 
 	LinePosition redLinePosition;
 	LinePosition greenLinePosition;

@@ -15,13 +15,13 @@
 #include <functional>
 #include <map>
 
+#include <glibmm/main.h>
 #include <gtkmm.h>
 #include <gdk/gdk.h>
 #include <gtkmm/application.h>
 #include <gtkmm/window.h>
 #include <gtkmm/glarea.h>
 #include <gtkmm/grid.h>
-#include <glibmm/main.h>
 
 #include "Renderer.hpp"
 #include "Simulator.hpp"
@@ -33,8 +33,10 @@ constexpr unsigned FPS{60};
 // The simulation time step in milliseconds calculated based on FPS above
 constexpr unsigned SIMULATION_DT_MS{1000 / FPS};
 
-// The callback functions for key presses that affect the vehicle
+// The callback functions
 typedef std::function<void(Vehicle&)> VehiCallback;
+typedef std::function<void(Roomba&)> RoombaCallback;
+typedef std::function<void(Obstacle&)> ObstCallback;
 
 /**
 * @brief RenderArea provides a widget-style interface for using the Renderer with a Simulator.
@@ -46,6 +48,8 @@ public:
 	* @brief Constructs a GLArea for the Renderer to draw on
 	*/
 	explicit RenderArea(std::shared_ptr<Simulator> sim_in);
+
+	Program* getProgram();
 
 private:
 	// The renderer which draws in this area
@@ -101,6 +105,14 @@ public:
 	* @return True if this event handler is new, false if it replaced a previous event handler
 	*/
 	bool attachHoldHandler(int key, const VehiCallback func);
+
+	void createRoomba(float x, float y, float yaw, float radius, std::vector<float> color);
+
+	void createObstacle(float x, float y, float yaw, float radius, std::vector<float> color);
+
+	void setRoombaUpdateFunc(RoombaCallback func);
+
+	void setObstacleUpdateFunc(ObstCallback func);
 
 protected:
 	/**

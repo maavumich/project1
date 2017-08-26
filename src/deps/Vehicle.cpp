@@ -1,7 +1,7 @@
 #include "Vehicle.hpp"
 
 Vehicle::Vehicle(float xInit, float yInit, float yawInit, float radiusInit,
-	const float *colorIn, Program *program) :
+	const float* colorIn, Program *program) :
 
 	AnimatedEntity(Constants::defaultSpeed,
 		Constants::roombaMass,xInit,yInit,yawInit,radiusInit,program),
@@ -103,7 +103,7 @@ void Vehicle::update()
 	}
 }
 
-void Vehicle::render()
+void Vehicle::render() const
 {
 	// render bars
 	bar1.render();

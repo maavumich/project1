@@ -4,13 +4,13 @@
 * @author Ryan Wunderly (rywunder@umich.edu)
 * @date 2017-08-22
 */
+#include "Simulator.hpp"
 #include <glm/vec2.hpp>// glm::vec2
 #include <glm/geometric.hpp>// glm::dot, glm::length
 #include <cassert>
 #include <iostream>
 #include <algorithm>
 
-#include "Simulator.hpp"
 
 using std::vector;
 using std::queue;
@@ -23,6 +23,7 @@ using glm::dot;
 using glm::vec2;
 using std::cout;
 
+Simulator::Simulator() {  }
 
 //Updates positions of objects, detects collisions, wins game,destroys obj
 //Called at 16.7 ms
@@ -31,8 +32,8 @@ bool Simulator::simulate(const unsigned dt)
 	//Apply Action which updates position of vehicle
 	if(!actionQueue.empty())
 	{
-		actionQueue.front()(vehicle);
-		actionQueue.pop();
+		actionQueue.front()(vehicles[0]);
+		actionQueue.front();
 	}
 
 	//Update position of all objects
@@ -81,10 +82,10 @@ bool Simulator::simulate(const unsigned dt)
 			}
 
 			//Compare each roomba to the vehicle
-			if(isCollision(*it, vehicle))
+			if(isCollision(*it, vehicles[0]))
 			{
 				collisionOccurred = true;
-				physicsCollision(*it, vehicle, dt);
+				physicsCollision(*it, vehicles[0], dt);
 			}
 		}
 
@@ -103,7 +104,7 @@ bool Simulator::simulate(const unsigned dt)
 			}
 
 			//Compare each obstacle to the vehicle
-			if(isCollision(*it, vehicle))
+			if(isCollision(*it, vehicles[0]))
 			{
 				collisionOccurred = true;
 				//physicsCollision(*it, vehicle);
@@ -153,30 +154,38 @@ bool Simulator::simulate(const unsigned dt)
 
 // Adds Roomba to roombaList
 void Simulator::createRoomba(float xInit, float yInit, float angleInit,
-	float radiusInit, Program* shaderProgramIdIn, float *color,
-	std::function <void(Roomba&)> func)
+	float radiusInit, Program* shaderProgramIdIn, float *color)
 {
-	roombaList.emplace_back(xInit, yInit, angleInit, radiusInit,
-		shaderProgramIdIn, color);
-
-	updateRoombaLocation = func; // sets the path for roombas
+	roombaList.emplace_back(xInit, yInit, angleInit, radiusInit, color,
+		shaderProgramIdIn);
 }
 
 // Adds Obstacle to obstacleList
 void Simulator::createObstacle(float xInit, float yInit, float angleInit,
-	float radiusInit, Program* shaderProgramIdIn, float *color,
-	std::function <void(Obstacle&)> func)
+	float radiusInit, Program* shaderProgramIdIn, float *color)
 {
-	obstacleList.emplace_back(xInit, yInit, angleInit, radiusInit,
-		shaderProgramIdIn, color);
+	obstacleList.emplace_back(xInit, yInit, angleInit, radiusInit, color,
+	 shaderProgramIdIn);
+}
 
-	updateObstacleLocation = func; // sets the path for obstacles
+void Simulator::setRoombaUpdateFunc(std::function<void(Roomba&)> func)
+{
+	updateRoombaLocation = func;
+}
+
+void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
+{
+	updateObstacleLocation = func;
 }
 
 void Simulator::createVehicle(Program* prog)
 {
-	float color[] = {.85, .85, .85};
-	vehicle = Vehicle(0., 0., PI/4, 0.25, prog, color);
+	if (vehicles.size() == 0)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerOneColor, prog);
+	else if (vehicles.size() == 1)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerTwoColor, prog);
+	else
+		std::cerr << "Why are you making more than two vehicles????\n";
 }
 
 const std::vector<Roomba>& Simulator::getRoombaList()
@@ -189,9 +198,9 @@ const std::vector<Obstacle>& Simulator::getObstacleList()
 	return obstacleList;
 }
 
-const Vehicle& Simulator::getVehicle()
+const std::vector<Vehicle>& Simulator::getVehicle()
 {
-	return vehicle;
+	return vehicles;
 }
 
 // Get score to update text
@@ -214,7 +223,7 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 	vec2 aEnt2Pos(aEnt2.getXPos(), aEnt2.getYPos());
 
 	//Get the distance between the objects
-	float dist = length(aEnt1Pos - aEnt2Pos);
+	double dist = length(aEnt1Pos - aEnt2Pos);
 
 	//Check to see if radius between entities
 	if(dist < (aEnt1.getRadius() +  aEnt2.getRadius()))

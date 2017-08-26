@@ -46,7 +46,7 @@ void Triangle::update()
 	}
 }
 
-void Triangle::render()
+void Triangle::render() const
 {
 	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
