@@ -26,6 +26,10 @@ namespace Constants
 	// Player identifier colors
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
+	constexpr bool changeColors = true;
+	constexpr float clearColor[3] = {0.6f,0.7f,0.8f};
+	constexpr float changeColor[3] = {0.05f,-0.025f,0.025f};
+	constexpr float defaultChangeColors[3] = {0.0f,1.0f,0.0f};
 }
 
 #endif

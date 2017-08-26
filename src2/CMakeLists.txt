@@ -25,6 +25,7 @@ add_executable(tutorial tutorial1.cpp
 	../src/deps/Roomba.cpp
 	../src/deps/Obstacle.cpp
 	../src/deps/Vehicle.cpp
+	../src/deps/Renderer.cpp
 	)
 
 add_executable(test test.cpp ../src/deps/Program.cpp)

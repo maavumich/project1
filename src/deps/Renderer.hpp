@@ -51,6 +51,13 @@ public:
 		float colorIn[], Program *program, float widthIn, float heightIn);
 
 private:
+	// Color array when using changing colors
+	float color[3] = {Constants::defaultChangeColors[0],Constants::defaultChangeColors[1],
+		Constants::defaultChangeColors[2]};
+	// updates the clear color if using the changing colors mode
+	void updateColor();
+	// Create new render buffers
+	void recreateRenderBuffers();
 	// Offscreen rendering objects
 	GLuint offsFB; // offscreen framebuffer
 	std::array<GLuint, 2> offsRBS; //offscreen renderbuffers
