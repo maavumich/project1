@@ -8,11 +8,11 @@
 #include "Program.hpp"
 #include "Constants.hpp"
 
-enum class LinePosition {top, bottom, left, right};
-
 constexpr float PI = 3.14159265358979f;
 constexpr float ARENASIZEX = 10;
 constexpr float ARENASIZEY = 10;
+
+enum class LinePosition {top, bottom, left, right};
 
 class Entity
 {
@@ -36,13 +36,11 @@ public:
 	// Defines the collision radius
 	virtual float getRadius() const;
 protected:
-<<<<<<< b64c99d2fdc1d082223c3c0b8fd814002b1d045d
+<<<<<<< df2e16611c6a3954aa169f17c9947ad04b206292
 	// Position, orientation, color data, as well as the shader program to use
 =======
-	// Do opengl setup
-	virtual void setup();
 	// Posiition, orientation, color data, as well as the shader program to use
->>>>>>> added interface for roomba and obstacle.
+>>>>>>> Finished rebasing and fixing errors in my code that resulted from the rebase.
 	float x;
 	float y;
 	float yaw;

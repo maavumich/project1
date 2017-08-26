@@ -24,7 +24,6 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 		(void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(program->color());
 	// Create Element buffer data and store it
-	unsigned int rectangleIndices[] {1,2,3,3,2,4};
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(rectangleIndices),rectangleIndices,
 		GL_STATIC_DRAW);
 	// Unbind buffers

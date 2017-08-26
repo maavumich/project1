@@ -8,8 +8,6 @@
 #include "Program.hpp"
 #include "Constants.hpp"
 
-enum class LinePosition {top, bottom, left, right};
-
 constexpr float PI = 3.14159265358979f;
 constexpr float ARENASIZEX = 10;
 constexpr float ARENASIZEY = 10;

@@ -255,7 +255,6 @@ private:
 	unsigned int VAORect;
 	unsigned int VBOCircle;
 	unsigned int VAOCircle;
-	Program program;
 };
 
 void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
