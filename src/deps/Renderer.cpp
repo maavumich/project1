@@ -1,26 +1,28 @@
 #include "Renderer.hpp"
 
-void Renderer::render(Entity *vehicle, std::vector<Entity*> &roombas,
-	std::vector<Entity*> &obstacles, std::vector<Entity*> &rectangles)
+void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Roomba> &roombas,
+	const std::vector<Obstacle> &obstacles)
 {
-	for (auto rectangle : rectangles)
+	for (auto rectangle : field)
 	{
-		rectangle->update();
-		rectangle->render();
+		rectangle.render();
 	}
 	for (auto roomba : roombas)
 	{
-		roomba->update();
-		roomba->render();
+		roomba.update();
+		roomba.render();
 	}
 	for (auto obstacle : obstacles)
 	{
-		obstacle->update();
-		obstacle->render();
+		obstacle.update();
+		obstacle.render();
 	}
 	// Renders the vehicle last
-	vehicle->update();
-	vehicle->render();
+	for (auto vehicle : vehicles)
+	{
+		vehicle.update();
+		vehicle.render();
+	}
 }
 
 Program* Renderer::getProgram()
@@ -35,5 +37,11 @@ void Renderer::blit()
 
 void Renderer::resize(const glm::ivec2& size)
 {
+	glViewport(0,0,size.x,size.y);
+}
 
+void Renderer::addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
+	float colorIn[], Program *program, float widthIn, float heightIn)
+{
+	field.emplace_back(xInit,yInit,yawInit,radiusInit,colorIn,program,widthIn,heightIn);
 }

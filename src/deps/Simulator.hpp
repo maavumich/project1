@@ -82,6 +82,9 @@ private:
 
 	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
 
+	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	int roombaInGoal(Roomba&);
+
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
 
@@ -100,7 +103,6 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
-
 };
 
 #endif

@@ -1,10 +1,14 @@
 #include "Rectangle.hpp"
 
 Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
-	float colorIn[], Program *program, float widthIn, float heightIn) :
+	const float *colorIn, Program *program, float widthIn, float heightIn) :
 	Entity(xInit,yInit,yawInit,yawInit,program),
-	width {widthIn}, height {heightIn}, color {color[0],color[1],color[2]}
+	width {widthIn}, height {heightIn}
 {
+	// Initialize color
+	color[0] = colorIn[0];
+	color[1] = colorIn[1];
+	color[2] = colorIn[2];
 	// Creates required openGL buffers
 	glGenBuffers(1,&VBO);
 	glGenVertexArrays(1,&VAO);
@@ -68,9 +72,11 @@ void Rectangle::update()
 
 void Rectangle::render()
 {
+	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER,VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
 	glDrawElements(GL_TRIANGLES,6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER,0);

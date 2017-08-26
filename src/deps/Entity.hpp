@@ -6,12 +6,13 @@
 #include <cstdint>
 #include <epoxy/gl.h>
 #include "Program.hpp"
-
-enum class LinePosition {top, bottom, left, right};
+#include "Constants.hpp"
 
 constexpr float PI = 3.14159265358979f;
 constexpr float ARENASIZEX = 10;
 constexpr float ARENASIZEY = 10;
+
+enum class LinePosition {top, bottom, left, right};
 
 class Entity
 {
@@ -23,9 +24,9 @@ public:
 	// Set the new yaw
 	virtual void setYaw(float inTheta);
 	// Update the position of sub objects based on new position
-	virtual void update();
+	virtual void update() = 0;
 	// Puts render data into openGL buffer and  renders this object
-	virtual void render();
+	virtual void render() = 0;
 	// return current x coordinate
 	virtual float getXPos() const;
 	// return current y coordinate
@@ -42,6 +43,9 @@ protected:
 	float radius;
 	unsigned int shaderProgramId;
 	// Constant expressions to
+	constexpr static float ARENASIZEX = Constants::arenaSizeX;
+	constexpr static float ARENASIZEY = Constants::arenaSizeY;
+	constexpr static float PI = Constants::pi;
 	static void updateTheta(float &thetaVal, float incrementVal)
 	{
 		thetaVal += incrementVal;
