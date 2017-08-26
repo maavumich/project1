@@ -21,6 +21,8 @@ using std::sin;
 using glm::length;
 using glm::dot;
 using glm::vec2;
+using glm::normalize;
+using glm::reflect;
 using std::cout;
 
 
@@ -85,6 +87,13 @@ bool Simulator::simulate(const unsigned dt)
 			{
 				collisionOccurred = true;
 				physicsCollision(*it, vehicle, dt);
+			}
+
+			// roomba must collide off of walls
+			if(isWallCollsion(*it))
+			{
+				collisionOccurred = true;
+				physicsBounce(*it);
 			}
 		}
 
@@ -236,6 +245,7 @@ bool Simulator::isCollision(const AnimatedEntity& aEnt1,
 	return false;
 }
 
+
 // Implement physics for a collision between two moving entities
 // http://vobarian.com/collisions/2dcollisions2.pdf
 // Effects updates positions, yaw, and speed of the entities in collision
@@ -311,7 +321,7 @@ int Simulator::roombaInGoal(Roomba& roomba)
 	switch(greenLinePosition)
 	{
 		case LinePosition::top :
-			if(roomba.getYPos() > sizeEnvironment)
+			if(roomba.getYPos() > Constants::arenaSizeY)
 				return 1;
 			break;
 		case LinePosition::bottom :
@@ -323,7 +333,7 @@ int Simulator::roombaInGoal(Roomba& roomba)
 				return 1;
 			break;
 		case LinePosition::right :
-			if(roomba.getXPos() > sizeEnvironment)
+			if(roomba.getXPos() > Constants::arenaSizeX)
 				return 1;
 			break;
 	}
@@ -331,7 +341,7 @@ int Simulator::roombaInGoal(Roomba& roomba)
 	switch(redLinePosition)
 	{
 		case LinePosition::top :
-			if(roomba.getYPos() > sizeEnvironment)
+			if(roomba.getYPos() > Constants::arenaSizeY)
 				return 2;
 			break;
 		case LinePosition::bottom :
@@ -343,7 +353,7 @@ int Simulator::roombaInGoal(Roomba& roomba)
 				return 2;
 			break;
 		case LinePosition::right :
-			if(roomba.getXPos() > sizeEnvironment)
+			if(roomba.getXPos() > Constants::arenaSizeX)
 				return 2;
 			break;
 	}
@@ -360,11 +370,43 @@ void physicsBounce(AnimatedEntity& aEnt)
 {
 
 	// Which wall did we bounce off of?
-	float x  = aEnt.getXPos(), y  = aEnt.getYPos();
+	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
 
-	
 	vec2 vinitial(aEnt.getSpeed()*sin(aEnt.getYaw()),
 		aEnt.getSpeed()*cos(aEnt.getYaw()));
 
+	vec2 vfinal;
 
+	if(x >= Constants::arenaSizeX - r || x <= r) // Right or Left wall
+	{
+		vec2 normalV = normalize(vec2(0, 10));
+		vfinal = reflect(vinitial, normalV)
+	} 
+	else // top or bottom wall
+	{
+		vec2 normalV = normalize(vec2(10, 0));
+		vfinal = reflect(vinitial, normalV)
+	}
+
+	
+	// Set the new speed and yaw of the objects
+	aEnt1.setSpeed(length(vfinal));
+	aEnt1.setYaw(atan2(vfinal[1], vfinal[0]));
+
+}
+
+bool Simulator::isWallCollsion(const AnimatedEntity& aEnt)
+{
+	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
+	if(!roombaInGoal)
+	{
+		if(y > Constants::arenaSizeY - r || y < r){
+			return true;
+		}
+		else if(x > Constants::arenaSizeX - r || x < r){
+			return true;
+		}
+	}
+	
+	return false;
 }

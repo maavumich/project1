@@ -77,6 +77,8 @@ private:
 	// Effects updates yaw of entity to bounce off of the wall
 	void physicsBounce(AnimatedEntity& aEnt);
 
+	bool isWallCollsion(const AnimatedEntity& aEnt);
+
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba& roomba);
 
@@ -99,7 +101,6 @@ private:
 	LinePosition redLinePosition;
 	LinePosition greenLinePosition;
 
-	int sizeEnvironment = 10; // Default 10X10m
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
