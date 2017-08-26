@@ -26,6 +26,7 @@ namespace Constants
 	// Player identifier colors
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
+	constexpr float coeffFriction = 0.23; 
 }
 
 #endif

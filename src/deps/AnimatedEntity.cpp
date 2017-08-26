@@ -21,3 +21,7 @@ void AnimatedEntity::setSpeed(float newSpeed)
 {
 	speed = newSpeed;
 }
+
+float AnimatedEntity::getForceFriction() const{
+	return Constants::coeffFriction * mass;
+}
