@@ -11,6 +11,7 @@ public:
 	int getMass();
 	float getSpeed();
 	void setSpeed(float newSpeed);
+	float getForceFriction() const;
 
 protected:
 	int mass;

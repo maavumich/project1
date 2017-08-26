@@ -77,15 +77,13 @@ private:
 	// Effects updates yaw of entity to bounce off of the wall
 	void physicsBounce(AnimatedEntity& aEnt);
 
+	// Checks if a roomba is hitting the wall
 	bool isWallCollsion(const AnimatedEntity& aEnt);
-
-	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba& roomba);
 
 	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
+	int roombaInGoal(const AnimatedEntity& roomba);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
@@ -96,7 +94,7 @@ private:
 	// Objects in the environment
 	std::vector<Roomba> roombaList;
 	std::vector<Obstacle> obstacleList;
-	Vehicle vehicle;
+	std::vector<Vehicle> vehicleList;
 
 	LinePosition redLinePosition;
 	LinePosition greenLinePosition;
