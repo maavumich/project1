@@ -37,5 +37,11 @@ void Renderer::blit()
 
 void Renderer::resize(const glm::ivec2& size)
 {
+	glViewport(0,0,size.x,size.y);
+}
 
+void Renderer::addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
+	float colorIn[], Program *program, float widthIn, float heightIn)
+{
+	field.emplace_back(xInit,yInit,yawInit,radiusInit,colorIn,program,widthIn,heightIn);
 }
