@@ -1,26 +1,28 @@
 #include "Renderer.hpp"
 
-void Renderer::render(Entity *vehicle, std::vector<Entity*> &roombas,
-	std::vector<Entity*> &obstacles, std::vector<Entity*> &rectangles)
+void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Roomba> &roombas,
+	const std::vector<Obstacle> &obstacles)
 {
-	for (auto rectangle : rectangles)
+	for (auto rectangle : field)
 	{
-		rectangle->update();
-		rectangle->render();
+		rectangle.render();
 	}
 	for (auto roomba : roombas)
 	{
-		roomba->update();
-		roomba->render();
+		roomba.update();
+		roomba.render();
 	}
 	for (auto obstacle : obstacles)
 	{
-		obstacle->update();
-		obstacle->render();
+		obstacle.update();
+		obstacle.render();
 	}
 	// Renders the vehicle last
-	vehicle->update();
-	vehicle->render();
+	for (auto vehicle : vehicles)
+	{
+		vehicle.update();
+		vehicle.render();
+	}
 }
 
 Program* Renderer::getProgram()

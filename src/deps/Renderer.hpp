@@ -12,6 +12,7 @@
 #include "Obstacle.hpp"
 #include "Vehicle.hpp"
 #include "Entity.hpp"
+#include "Rectangle.hpp"
 
 class Renderer
 {
@@ -27,7 +28,7 @@ public:
 	* Pass in the vectors of Entity* to be rendered as well as the vehicle
 	* as an Entity*
 	*/
-	void render(const Vehicle& vehicle,
+	void render(const std::vector<Vehicle>& vehicle,
 		    const std::vector<Roomba>& roombas,
 		    const std::vector<Obstacle>& obstacles);
 
