@@ -46,6 +46,7 @@ public:
 	void resize(const glm::ivec2& size);
 
 	Program* getProgram();
+
 	void addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
 		float colorIn[], Program *program, float widthIn, float heightIn);
 
