@@ -180,7 +180,8 @@ void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
 
 void Simulator::createVehicle(Program* prog)
 {
-	vehicles[0] = Vehicle{0.f, 0.f, PI / 4.f, .25f, {.85f, .85f, .85f}, prog};
+	float color[] = {.85f, .85f, .85f};
+	vehicles[0] = Vehicle{0.f, 0.f, PI / 4.f, .25f, color, prog};
 }
 
 const std::vector<Roomba>& Simulator::getRoombaList()
@@ -298,7 +299,7 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 }
 
 // Return 0: not in goal, 1: in goal, 2: in incorrect goal
-int Simulator::roombaInGoal(Roomba& roomba)
+int Simulator::roombaInGoal(const AnimatedEntity& roomba)
 {
 	switch(greenLinePosition)
 	{
