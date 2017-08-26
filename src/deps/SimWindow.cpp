@@ -44,6 +44,7 @@ bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 	if(renderer) {
 		renderer->render(sim->getVehicle(), sim->getRoombaList(),
 				 sim->getObstacleList());
+		attach_buffers();
 		renderer->blit();
 	}
 	return true;
@@ -131,4 +132,9 @@ bool SimWindow::attachHoldHandler(int key, VehiCallback func)
 void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<float> color)
 {
 	sim->createRoomba(x, y, yaw, radius, &renderArea.getProgram(), color.data());
+}
+
+void SimWindow::createObstacle(float x, float y, float yaw, float radius, vector<float> color)
+{
+	sim->createObstacle(x, y, yaw, radius, &renderArea.getProgram(), color.data());
 }
