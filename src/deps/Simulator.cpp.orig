@@ -180,7 +180,12 @@ void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
 
 void Simulator::createVehicle(Program* prog)
 {
-	vehicles[0] = Vehicle{0.f, 0.f, PI / 4.f, .25f, {.85f, .85f, .85f}, prog};
+	if (vehicles.size() == 0)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerOneColor, prog);
+	else if (vehicles.size() == 1)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerTwoColor, prog);
+	else
+		std::cerr << "Why are you making more than two vehicles????\n";
 }
 
 const std::vector<Roomba>& Simulator::getRoombaList()
@@ -298,7 +303,7 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 }
 
 // Return 0: not in goal, 1: in goal, 2: in incorrect goal
-int Simulator::roombaInGoal(Roomba& roomba)
+int Simulator::roombaInGoal(const AnimatedEntity& roomba)
 {
 	switch(greenLinePosition)
 	{
@@ -342,57 +347,3 @@ int Simulator::roombaInGoal(Roomba& roomba)
 
 	return 0;
 }
-<<<<<<< 83267638659c44514cd4a8321da7309a0d5a8efe
-=======
-
-void Simulator::speedDecay(AnimatedEntity& aEnt, const unsigned dt)
-{
-	aEnt.setSpeed(aEnt.getSpeed() - (aEnt.getForceFriction() * dt));
-}
-
-void Simulator::physicsBounce(AnimatedEntity& aEnt)
-{
-
-	// Which wall did we bounce off of?
-	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
-
-	vec2 vinitial(aEnt.getSpeed()*sin(aEnt.getYaw()),
-		aEnt.getSpeed()*cos(aEnt.getYaw()));
-
-	vec2 vfinal;
-
-	if(x >= Constants::arenaSizeX - r || x <= r) // Right or Left wall
-	{
-		vec2 normalV = normalize(vec2(0, 10));
-		vfinal = reflect(vinitial, normalV);
-	} 
-	else // top or bottom wall
-	{
-		vec2 normalV = normalize(vec2(10, 0));
-		vfinal = reflect(vinitial, normalV);
-	}
-
-	
-	// Set the new speed and yaw of the objects
-	aEnt.setSpeed(length(vfinal));
-	aEnt.setYaw(atan2(vfinal[1], vfinal[0]));
-
-}
-
-bool Simulator::isWallCollsion(const AnimatedEntity& aEnt)
-{
-	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
-	if(roombaInGoal(aEnt) == 0)
-	{
-		if(y > Constants::arenaSizeY - r || y < r){
-			return true;
-		}
-		else if(x > Constants::arenaSizeX - r || x < r){
-			return true;
-		}
-	}
-	
-	return false;
-}
-//Comment
->>>>>>> Commit before merge

@@ -180,8 +180,12 @@ void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
 
 void Simulator::createVehicle(Program* prog)
 {
-	float color[] = {.85f, .85f, .85f};
-	vehicles[0] = Vehicle{0.f, 0.f, PI / 4.f, .25f, color, prog};
+	if (vehicles.size() == 0)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerOneColor, prog);
+	else if (vehicles.size() == 1)
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerTwoColor, prog);
+	else
+		std::cerr << "Why are you making more than two vehicles????\n";
 }
 
 const std::vector<Roomba>& Simulator::getRoombaList()

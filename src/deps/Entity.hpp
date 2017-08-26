@@ -8,6 +8,10 @@
 #include "Program.hpp"
 #include "Constants.hpp"
 
+constexpr static float ARENASIZEX = Constants::arenaSizeX;
+constexpr static float ARENASIZEY = Constants::arenaSizeY;
+constexpr static float PI = Constants::pi;
+
 enum class LinePosition {top, bottom, left, right};
 
 class Entity
@@ -22,7 +26,7 @@ public:
 	// Update the position of sub objects based on new position
 	virtual void update() = 0;
 	// Puts render data into openGL buffer and  renders this object
-	virtual void render() = 0;
+	virtual void render() const = 0;
 	// return current x coordinate
 	virtual float getXPos() const;
 	// return current y coordinate

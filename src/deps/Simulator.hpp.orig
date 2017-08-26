@@ -15,6 +15,7 @@
 
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
+#include "Constants.hpp"
 
 
 class Simulator
@@ -76,6 +77,18 @@ private:
 	//Effects updates positions of the animated entities to point at collision
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
+	// Physics for a wall bounce
+	// Effects updates yaw of entity to bounce off of the wall
+	void physicsBounce(AnimatedEntity& aEnt);
+
+	// Checks if a roomba is hitting the wall
+	bool isWallCollsion(const AnimatedEntity& aEnt);
+
+	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
+
+	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	int roombaInGoal(const AnimatedEntity& roomba);
+
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);
 
@@ -97,11 +110,6 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
-<<<<<<< 83267638659c44514cd4a8321da7309a0d5a8efe
-
-=======
-	//Comment 
->>>>>>> Commit before merge
 };
 
 #endif

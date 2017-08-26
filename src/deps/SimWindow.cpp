@@ -21,17 +21,21 @@ RenderArea::RenderArea(shared_ptr<Simulator> sim_in)
 
 void RenderArea::on_map()
 {
+	make_current();
+	throw_if_error();
 	renderer = make_unique<Renderer>();
 	renderer->resize({get_width(), get_height()});
 }
 
 void RenderArea::on_unmap()
 {
+	make_current();
 	renderer.reset();
 }
 
 void RenderArea::on_resize(int width, int height)
 {
+	make_current();
 	if(renderer) renderer->resize({width, height});
 }
 
@@ -43,6 +47,11 @@ bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 		renderer->blit();
 	}
 	return true;
+}
+
+Program* RenderArea::getProgram()
+{
+	return renderer->getProgram();
 }
 
 ////////////////////////////////////////Window//////////////////////////////////////////////////////
@@ -117,4 +126,9 @@ bool SimWindow::attachHoldHandler(int key, VehiCallback func)
 {
 	return get<1>(holdHandlers.insert(
 		pair<int, pair<VehiCallback, bool> >(key, {func, false})));
+}
+
+void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<float> color)
+{
+	sim->createRoomba(x, y, yaw, radius, &renderArea.getProgram(), color.data());
 }

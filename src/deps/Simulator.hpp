@@ -15,6 +15,7 @@
 
 #include "Roomba.hpp"
 #include "Obstacle.hpp"
+#include "Constants.hpp"
 
 
 class Simulator
@@ -75,9 +76,6 @@ private:
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities to point at collision
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
-
-	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);

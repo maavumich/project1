@@ -44,7 +44,7 @@ void Obstacle::update()
 	insidePillar.update();
 }
 
-void Obstacle::render()
+void Obstacle::render() const
 {
 	// Renders all subcomponents in the correct order
 	border.render();

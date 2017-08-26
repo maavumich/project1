@@ -1,38 +1,30 @@
 #include "Renderer.hpp"
+#include <iostream>
 
 using std::cerr;
+using std::vector;
 
 Renderer::Renderer()
 {
-	cur_size.x = 800;
-	cur_size.y = 800;
-	// Create frame buffer
-	glGenFramebuffers(1,&offsFB);
-	glGenRenderbuffers(2,offsRBS.data());
-	glBindFramebuffer(GL_FRAMEBUFFER,offsFB);
-	// Color render buffer setup
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[0]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,cur_size.x,cur_size.y);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,
-		GL_RENDERBUFFER,offsRBS[0]);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	// Depth render buffer setup
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[1]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,
-		cur_size.x,cur_size.y);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,GL_DEPTH_ATTACHMENT,
-		GL_RENDERBUFFER,offsRBS[1]);
-	// Don't need to unbind because there is only one frame buffer
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	// set up offscreen  rendering
+	glGenFramebuffers(1, &OFB);
+	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
+	glGenRenderbuffers(1, &ORB);
+	glBindRenderbuffer(GL_RENDERBUFFER, ORB);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ORB);
+}
+
+Renderer::~Renderer()
+{
+	glDeleteRenderbuffers(1, &ORB);
+	glDeleteFramebuffers(1, &OFB);
 }
 
 void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Roomba> &roombas,
 	const std::vector<Obstacle> &obstacles)
 {
 	//recreateRenderBuffers();
-	glBindFramebuffer(GL_FRAMEBUFFER,offsFB);
+	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// Check the frame buffer status
@@ -93,34 +85,24 @@ Program* Renderer::getProgram()
 
 void Renderer::blit()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER,offsFB);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER,0);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, OFB);
 	glReadBuffer(GL_COLOR_ATTACHMENT0);
-	glBlitFramebuffer(0,0,cur_size.x,cur_size.y,0,0,cur_size.x,cur_size.y,
-		GL_COLOR_BUFFER_BIT,GL_NEAREST);
+	glBlitFramebuffer(0, 0, curSize.x, curSize.y, 0, 0, curSize.x, curSize.y,
+		GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER,0);
 }
 
 void Renderer::resize(const glm::ivec2& size)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER,offsFB);
-	glViewport(0,0,size.x,size.y);
-	// Change color render buffer
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[0]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,size.x,size.y); // TODO TODO
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	glBindRenderbuffer(GL_RENDERBUFFER,0);
-	// Change depth render buffer
-	glBindRenderbuffer(GL_RENDERBUFFER,offsRBS[1]);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_DEPTH_COMPONENT16,
-		size.x,size.y);
-	cur_size = size;
-	glBindFramebuffer(GL_FRAMEBUFFER,0);
+	curSize = size;
+	glViewport(0, 0, size.x, size.y);
+	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
+	glBindRenderbuffer(GL_RENDERBUFFER, ORB);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB565, size.x, size.y);
 }
 
 void Renderer::addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
-	float colorIn[], Program *program, float widthIn, float heightIn)
+	const float *colorIn, Program *program, float widthIn, float heightIn)
 {
 	field.emplace_back(xInit,yInit,yawInit,radiusInit,colorIn,program,widthIn,heightIn);
 }

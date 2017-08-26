@@ -1,6 +1,6 @@
 #include "Rectangle.hpp"
 
-Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
+Rectangle::Rectangle(float xInit, float yInit, float yawInit, float,
 	const float *colorIn, Program *program, float widthIn, float heightIn) :
 	Entity(xInit,yInit,yawInit,yawInit,program),
 	width {widthIn}, height {heightIn}
@@ -10,26 +10,23 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 	color[1] = colorIn[1];
 	color[2] = colorIn[2];
 	// Creates required openGL buffers
-	glGenBuffers(1,&VBO);
-	glGenVertexArrays(1,&VAO);
-	glGenBuffers(1,&EBO);
-	// Binds buffers
+	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
-	// Create attrib pointers
-	glVertexAttribPointer(program->vert(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),(void*)0);
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(renderData), renderData, GL_STREAM_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectangleIndices), rectangleIndices,
+		GL_STREAM_DRAW);
 	glEnableVertexAttribArray(program->vert());
-	glVertexAttribPointer(program->color(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),
-		(void*)(sizeof(float) * 3));
+	glVertexAttribPointer(program->vert(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)0);
 	glEnableVertexAttribArray(program->color());
-	// Create Element buffer data and store it
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(rectangleIndices),rectangleIndices,
-		GL_STATIC_DRAW);
-	// Unbind buffers
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+	glVertexAttribPointer(program->color(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)(sizeof(float) * 3));
+
 	// Sets the color in Render data, as well as depth (z)
 	// Only needs to be set once
 	for (int i {3}; i < 24; i += 6)
@@ -42,6 +39,13 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 	}
 	// Initializes the vertices
 	update();
+}
+
+Rectangle::~Rectangle() noexcept
+{
+	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void Rectangle::update()
@@ -70,17 +74,10 @@ void Rectangle::update()
 	renderData[19] = renderData[19] / ARENASIZEY;
 }
 
-void Rectangle::render()
+void Rectangle::render() const
 {
-	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
-	glDrawElements(GL_TRIANGLES,6, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 float Rectangle::getWidth()

@@ -46,7 +46,7 @@ void Roomba::update()
 	border.update();
 }
 
-void Roomba::render()
+void Roomba::render() const
 {
 	// Renders the parts of the roomba starting from the body and then the panels
 	border.render();
