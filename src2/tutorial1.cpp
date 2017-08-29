@@ -17,6 +17,7 @@
 #include "../src/deps/Roomba.hpp"
 #include "../src/deps/Obstacle.hpp"
 #include "../src/deps/Vehicle.hpp"
+#include "../src/deps/Renderer.hpp"
 #include <memory>
 
 void cinEnder(std::atomic<bool> *run, std::condition_variable *cv)
@@ -41,10 +42,11 @@ void process_input(GLFWwindow* window)
 	}
 }
 
-class Renderer
+
+class Rendererer
 {
 public:
-	Renderer() : vertices {
+	Rendererer() : vertices {
 		-0.5f, -0.5f, 0.0f,
 		 0.0f, 0.0f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
@@ -257,6 +259,7 @@ private:
 	unsigned int VAOCircle;
 };
 
+
 void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	std::atomic<bool> *detachController)
 {
@@ -278,27 +281,41 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	glfwMakeContextCurrent(window);
 	glViewport(0,0,800,800);
 	// Initialize renderer
-	Renderer renderer;
+	Rendererer renderer;
 	// Initialize array of floats that control clear color
 	float colors[3] {0.0,1.0,0.0};
 	float green[3] {0.0f,0.8f,0.0f};
 	float addOns[3] {0.05,-0.025,0.025};
 	// Create an entity to test the rendering with
 	float color[3] {0.0f,0.0f,0.0f};
-	std::shared_ptr<Entity> Trientity = std::make_shared<Triangle>(6.0f,6.0f,1.5f,2.0f,color,
+	std::shared_ptr<Triangle> Trientity = std::make_shared<Triangle>(6.0f,6.0f,1.5f,2.0f,color,
 		&renderer.program);
-	std::shared_ptr<Entity> rectangleEntity = std::make_shared<Rectangle>(-6.0f,6.0f,1.5f,2.0f,
+	std::shared_ptr<Rectangle> rectangleEntity = std::make_shared<Rectangle>(-6.0f,6.0f,1.5f,2.0f,
 		color,&renderer.program,4.0f,2.0f);
-	std::shared_ptr<Entity> circleEntity = std::make_shared<Circle>(6.0f,-6.0f,1.5f,2.0f,color,
+	std::shared_ptr<Circle> circleEntity = std::make_shared<Circle>(6.0f,-6.0f,1.5f,2.0f,color,
 		&renderer.program);
-	std::shared_ptr<Entity> roombaEntity = std::make_shared<Roomba>(-6.0f,-6.0f,1.5f,2.0f,green,
+	// Renderobject stuff
+	// Test the renderObject create the objects for it to use
+	// Set up vehicles stuff
+	Renderer rendererObject;
+	std::vector<Vehicle> vehicles;
+	vehicles.emplace_back(-6.0f,6.0f,1.5f,3.0f,
+		Constants::playerOneColor,rendererObject.getProgram());
+	vehicles.emplace_back(6.0f,6.0f,1.5f,3.0f,
+		Constants::playerTwoColor,rendererObject.getProgram());
+	Vehicle* vehicle1 = &vehicles[0];
+	Vehicle* vehicle2 = &vehicles[1];
+	// Setup roombas stuff
+	std::vector<Roomba> roombas;
+	roombas.emplace_back(-6.0f,-6.0f,1.5f,2.0f,green,
 		&renderer.program);
-	std::shared_ptr<Entity> obstacleEntity = std::make_shared<Obstacle>(6.0f,-6.0f,1.5f,2.0f,
+	Roomba* roombaEntity = &roombas[0];
+	// Set up obstacles stuff
+	std::vector<Obstacle> obstacles;
+	obstacles.emplace_back(6.0f,-6.0f,1.5f,2.0f,
 		Constants::black,&renderer.program);
-	std::shared_ptr<Entity> vehicle1 = std::make_shared<Vehicle>(-6.0f,6.0f,1.5f,3.0f,
-		Constants::playerOneColor,&renderer.program);
-	std::shared_ptr<Entity> vehicle2 = std::make_shared<Vehicle>(6.0f,6.0f,1.5f,3.0f,
-		Constants::playerTwoColor,&renderer.program);
+	Obstacle* obstacleEntity = &obstacles[0];
+	glViewport(0,0,800,800);
 	while(*run && !glfwWindowShouldClose(window))
 	{
 		renderer.renderTriangleSetup();
@@ -313,7 +330,7 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 		// renderer.renderCircle();
 		float yaw = Trientity->getYaw();
 		// Test entities from project0 / project1
-		Renderer::updateTheta(yaw,0.2);
+		Rendererer::updateTheta(yaw,0.2);
 		Trientity->setYaw(yaw);
 		Trientity->update();
 		Trientity->render();
@@ -346,6 +363,9 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 		vehicle2->setYaw(yaw);
 		vehicle2->update();
 		vehicle2->render();
+		// Render and blit the Renderer stuff
+		rendererObject.render(vehicles,roombas,obstacles);
+		rendererObject.blit();
 		// Swap the buffers
 		glfwSwapBuffers(window);
 		// Sleep to take load off of my crappy vm
