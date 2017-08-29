@@ -25,6 +25,13 @@ void RenderArea::on_map()
 	throw_if_error();
 	renderer = make_unique<Renderer>();
 	renderer->resize({get_width(), get_height()});
+	sim->createVehicle(renderer->getProgram());
+	for(auto i : roombaInfo) {
+		sim->createRoomba(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color);
+	}
+	for(auto i : obstacleInfo) {
+		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color);
+	}
 }
 
 void RenderArea::on_unmap()
@@ -50,16 +57,20 @@ bool RenderArea::on_render(const Glib::RefPtr<Gdk::GLContext>&)
 	return true;
 }
 
-Program* RenderArea::getProgram()
+void RenderArea::queueRoombaConstruction(EntityInfo cinfo)
 {
-	return renderer->getProgram();
+	roombaInfo.push_back(cinfo);
+}
+
+void RenderArea::queueObstacleConstruction(EntityInfo cinfo)
+{
+	obstacleInfo.push_back(cinfo);
 }
 
 ////////////////////////////////////////Window//////////////////////////////////////////////////////
 
 SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 {
-	sim = make_shared<Simulator>();
 	set_default_size(800,600);
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
@@ -131,10 +142,10 @@ bool SimWindow::attachHoldHandler(int key, VehiCallback func)
 
 void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<float> color)
 {
-	sim->createRoomba(x, y, yaw, radius, renderArea.getProgram(), color.data());
+	renderArea.queueRoombaConstruction({x, y, yaw, radius, color.data()});
 }
 
 void SimWindow::createObstacle(float x, float y, float yaw, float radius, vector<float> color)
 {
-	sim->createObstacle(x, y, yaw, radius, renderArea.getProgram(), color.data());
+	renderArea.queueObstacleConstruction({x, y, yaw, radius, color.data()});
 }

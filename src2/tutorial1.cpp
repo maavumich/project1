@@ -298,6 +298,7 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	// Test the renderObject create the objects for it to use
 	// Set up vehicles stuff
 	Renderer rendererObject;
+	auto a = rendererObject.getProgram()->prog();
 	std::vector<Vehicle> vehicles;
 	vehicles.emplace_back(-6.0f,6.0f,1.5f,3.0f,
 		Constants::playerOneColor,rendererObject.getProgram());

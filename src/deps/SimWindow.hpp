@@ -38,6 +38,12 @@ typedef std::function<void(Vehicle&)> VehiCallback;
 typedef std::function<void(Roomba&)> RoombaCallback;
 typedef std::function<void(Obstacle&)> ObstCallback;
 
+struct EntityInfo
+{
+	float x, y, yaw, radius;
+	float* color;
+};
+
 /**
 * @brief RenderArea provides a widget-style interface for using the Renderer with a Simulator.
 */
@@ -49,7 +55,19 @@ public:
 	*/
 	explicit RenderArea(std::shared_ptr<Simulator> sim_in);
 
-	Program* getProgram();
+	/**
+	* @brief Queues construction of a roomba object
+	*
+	* @param cinfo Construction info
+	*/
+	void queueRoombaConstruction(EntityInfo cinfo);
+
+	/**
+	* @brief Queues construction of a Obstacle object
+	*
+	* @param cinfo Construction info
+	*/
+	void queueObstacleConstruction(EntityInfo cinfo);
 
 private:
 	// The renderer which draws in this area
@@ -69,6 +87,10 @@ private:
 	// If there is a renderer, processes any buffer requests, if there are any, and Redraws
 	// the scene. If there is not a renderer, does nothing.
 	bool on_render(const Glib::RefPtr<Gdk::GLContext>&);
+
+	// Obstacle and Roomba construction info
+	std::vector<EntityInfo> roombaInfo;
+	std::vector<EntityInfo> obstacleInfo;
 }; // class RenderArea
 
 ///////////////////////////////////////////Window//////////////////////////////////////////////////
