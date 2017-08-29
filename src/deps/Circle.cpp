@@ -58,8 +58,14 @@ void Circle::update()
 	}
 }
 
-void Circle::render() const
+void Circle::render()
 {
+	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
+	glDrawArrays(GL_TRIANGLES,0,360 * 3);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
 	glDrawArrays(GL_TRIANGLES, 0, 360 * 3);
 }
