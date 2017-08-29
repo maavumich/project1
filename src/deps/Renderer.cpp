@@ -28,8 +28,9 @@ Renderer::~Renderer()
 	glDeleteFramebuffers(1, &OFB);
 }
 
-void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Roomba> &roombas,
-	const std::vector<Obstacle> &obstacles)
+void Renderer::render(const std::vector<Vehicle>& vehicles,
+		      const std::vector<Roomba>& roombas,
+		      const std::vector<Obstacle>& obstacles)
 {
 	//recreateRenderBuffers();
 	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
