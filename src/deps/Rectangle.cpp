@@ -74,10 +74,18 @@ void Rectangle::update()
 	renderData[19] = renderData[19] / ARENASIZEY;
 }
 
-void Rectangle::render() const
+void Rectangle::render()
 {
+	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ARRAY_BUFFER,VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
+	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
+	glDrawElements(GL_TRIANGLES,6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 }
 
 float Rectangle::getWidth()

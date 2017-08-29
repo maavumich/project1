@@ -103,7 +103,7 @@ void Vehicle::update()
 	}
 }
 
-void Vehicle::render() const
+void Vehicle::render()
 {
 	// render bars
 	bar1.render();

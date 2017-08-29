@@ -10,7 +10,7 @@ public:
 		const float *colorIn, Program *program, float widthIn, float heightIn);
 	~Rectangle() noexcept;
 	virtual void update();
-	virtual void render() const;
+	virtual void render();
 	float getWidth();
 	float getHeight();
 private:
