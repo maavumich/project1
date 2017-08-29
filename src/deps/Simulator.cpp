@@ -148,6 +148,18 @@ bool Simulator::simulate(const unsigned dt)
 		return true; // return that the game ended
 	}
 
+	for(auto& v : vehicles) {
+		v.update();
+	}
+
+	for(auto& r : roombaList) {
+		r.update();
+	}
+
+	for(auto& o : obstacleList) {
+		o.update();
+	}
+
 	return false; //The game should continue
 
 }
