@@ -64,6 +64,10 @@ private:
 
 	// Current image size
 	glm::ivec2 curSize;
+
+	// Controls the chaning of the colors
+	float colorChangers[3] = {Constants::changeColor[0],Constants::changeColor[1],
+		Constants::changeColor[2]};
 };
 
 #endif

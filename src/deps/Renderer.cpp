@@ -82,9 +82,12 @@ void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Ro
 
 void Renderer::updateColor()
 {
-	color[0] += Constants::changeColor[0];
-	color[1] += Constants::changeColor[1];
-	color[2] += Constants::changeColor[2];
+	for (int i {0}; i < 3; ++i)
+	{
+		color[i] += colorChangers[i];
+		if (color[i] < 0.f || color[i] > 1.f)
+			colorChangers[i] *= -1;
+	}
 }
 
 Program* Renderer::getProgram()
