@@ -6,12 +6,17 @@ using std::vector;
 
 Renderer::Renderer()
 {
+	curSize.x = 800;
+	curSize.y = 800;
 	// set up offscreen  rendering
 	glGenFramebuffers(1, &OFB);
 	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
 	glGenRenderbuffers(1, &ORB);
 	glBindRenderbuffer(GL_RENDERBUFFER, ORB);
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,curSize.x,curSize.y);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ORB);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 Renderer::~Renderer()
