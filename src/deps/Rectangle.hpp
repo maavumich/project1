@@ -8,7 +8,6 @@ class Rectangle : public Entity
 public:
 	Rectangle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *colorIn, Program *program, float widthIn, float heightIn);
-	~Rectangle() noexcept;
 	virtual void update();
 	virtual void render();
 	float getWidth();
@@ -19,9 +18,9 @@ private:
 	float height;
 	float color[3];
 	// Data holding the opengl object ids needed to render
-	GLuint VBO;
-	GLuint VAO;
-	GLuint EBO;
+	unsigned int VBO;
+	unsigned int VAO;
+	unsigned int EBO;
 	// Holds the vertices to be put into an EBO buffer
 	unsigned int rectangleIndices[6] {0,3,2,2,3,1};
 	// Holds the vertices to be rendered as well as the color to use
