@@ -34,8 +34,6 @@ void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Ro
 {
 	//recreateRenderBuffers();
 	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
-	glClear(GL_COLOR_BUFFER_BIT);
 	// Check the frame buffer status
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		cerr << "FRAMEBUFFER ISSUES DETECTED!\n";
@@ -57,6 +55,8 @@ void Renderer::render(const std::vector<Vehicle> &vehicles, const std::vector<Ro
 		glClearColor(Constants::clearColor[0],Constants::clearColor[1],
 			Constants::clearColor[2],1.0f);
 	}
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	glClear(GL_COLOR_BUFFER_BIT);
 	for (auto rectangle : field)
 	{
 		rectangle.render();
@@ -95,12 +95,12 @@ Program* Renderer::getProgram()
 void Renderer::blit()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, OFB);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glReadBuffer(GL_COLOR_ATTACHMENT0);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+	//glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	glBlitFramebuffer(0, 0, curSize.x, curSize.y, 0, 0, curSize.x, curSize.y,
 		GL_COLOR_BUFFER_BIT, GL_NEAREST);
-	glBindFramebuffer(GL_READ_FRAMEBUFFER,0);
+	//glBindFramebuffer(GL_READ_FRAMEBUFFER,0);
 }
 
 void Renderer::resize(const glm::ivec2& size)
