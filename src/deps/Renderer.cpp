@@ -91,7 +91,9 @@ Program* Renderer::getProgram()
 void Renderer::blit()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, OFB);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glReadBuffer(GL_COLOR_ATTACHMENT0);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 	glBlitFramebuffer(0, 0, curSize.x, curSize.y, 0, 0, curSize.x, curSize.y,
 		GL_COLOR_BUFFER_BIT, GL_NEAREST);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER,0);

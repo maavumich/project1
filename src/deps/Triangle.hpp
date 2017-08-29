@@ -9,7 +9,7 @@ public:
 	Triangle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *colorIn, Program *program);
 	virtual void update();
-	virtual void render() const;
+	virtual void render();
 private:
 	float color[3];
 	// Data holding the opengl object ids needed to render

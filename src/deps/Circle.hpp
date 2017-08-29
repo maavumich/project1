@@ -10,7 +10,7 @@ public:
 		const float colorIn[], Program *program);
 	~Circle() noexcept;
 	virtual void update();
-	virtual void render() const;
+	virtual void render();
 private:
 	float color[3];
 	// Data holding the opengl object ids needed to render

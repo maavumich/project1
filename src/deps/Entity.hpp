@@ -26,7 +26,7 @@ public:
 	// Update the position of sub objects based on new position
 	virtual void update() = 0;
 	// Puts render data into openGL buffer and  renders this object
-	virtual void render() const = 0;
+	virtual void render() = 0;
 	// return current x coordinate
 	virtual float getXPos() const;
 	// return current y coordinate
