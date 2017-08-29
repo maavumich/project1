@@ -2,7 +2,6 @@
 #include "Constants.hpp"
 #include <iostream>
 
-using Constants::clearColor;
 using std::cerr;
 using std::vector;
 
@@ -10,7 +9,7 @@ Renderer::Renderer()
 {
 	curSize.x = 800;
 	curSize.y = 800;
-	auto cc = clearColor;
+	auto cc = Constants::clearColor;
 	glClearColor(cc[0], cc[1], cc[2], 0.f);
 	// set up offscreen  rendering
 	glGenFramebuffers(1, &OFB);

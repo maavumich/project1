@@ -41,7 +41,7 @@ protected:
 	float y;
 	float yaw;
 	float radius;
-	unsigned int shaderProgramId;
+	GLuint shaderProgramId;
 	// Constant expressions to
 	constexpr static float ARENASIZEX = Constants::arenaSizeX;
 	constexpr static float ARENASIZEY = Constants::arenaSizeY;
