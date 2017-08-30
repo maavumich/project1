@@ -54,9 +54,11 @@ bool Simulator::simulate(const unsigned dt)
 	// Check for any collisions and update the positions until no overlapping
 	// occurs
 	bool collisionOccurred = true;
-
-	while(collisionOccurred)
+	int count = 0;
+	while(collisionOccurred && (count < 10))
 	{
+		++count;
+		
 		collisionOccurred = false; //First assume no collsions
 		// Comparisons with roombas to check for collisions
 
@@ -213,9 +215,9 @@ void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
 void Simulator::createVehicle(Program* prog)
 {
 	if (vehicles.size() == 0)
-		vehicles.emplace_back(0.f, 0.f, PI / 4.f, 1.f, Constants::playerOneColor, prog);
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .75f, Constants::playerOneColor, prog);
 	else if (vehicles.size() == 1)
-		vehicles.emplace_back(0.f, 0.f, PI / 4.f, 1.f, Constants::playerTwoColor, prog);
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .75f, Constants::playerTwoColor, prog);
 	else
 		std::cerr << "Why are you making more than two vehicles????\n";
 }

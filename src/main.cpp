@@ -19,7 +19,7 @@ void createRoombas(SimWindow& win);
 void createObstacles(SimWindow& win);
 
 
-constexpr float VEHICLE_SPEED = 0.5f;
+constexpr float VEHICLE_SPEED = 1.f;
 
 int main(int argc, char** argv)
 {
