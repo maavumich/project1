@@ -3,12 +3,17 @@
 
 namespace Constants
 {
+	
+	//Define the physics
 	constexpr float roombaMass = 5.0f;
 	constexpr float vehicleMass = 50.0f;
 	constexpr float obstacleMass = 15.0f;
 	constexpr float defaultSpeed = 0.01f;
+	constexpr float coeffFriction = 0.00005; 
+
 	constexpr float arenaSizeX = 10.0f;
 	constexpr float arenaSizeY = 10.0f;
+	
 	constexpr float pi = 3.14159265358979f;
 	constexpr float white[3] = {0.85f,0.8f,0.65f};
 	constexpr float black[3] = {0.0f,0.0f,0.0f};
@@ -29,11 +34,13 @@ namespace Constants
 	// Player identifier colors
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
-	constexpr float coeffFriction = 0.00005; 
+	
 	constexpr bool changeColors = false;
 	constexpr float clearColor[3] = {0.5f,0.6f,0.8f};
 	constexpr float changeColor[3] = {0.05f,-0.025f,0.025f};
 	constexpr float defaultChangeColors[3] = {0.0f,1.0f,0.0f};
+
+
 }
 
 #endif
