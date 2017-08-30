@@ -17,8 +17,17 @@ int main(int argc, char** argv)
 
 	// Attach event handlers here
 	win.setRoombaUpdateFunc(updateRoombaLocation);
-
-	win.createRoomba(5, 5, 0, 0.75, {0.8f,0.f,0.f});
+<<<<<<< 095189f056885ea229aedb7489b86b4002543fa9
+	vector<float> color = {0.8f,0.2f,0.8f};
+	win.createRoomba(2.f, 2.f, 0.f, 0.75f, color);
+	win.createRoomba(10.f, 10.f, 0.f, 0.75f, color);
+	win.createRoomba(10.f, 0.f, 0.f, 0.75f, color);
+	win.createRoomba(0.f, 10.f, 0.f, 0.75f, color);
+	win.createObstacle(5.f,5.f,0.f,0.75f,color);
+	win.setObstacleUpdateFunc([](Obstacle&){});
+=======
+	
+	win.createRoomba(1, 1, 0, 0.75, {0.8f,0.f,0.f});
 
 	// Attach Key Bindings
 	win.attachHoldHandler(GDK_KEY_w, vehicleMoveForward);
@@ -26,6 +35,7 @@ int main(int argc, char** argv)
 	win.attachHoldHandler(GDK_KEY_a, vehicleMoveLeftward);
 	win.attachHoldHandler(GDK_KEY_d, vehicleMoveRightward);
 
+>>>>>>> Fix key input issues
 	return app->run(win);
 }
 
@@ -41,20 +51,23 @@ void updateRoombaLocation(Roomba& roomba)
 	roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
 	//roomba.setPosition(roomba.getXPos() + 0.1f, roomba.getYPos());
 }
+<<<<<<< 095189f056885ea229aedb7489b86b4002543fa9
+=======
 
 void vehicleMoveForward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.1);
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.01f);
 }
 void vehicleMoveBackward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.1);
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.01f);
 }
 void vehicleMoveLeftward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() - 0.1, vehicle.getYPos());
+	vehicle.setPosition(vehicle.getXPos() - 0.01f, vehicle.getYPos());
 }
 void vehicleMoveRightward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() + 0.1, vehicle.getYPos());
+	vehicle.setPosition(vehicle.getXPos() + 0.01f, vehicle.getYPos());
 }
+>>>>>>> Fix key input issues
