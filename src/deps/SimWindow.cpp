@@ -71,7 +71,7 @@ void RenderArea::queueObstacleConstruction(EntityInfo cinfo)
 
 SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 {
-	set_default_size(800,600);
+	set_default_size(800,800);
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
 	Glib::signal_timeout().connect([this]() {
