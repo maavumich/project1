@@ -7,8 +7,6 @@ using std::vector;
 
 Renderer::Renderer()
 {
-	curSize.x = 800;
-	curSize.y = 800;
 	auto cc = Constants::clearColor;
 	glClearColor(cc[0], cc[1], cc[2], 0.f);
 	// set up offscreen  rendering
@@ -16,7 +14,7 @@ Renderer::Renderer()
 	glBindFramebuffer(GL_FRAMEBUFFER, OFB);
 	glGenRenderbuffers(1, &ORB);
 	glBindRenderbuffer(GL_RENDERBUFFER, ORB);
-	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,curSize.x,curSize.y);
+	glRenderbufferStorage(GL_RENDERBUFFER,GL_RGB,800,600);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ORB);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
