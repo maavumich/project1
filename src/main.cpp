@@ -5,6 +5,10 @@ using namespace std;
 
 // Write event handler function prototypes here
 void updateRoombaLocation(Roomba& roomba);
+void vehicleMoveForward(Vehicle& vehicle);
+void vehicleMoveBackward(Vehicle& vehicle);
+void vehicleMoveLeftward(Vehicle& vehicle);
+void vehicleMoveRightward(Vehicle& vehicle);
 
 int main(int argc, char** argv)
 {
@@ -13,13 +17,15 @@ int main(int argc, char** argv)
 
 	// Attach event handlers here
 	win.setRoombaUpdateFunc(updateRoombaLocation);
-	vector<float> color = {0.8f,0.2f,0.8f};
-	win.createRoomba(2.f, 2.f, 0.f, 0.75f, color);
-	win.createRoomba(10.f, 10.f, 0.f, 0.75f, color);
-	win.createRoomba(10.f, 0.f, 0.f, 0.75f, color);
-	win.createRoomba(0.f, 10.f, 0.f, 0.75f, color);
-	win.createObstacle(5.f,5.f,0.f,0.75f,color);
-	win.setObstacleUpdateFunc([](Obstacle&){});
+
+	win.createRoomba(1, 1, 0, 0.75, {0.8f,0.f,0.f});
+
+	// Attach Key Bindings
+	win.attachHoldHandler(GDK_KEY_w, vehicleMoveForward);
+	win.attachHoldHandler(GDK_KEY_s, vehicleMoveBackward);
+	win.attachHoldHandler(GDK_KEY_a, vehicleMoveLeftward);
+	win.attachHoldHandler(GDK_KEY_d, vehicleMoveRightward);
+
 	return app->run(win);
 }
 
