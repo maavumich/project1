@@ -313,6 +313,14 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	std::vector<Roomba> roombas;
 	roombas.emplace_back(2.0f,2.0f,0.75f,1.0f,green,
 		&renderer.program);
+	roombas.emplace_back(0.0f,0.0f,4.0f,1.0f,green,
+		&renderer.program);
+	roombas.emplace_back(0.0f,10.0f,0.75f,1.0f,green,
+		&renderer.program);
+	roombas.emplace_back(10.0f,10.0f,0.75f,1.0f,green,
+		&renderer.program);
+	roombas.emplace_back(10.0f,0.0f,0.75f,1.0f,green,
+		&renderer.program);
 	Roomba* roombaEntity = &roombas[0];
 	// Set up obstacles stuff
 	std::vector<Obstacle> obstacles;

@@ -13,9 +13,13 @@ int main(int argc, char** argv)
 
 	// Attach event handlers here
 	win.setRoombaUpdateFunc(updateRoombaLocation);
-
-	win.createRoomba(1, 1, 0, 0.75, {0.8f,0.f,0.f});
-
+	vector<float> color = {0.8f,0.2f,0.8f};
+	win.createRoomba(2.f, 2.f, 0.f, 0.75f, color);
+	win.createRoomba(10.f, 10.f, 0.f, 0.75f, color);
+	win.createRoomba(10.f, 0.f, 0.f, 0.75f, color);
+	win.createRoomba(0.f, 10.f, 0.f, 0.75f, color);
+	win.createObstacle(5.f,5.f,0.f,0.75f,color);
+	win.setObstacleUpdateFunc([](Obstacle&){});
 	return app->run(win);
 }
 
