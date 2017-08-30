@@ -32,6 +32,10 @@ void RenderArea::on_map()
 	for(auto i : obstacleInfo) {
 		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color.data());
 	}
+	for(auto i : rectangleInfo) {
+		renderer->addRectangle(i.x, i.y, i.yaw, 1.f, i.color.data(), renderer->getProgram(),
+			i.width, i.height);
+	}
 }
 
 void RenderArea::on_unmap()
@@ -67,6 +71,10 @@ void RenderArea::queueObstacleConstruction(EntityInfo cinfo)
 	obstacleInfo.push_back(cinfo);
 }
 
+void RenderArea::queueGridLineConstruction(RectangleInfo cinfo)
+{
+	rectangleInfo.push_back(cinfo);
+}
 ////////////////////////////////////////Window//////////////////////////////////////////////////////
 
 SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
@@ -157,6 +165,22 @@ void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<f
 void SimWindow::createObstacle(float x, float y, float yaw, float radius, vector<float> color)
 {
 	renderArea.queueObstacleConstruction({x, y, yaw, radius, color});
+}
+
+void SimWindow::createGridLine(float x, float y, float yaw, std::vector<float> color, float height,
+		float width)
+{
+	renderArea.queueGridLineConstruction({x, y, yaw, height, width, color});
+}
+
+void SimWindow::setGreenLinePosition(LinePosition newPos)
+{
+	sim->setGreenLinePosition(newPos);
+}
+
+void SimWindow::setRedLinePosition(LinePosition newPos)
+{
+	sim->setRedLinePosition(newPos);
 }
 
 void SimWindow::setRoombaUpdateFunc(RoombaCallback func)
