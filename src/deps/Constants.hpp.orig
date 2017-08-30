@@ -15,25 +15,29 @@ namespace Constants
 	constexpr float pillarWhite[3] = {white[0] + 0.3f, white[1] + 0.3f, white[2] + 0.8f};
 	constexpr float inPillar[3] = {white[0] - 0.4f, white[1] - 0.4f, white[2] - 0.4f};
 	constexpr int numRectsInRing = 360;
+	
 	// Vehicle bars connecting to ring and prop caps
 	constexpr float barColor[3] = {0.6f,0.6f,0.6f};
 	constexpr float propColor[3] = {0.3f,0.3f,0.3f};
 	constexpr float bodyColor[3] = {0.4f,0.4f,0.4f};
 	constexpr float ringColor[3] = {0.4f,0.4f,0.4f};
 	constexpr float propCapColor[3] = {0.65f,0.65f,0.65f};
+	
 	// Prop speed in radians
 	constexpr float propSpeed = 0.3;
+
 	// Player identifier colors
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
-<<<<<<< 1968429082f1cd275e6ac8ef24fc038ed83d0d4d
-	constexpr float coeffFriction = 0.23; 
+<<<<<<< d28fd015a4fcb9001227f0d0c198a5f5b8d336d8
+	constexpr float coeffFriction = 0.23;
 =======
-	constexpr bool changeColors = true;
+	constexpr float coeffFriction = 0.23; 
+	constexpr bool changeColors = false;
 	constexpr float clearColor[3] = {0.6f,0.7f,0.8f};
 	constexpr float changeColor[3] = {0.05f,-0.025f,0.025f};
 	constexpr float defaultChangeColors[3] = {0.0f,1.0f,0.0f};
->>>>>>> Render works now completely.
+>>>>>>> Fix roomba plate color
 }
 
 #endif

@@ -41,7 +41,7 @@ typedef std::function<void(Obstacle&)> ObstCallback;
 struct EntityInfo
 {
 	float x, y, yaw, radius;
-	float* color;
+	std::vector<float> color;
 };
 
 /**
