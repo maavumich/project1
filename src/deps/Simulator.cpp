@@ -37,12 +37,12 @@ bool Simulator::simulate(const unsigned dt)
 	}
 
 	//Update position of all objects
-	for(auto obstacle: obstacleList)
+	for(auto& obstacle: obstacleList)
 	{
 		updateObstacleLocation(obstacle);
 	}
 
-	for(auto roomba: roombaList)
+	for(auto& roomba: roombaList)
 	{
 		updateRoombaLocation(roomba);
 	}
@@ -54,7 +54,6 @@ bool Simulator::simulate(const unsigned dt)
 	while(collisionOccurred)
 	{
 		collisionOccurred = false; //First assume no collsions
-
 		// Comparisons with roombas to check for collisions
 
 		for(auto it = roombaList.begin(), end = roombaList.end();
@@ -81,12 +80,24 @@ bool Simulator::simulate(const unsigned dt)
 				}
 			}
 
+			//std::cout << "For 2 \n";
+
 			//Compare each roomba to the vehicle
 			if(isCollision(*it, vehicles[0]))
 			{
+				//cout << "check 1\n";
 				collisionOccurred = true;
 				physicsCollision(*it, vehicles[0], dt);
 			}
+
+			/*
+			// Check to see if roombas are against a wall
+			if(isWallCollision(*it))
+			{
+				cout << "Collided with Walls\n";
+				collisionOccurred = true;
+				physicsBounce(*it);
+			}*/
 		}
 
 		// Comparisons with obstacles
@@ -110,12 +121,14 @@ bool Simulator::simulate(const unsigned dt)
 				//physicsCollision(*it, vehicle);
 
 				// We have lost the game!
-				cout << "Collsion with an obstacle! You LOSE\n";
+				//cout << "Collsion with an obstacle! You LOSE\n";
 
 				return true; // return that the game ended
 			}
 		}
 	}
+
+	//cout << "Stopped checking collisions\n";
 
 	//check game logic (should we score any points?)-->destroy some roombas
 	//Check did any roombas pass the goal line?
@@ -193,9 +206,9 @@ void Simulator::setObstacleUpdateFunc(std::function<void(Obstacle&)> func)
 void Simulator::createVehicle(Program* prog)
 {
 	if (vehicles.size() == 0)
-		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerOneColor, prog);
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, 1.f, Constants::playerOneColor, prog);
 	else if (vehicles.size() == 1)
-		vehicles.emplace_back(0.f, 0.f, PI / 4.f, .25f, Constants::playerTwoColor, prog);
+		vehicles.emplace_back(0.f, 0.f, PI / 4.f, 1.f, Constants::playerTwoColor, prog);
 	else
 		std::cerr << "Why are you making more than two vehicles????\n";
 }
@@ -299,13 +312,17 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	// Go back in time until there is no collision between objects
 	while(isCollision(aEnt1, aEnt2))
 	{
-		aEnt1FPos = -1.f * vi1 * timestep + aEnt1Pos;
-		aEnt2FPos = -1.f * vi2 * timestep + aEnt2Pos;
+		cout << isCollision(aEnt1,aEnt2);
+
+		aEnt1FPos = -1.f * vi1 * timestep + aEnt1FPos;
+		aEnt2FPos = -1.f * vi2 * timestep + aEnt2FPos;
 
 		//Set the new positions then check for the collision
 		aEnt1.setPosition(aEnt1FPos[0], aEnt1FPos[1]);
 		aEnt2.setPosition(aEnt2FPos[0], aEnt2FPos[1]);
 	}
+
+	assert(!isCollision(aEnt1, aEnt2)); // they aren't colliding
 
 	// Set the new speed and yaw of the objects
 	aEnt1.setSpeed(length(v1final));
@@ -394,15 +411,15 @@ void Simulator::physicsBounce(AnimatedEntity& aEnt)
 
 }
 
-bool Simulator::isWallCollsion(const AnimatedEntity& aEnt)
+bool Simulator::isWallCollision(const AnimatedEntity& aEnt)
 {
 	float x  = aEnt.getXPos(), y  = aEnt.getYPos(), r = aEnt.getRadius();
 	if(roombaInGoal(aEnt) == 0)
 	{
-		if(y > Constants::arenaSizeY - r || y < r){
+		if((y > Constants::arenaSizeY - r) || y < r){
 			return true;
 		}
-		else if(x > Constants::arenaSizeX - r || x < r){
+		else if((x > Constants::arenaSizeX - r) || x < r){
 			return true;
 		}
 	}

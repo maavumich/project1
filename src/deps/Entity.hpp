@@ -21,7 +21,7 @@ public:
 	Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program);
 	// Set the new position
 	virtual void setPosition(float inX, float inY);
-	// Set the new yaw
+	// Set the new yaw in Radians
 	virtual void setYaw(float inTheta);
 	// Update the position of sub objects based on new position
 	virtual void update() = 0;

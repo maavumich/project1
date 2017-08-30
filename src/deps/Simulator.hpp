@@ -82,7 +82,7 @@ private:
 	void physicsBounce(AnimatedEntity& aEnt);
 
 	// Checks if a roomba is hitting the wall
-	bool isWallCollsion(const AnimatedEntity& aEnt);
+	bool isWallCollision(const AnimatedEntity& aEnt);
 
 	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
 
