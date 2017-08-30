@@ -58,7 +58,7 @@ bool Simulator::simulate(const unsigned dt)
 	while(collisionOccurred && (count < 10))
 	{
 		++count;
-		
+
 		collisionOccurred = false; //First assume no collsions
 		// Comparisons with roombas to check for collisions
 
@@ -91,7 +91,6 @@ bool Simulator::simulate(const unsigned dt)
 			//Compare each roomba to the vehicle
 			if(isCollision(*it, vehicles[0]))
 			{
-				cout << "Collided with roomba\n";
 				collisionOccurred = true;
 				physicsCollision(*it, vehicles[0], dt);
 				vehicles[0].setPosition(vehicleInitPos[0], vehicleInitPos[1]);
@@ -101,11 +100,8 @@ bool Simulator::simulate(const unsigned dt)
 			// Check to see if roombas are against a wall
 			if(isWallCollision(*it))
 			{
-				cout << "Collided with Walls\n";
-				cout << "Roomba in goal: " <<  roombaInGoal(*it) << std::endl;
 				collisionOccurred = true;
 				physicsBounce(*it, dt);
-				cout << "New Roomba pos: " << it->getXPos() << " , " << it->getYPos() << std::endl;
 			}
 		}
 
@@ -166,7 +162,6 @@ bool Simulator::simulate(const unsigned dt)
 	//The game has ended
 	if(roombaList.empty())
 	{
-		cout << "All roombas have been scored!\n";
 		return true; // return that the game ended
 	}
 
@@ -324,7 +319,7 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	// Go back in time until there is no collision between objects
 	while(isCollision(aEnt1, aEnt2))
 	{
-		aEnt1FPos = .001f * v1final * timestep + aEnt1FPos;
+		aEnt1FPos = .1f * v1final * timestep + aEnt1FPos;
 		//aEnt2FPos = -0.1f * vi2 * timestep + aEnt2FPos;
 
 		//Set the new positions then check for the collision
@@ -412,14 +407,12 @@ void Simulator::physicsBounce(AnimatedEntity& aEnt, const unsigned dt)
 
 
 		//vfinal = reflect(vinitial, vec2(0, 10));
-		cout << "Hit r/l wall\n";
 	}
 	else // top or bottom wall
 	{
 		//vec2 normalV = normalize(vec2(10, 0));
 		//vfinal = reflect(vinitial, vec2(10, 0));
 		vfinal = {vinitial[0], -1*vinitial[1]};
-		cout << "Hit top or bottom wall\n";
 	}
 
 
@@ -432,7 +425,7 @@ void Simulator::physicsBounce(AnimatedEntity& aEnt, const unsigned dt)
 
 	while(isWallCollision(aEnt))
 	{
-		aEntFPos = .001f * vfinal * timestep + aEntFPos;
+		aEntFPos = .1f * vfinal * timestep + aEntFPos;
 
 		aEnt.setPosition(aEntFPos[0], aEntFPos[1]);
 	}
