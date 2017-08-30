@@ -15,7 +15,7 @@ public:
 
 protected:
 	int mass;
-	float speed = 0; //default zero
+	float speed = Constants::defaultSpeed; //default zero
 	float forceFriction;
 };
 

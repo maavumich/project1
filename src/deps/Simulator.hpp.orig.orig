@@ -77,21 +77,24 @@ private:
 	//Effects updates positions of the animated entities to point at collision
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
-<<<<<<< 6893841d51c076f033ab9083fa7a5a03f4f32fa5
-=======
 	// Physics for a wall bounce
 	// Effects updates yaw of entity to bounce off of the wall
 	void physicsBounce(AnimatedEntity& aEnt);
 
 	// Checks if a roomba is hitting the wall
-	bool isWallCollision(const AnimatedEntity& aEnt);
+	bool isWallCollsion(const AnimatedEntity& aEnt);
 
 	void speedDecay(AnimatedEntity& aEnt1, const unsigned dt);
 
->>>>>>> Got base result spawn one roomba
+<<<<<<< 7a7ae17113fbda1f06afba91583034d65b5c18dc
+	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	int roombaInGoal(const AnimatedEntity& roomba);
+
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
 	int roombaInGoal(Roomba&);
 
+=======
+>>>>>>> Renderer refactor
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;
 
@@ -110,7 +113,14 @@ private:
 	int score = 0;
 
 	std::queue<std::function <void(Vehicle&)> > actionQueue;
+<<<<<<< 12252875b8b50139655257086b7d2585c9887020
+<<<<<<< 83267638659c44514cd4a8321da7309a0d5a8efe
 
+=======
+	//Comment 
+>>>>>>> Commit before merge
+=======
+>>>>>>> Renderer refactor
 };
 
 #endif

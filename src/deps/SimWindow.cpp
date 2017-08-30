@@ -149,3 +149,13 @@ void SimWindow::createObstacle(float x, float y, float yaw, float radius, vector
 {
 	renderArea.queueObstacleConstruction({x, y, yaw, radius, color.data()});
 }
+
+void SimWindow::setRoombaUpdateFunc(RoombaCallback func)
+{
+	sim->setRoombaUpdateFunc(func);
+}
+
+void SimWindow::setObstacleUpdateFunc(ObstCallback func)
+{
+	sim->setObstacleUpdateFunc(func);
+}
