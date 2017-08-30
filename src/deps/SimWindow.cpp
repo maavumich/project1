@@ -75,14 +75,11 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
 	Glib::signal_timeout().connect([this]() {
-		int numKeys = 0;
 		for(const auto& handler : holdHandlers) {
 			if (handler.second.second) {
 				sim->addAction(handler.second.first);
-				numKeys++;
 			}
 		}
-		std::cout << numKeys << std::endl;
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			// won game here
 			get_application()->quit();
@@ -134,7 +131,6 @@ bool SimWindow::on_key_press(GdkEventKey* e)
 		act->second.second = true;
 
 	}
-	std::cout << e->keyval << std::endl;
 	return true;
 }
 
