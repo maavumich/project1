@@ -12,7 +12,7 @@ void vehicleMoveBackward(Vehicle& vehicle);
 void vehicleMoveLeftward(Vehicle& vehicle);
 void vehicleMoveRightward(Vehicle& vehicle);
 
-constexpr float VEHICLE_SPEED = 0.5f;
+constexpr float VEHICLE_SPEED = 1.f;
 
 int main(int argc, char** argv)
 {
