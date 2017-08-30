@@ -90,6 +90,7 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 		}
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			// won game here
+			cout << "Your Score: " << sim->getScore() << endl;
 			get_application()->quit();
 		}
 
