@@ -25,3 +25,13 @@ void AnimatedEntity::setSpeed(float newSpeed)
 float AnimatedEntity::getForceFriction() const{
 	return Constants::coeffFriction * mass;
 }
+
+float AnimatedEntity::getYawPhysics() const
+{
+	return yawPhysics;
+}
+
+void AnimatedEntity::setYawPhysics(float yaw_in)
+{
+	yawPhysics = yaw_in;
+}

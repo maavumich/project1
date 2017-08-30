@@ -75,11 +75,12 @@ private:
 
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities to point at collision
+	//http://vobarian.com/collisions/2dcollisions2.pdf
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
 	// Physics for a wall bounce
 	// Effects updates yaw of entity to bounce off of the wall
-	void physicsBounce(AnimatedEntity& aEnt);
+	void physicsBounce(AnimatedEntity& aEnt, const unsigned dt);
 
 	// Checks if a roomba is hitting the wall
 	bool isWallCollision(const AnimatedEntity& aEnt);
