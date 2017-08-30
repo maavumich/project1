@@ -30,11 +30,12 @@ Simulator::Simulator() {  }
 bool Simulator::simulate(const unsigned dt)
 {
 	//Apply Action which updates position of vehicle
-	if(!actionQueue.empty())
+	while(!actionQueue.empty())
 	{
 		actionQueue.front()(vehicles[0]);
-		actionQueue.front();
+		actionQueue.pop();
 	}
+
 
 	//Update position of all objects
 	for(auto& obstacle: obstacleList)
@@ -234,9 +235,9 @@ int Simulator::getScore()
 	return score;
 }
 
-void Simulator::addAction(std::function <void(Vehicle&)> action)
+void Simulator::addAction(std::function <void(Vehicle&)> action_in)
 {
-	actionQueue.push(action);
+		actionQueue.push(action_in);
 }
 
 // Checks if two objects are colliding
@@ -312,8 +313,6 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	// Go back in time until there is no collision between objects
 	while(isCollision(aEnt1, aEnt2))
 	{
-		cout << isCollision(aEnt1,aEnt2);
-
 		aEnt1FPos = -1.f * vi1 * timestep + aEnt1FPos;
 		aEnt2FPos = -1.f * vi2 * timestep + aEnt2FPos;
 
