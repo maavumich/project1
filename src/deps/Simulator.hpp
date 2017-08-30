@@ -92,8 +92,8 @@ private:
 	std::vector<Obstacle> obstacleList;
 	std::vector<Vehicle> vehicles;
 
-	LinePosition redLinePosition;
-	LinePosition greenLinePosition;
+	LinePosition redLinePosition = LinePosition::left;
+	LinePosition greenLinePosition = LinePosition::right;
 
 	int sizeEnvironment = 10; // Default 10X10m
 	int score = 0;

@@ -96,13 +96,15 @@ bool Simulator::simulate(const unsigned dt)
 			}
 
 
-			/*// Check to see if roombas are against a wall
+			// Check to see if roombas are against a wall
 			if(isWallCollision(*it))
 			{
 				cout << "Collided with Walls\n";
+				cout << "Roomba in goal: " <<  roombaInGoal(*it) << std::endl;
 				collisionOccurred = true;
 				physicsBounce(*it, dt);
-			}*/
+				cout << "New Roomba pos: " << it->getXPos() << " , " << it->getYPos() << std::endl;
+			}
 		}
 
 		// Comparisons with obstacles
@@ -141,7 +143,7 @@ bool Simulator::simulate(const unsigned dt)
 	{
 		//int: 1 if correct goal 2 if wrong goal, 0 if not in any goal
 		int inGoal = roombaInGoal(roombaList[i]);
-		if(inGoal)
+		if(inGoal != 0)
 		{
 			//swap and pop the roomba to destroy it.
 			std::iter_swap(roombaList.begin() + i, roombaList.end() - 1);
@@ -340,22 +342,24 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 // Return 0: not in goal, 1: in goal, 2: in incorrect goal
 int Simulator::roombaInGoal(const AnimatedEntity& roomba)
 {
+	float x  = roomba.getXPos(), y  = roomba.getYPos(), r = roomba.getRadius();
+
 	switch(greenLinePosition)
 	{
 		case LinePosition::top :
-			if(roomba.getYPos() > sizeEnvironment)
+			if(roomba.getYPos() > sizeEnvironment - r)
 				return 1;
 			break;
 		case LinePosition::bottom :
-			if(roomba.getYPos() < 0)
+			if(roomba.getYPos() < r)
 				return 1;
 			break;
 		case LinePosition::left :
-			if(roomba.getXPos() < 0)
+			if(roomba.getXPos() < r)
 				return 1;
 			break;
 		case LinePosition::right :
-			if(roomba.getXPos() > sizeEnvironment)
+			if(roomba.getXPos() > sizeEnvironment - r)
 				return 1;
 			break;
 	}
@@ -363,19 +367,19 @@ int Simulator::roombaInGoal(const AnimatedEntity& roomba)
 	switch(redLinePosition)
 	{
 		case LinePosition::top :
-			if(roomba.getYPos() > sizeEnvironment)
+			if(roomba.getYPos() > sizeEnvironment - r)
 				return 2;
 			break;
 		case LinePosition::bottom :
-			if(roomba.getYPos() < 0)
+			if(roomba.getYPos() < r)
 				return 2;
 			break;
 		case LinePosition::left :
-			if(roomba.getXPos() < 0)
+			if(roomba.getXPos() < r)
 				return 2;
 			break;
 		case LinePosition::right :
-			if(roomba.getXPos() > sizeEnvironment)
+			if(roomba.getXPos() > sizeEnvironment - r)
 				return 2;
 			break;
 	}
