@@ -70,3 +70,4 @@ char Roomba::getColor()
 		return 'b';
 	}
 }
+

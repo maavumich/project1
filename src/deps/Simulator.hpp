@@ -75,6 +75,7 @@ private:
 
 	//Objects collided so what happens to them?
 	//Effects updates positions of the animated entities to point at collision
+	//http://vobarian.com/collisions/2dcollisions2.pdf
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal

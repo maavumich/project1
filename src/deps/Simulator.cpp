@@ -29,6 +29,8 @@ Simulator::Simulator() {  }
 //Called at 16.7 ms
 bool Simulator::simulate(const unsigned dt)
 {
+	vec2 vehicleInitPos(vehicles[0].getXPos(), vehicles[0].getYPos());
+
 	//Apply Action which updates position of vehicle
 	while(!actionQueue.empty())
 	{
@@ -36,16 +38,17 @@ bool Simulator::simulate(const unsigned dt)
 		actionQueue.pop();
 	}
 
-
 	//Update position of all objects
 	for(auto& obstacle: obstacleList)
 	{
 		updateObstacleLocation(obstacle);
+		speedDecay(obstacle, dt);
 	}
 
 	for(auto& roomba: roombaList)
 	{
 		updateRoombaLocation(roomba);
+		speedDecay(roomba, dt);
 	}
 
 	// Check for any collisions and update the positions until no overlapping
@@ -86,18 +89,19 @@ bool Simulator::simulate(const unsigned dt)
 			//Compare each roomba to the vehicle
 			if(isCollision(*it, vehicles[0]))
 			{
-				//cout << "check 1\n";
+				cout << "Collided with roomba\n";
 				collisionOccurred = true;
 				physicsCollision(*it, vehicles[0], dt);
+				vehicles[0].setPosition(vehicleInitPos[0], vehicleInitPos[1]);
 			}
 
-			/*
-			// Check to see if roombas are against a wall
+
+			/*// Check to see if roombas are against a wall
 			if(isWallCollision(*it))
 			{
 				cout << "Collided with Walls\n";
 				collisionOccurred = true;
-				physicsBounce(*it);
+				physicsBounce(*it, dt);
 			}*/
 		}
 
@@ -120,7 +124,7 @@ bool Simulator::simulate(const unsigned dt)
 			{
 				collisionOccurred = true;
 				//physicsCollision(*it, vehicle);
-
+				vehicles[0].setPosition(vehicleInitPos[0], vehicleInitPos[1]);
 				// We have lost the game!
 				//cout << "Collsion with an obstacle! You LOSE\n";
 
@@ -275,24 +279,27 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	vec2 unormal = (aEnt1Pos - aEnt2Pos) / length((aEnt1Pos - aEnt2Pos));
 	vec2 utangent(-1 * unormal[1], unormal[0]);
 
-	// Initial velocity vectors
-	vec2 vi1(aEnt1.getSpeed()*sin(aEnt1.getYaw()),
-		aEnt1.getSpeed()*cos(aEnt1.getYaw()));
+	float aEnt1Yaw = -1 * atan2(unormal[1], unormal[0]);
+	float aEnt2Yaw = atan2(unormal[1], unormal[0]);
 
-	vec2 vi2(aEnt2.getSpeed()*sin(aEnt2.getYaw()),
-		aEnt2.getSpeed()*cos(aEnt2.getYaw()));
+	// Initial velocity vectors
+	vec2 vi1(aEnt1.getSpeed()*cos(aEnt1Yaw),
+		aEnt1.getSpeed()*sin(aEnt1Yaw));
+
+	vec2 vi2(aEnt2.getSpeed()*cos(aEnt2Yaw),
+		aEnt2.getSpeed()*sin(aEnt2Yaw));
 
 	// Normal and tangential scalar velocities
 	float s1norm = dot(unormal, vi1);
-	float s1tan  = dot(unormal, vi1);
+	float s1tan  = dot(utangent, vi1);
 	float s2norm = dot(unormal, vi2);
-	float s2tan  = dot(unormal, vi2);
+	float s2tan  = dot(utangent, vi2);
 
 	// Note: The tangential velocities are not affected by collision
 	// Calculate the normal scalar velocities after the collsion
-	float s1fnorm = s1norm * (mass1 - mass2) + (2 * mass2 * s2norm) /
+	float s1fnorm = (s1norm * (mass1 - mass2) + (2 * mass2 * s2norm)) /
 		(mass1 + mass2);
-	float s2fnorm = s2norm * (mass2 - mass1) + (2 * mass1 * s1norm) /
+	float s2fnorm = (s2norm * (mass2 - mass1) + (2 * mass1 * s1norm)) /
 		(mass1 + mass2);
 
 	// Convert the scalar velocities into vectors
@@ -313,8 +320,8 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 	// Go back in time until there is no collision between objects
 	while(isCollision(aEnt1, aEnt2))
 	{
-		aEnt1FPos = -1.f * vi1 * timestep + aEnt1FPos;
-		aEnt2FPos = -1.f * vi2 * timestep + aEnt2FPos;
+		aEnt1FPos = .001f * v1final * timestep + aEnt1FPos;
+		//aEnt2FPos = -0.1f * vi2 * timestep + aEnt2FPos;
 
 		//Set the new positions then check for the collision
 		aEnt1.setPosition(aEnt1FPos[0], aEnt1FPos[1]);
@@ -325,9 +332,9 @@ void Simulator::physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2,
 
 	// Set the new speed and yaw of the objects
 	aEnt1.setSpeed(length(v1final));
-	aEnt1.setYaw(atan2(v1final[1], v1final[0]));
+	aEnt1.setYawPhysics(atan2(v1final[1], v1final[0]));
 	aEnt2.setSpeed(length(v2final));
-	aEnt2.setYaw(atan2(v2final[1], v2final[0]));
+	aEnt2.setYawPhysics(atan2(v2final[1], v2final[0]));
 }
 
 // Return 0: not in goal, 1: in goal, 2: in incorrect goal

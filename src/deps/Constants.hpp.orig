@@ -29,15 +29,15 @@ namespace Constants
 	// Player identifier colors
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
-<<<<<<< 1af8e18f37911498e58e69eab1abc0e7dda6b9b7
+<<<<<<< 1ce2f82348ddd3b5a33e8b614ed99f1f023185ef
 	constexpr float coeffFriction = 0.23;
 =======
-	constexpr float coeffFriction = 0.23; 
+	constexpr float coeffFriction = 0.00005; 
 	constexpr bool changeColors = false;
 	constexpr float clearColor[3] = {0.5f,0.6f,0.8f};
 	constexpr float changeColor[3] = {0.05f,-0.025f,0.025f};
 	constexpr float defaultChangeColors[3] = {0.0f,1.0f,0.0f};
->>>>>>> Fix key input issues
+>>>>>>> Work on Debugging physics
 }
 
 #endif

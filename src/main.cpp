@@ -2,6 +2,8 @@
 #include "deps/Constants.hpp"
 
 using namespace std;
+using std::cos;
+using std::sin;
 
 // Write event handler function prototypes here
 void updateRoombaLocation(Roomba& roomba);
@@ -9,6 +11,8 @@ void vehicleMoveForward(Vehicle& vehicle);
 void vehicleMoveBackward(Vehicle& vehicle);
 void vehicleMoveLeftward(Vehicle& vehicle);
 void vehicleMoveRightward(Vehicle& vehicle);
+
+constexpr float VEHICLE_SPEED = 0.5f;
 
 int main(int argc, char** argv)
 {
@@ -38,23 +42,56 @@ int main(int argc, char** argv)
 // Effects:  Rotates roomba
 void updateRoombaLocation(Roomba& roomba)
 {
-	roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
+	//roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
 	//roomba.setPosition(roomba.getXPos() + 0.1f, roomba.getYPos());
+	float theta = roomba.getYawPhysics();
+	float speed = roomba.getSpeed() / SIMULATION_DT_MS;	
+
+	roomba.setPosition(roomba.getXPos() +  speed * cos(theta),
+		roomba.getYPos() + speed * sin(theta));
 }
 
 void vehicleMoveForward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.1);
+	vehicle.setYaw(Constants::pi / 2);
+	vehicle.setSpeed(VEHICLE_SPEED);
+
+	float theta = vehicle.getYaw();
+	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
+
+	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
+		vehicle.getYPos() + speed * sin(theta));
 }
 void vehicleMoveBackward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.1);
+	vehicle.setYaw(-1 * Constants::pi / 2);
+	vehicle.setSpeed(VEHICLE_SPEED);
+
+	float theta = vehicle.getYaw();
+	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
+
+	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
+		vehicle.getYPos() + speed * sin(theta));
 }
 void vehicleMoveLeftward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() - 0.1, vehicle.getYPos());
+	vehicle.setYaw(Constants::pi);
+	vehicle.setSpeed(VEHICLE_SPEED);
+
+	float theta = vehicle.getYaw();
+	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
+
+	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
+		vehicle.getYPos() + speed * sin(theta));
 }
 void vehicleMoveRightward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() + 0.1, vehicle.getYPos());
+	vehicle.setYaw(0);
+	vehicle.setSpeed(VEHICLE_SPEED);
+
+	float theta = vehicle.getYaw();
+	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
+
+	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
+		vehicle.getYPos() + speed * sin(theta));
 }
