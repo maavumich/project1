@@ -40,9 +40,9 @@ void Triangle::update()
 	for (int i {0}; i < 3; ++i)
 	{
 		renderData[i * 6] = cos(yaw + i * (2 * PI / 3)) * radius + x;
-		renderData[i * 6] = renderData[i * 6] / ARENASIZEX;
+		renderData[i * 6] = (renderData[i * 6] - ARENASIZEX / 2) / (ARENASIZEX / 2);
 		renderData[i * 6 + 1] = sin(yaw + i * (2 * PI / 3)) * radius + y;
-		renderData[i * 6 + 1] = renderData[i * 6 + 1] / ARENASIZEY;
+		renderData[i * 6 + 1] = (renderData[i * 6 + 1] - ARENASIZEY / 2) / (ARENASIZEY / 2);
 	}
 }
 

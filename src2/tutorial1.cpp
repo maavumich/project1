@@ -288,32 +288,35 @@ void runOpenGL(std::atomic<bool> *run, std::condition_variable *cv,
 	float addOns[3] {0.05,-0.025,0.025};
 	// Create an entity to test the rendering with
 	float color[3] {0.0f,0.0f,0.0f};
-	std::shared_ptr<Triangle> Trientity = std::make_shared<Triangle>(6.0f,6.0f,1.5f,2.0f,color,
+	std::shared_ptr<Triangle> Trientity = std::make_shared<Triangle>(8.0f,8.0f,0.75f,1.0f,color,
 		&renderer.program);
-	std::shared_ptr<Rectangle> rectangleEntity = std::make_shared<Rectangle>(-6.0f,6.0f,1.5f,2.0f,
-		color,&renderer.program,4.0f,2.0f);
-	std::shared_ptr<Circle> circleEntity = std::make_shared<Circle>(6.0f,-6.0f,1.5f,2.0f,color,
+	std::shared_ptr<Rectangle> rectangleEntity = std::make_shared<Rectangle>(2.0f,8.0f,0.75f,1.0f,
+		color,&renderer.program,2.0f,1.0f);
+	std::shared_ptr<Circle> circleEntity = std::make_shared<Circle>(8.0f,-2.0f,0.75f,1.0f,color,
 		&renderer.program);
 	// Renderobject stuff
 	// Test the renderObject create the objects for it to use
 	// Set up vehicles stuff
 	Renderer rendererObject;
-	auto a = rendererObject.getProgram()->prog();
+	glm::ivec2 curSize;
+	curSize.x = 800;
+	curSize.y = 800;
+	rendererObject.resize(curSize);
 	std::vector<Vehicle> vehicles;
-	vehicles.emplace_back(-6.0f,6.0f,1.5f,3.0f,
+	vehicles.emplace_back(2.0f,8.0f,0.75f,1.5f,
 		Constants::playerOneColor,rendererObject.getProgram());
-	vehicles.emplace_back(6.0f,6.0f,1.5f,3.0f,
+	vehicles.emplace_back(8.0f,8.0f,0.75f,1.5f,
 		Constants::playerTwoColor,rendererObject.getProgram());
 	Vehicle* vehicle1 = &vehicles[0];
 	Vehicle* vehicle2 = &vehicles[1];
 	// Setup roombas stuff
 	std::vector<Roomba> roombas;
-	roombas.emplace_back(-6.0f,-6.0f,1.5f,2.0f,green,
+	roombas.emplace_back(2.0f,2.0f,0.75f,1.0f,green,
 		&renderer.program);
 	Roomba* roombaEntity = &roombas[0];
 	// Set up obstacles stuff
 	std::vector<Obstacle> obstacles;
-	obstacles.emplace_back(6.0f,-6.0f,1.5f,2.0f,
+	obstacles.emplace_back(8.0f,2.0f,0.75f,1.0f,
 		Constants::black,&renderer.program);
 	Obstacle* obstacleEntity = &obstacles[0];
 	glViewport(0,0,800,800);

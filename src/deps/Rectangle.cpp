@@ -53,21 +53,21 @@ void Rectangle::update()
 	float wDiv2 = width / 2;
 	float distToVertex = sqrt(hDiv2 * hDiv2 + wDiv2 * wDiv2);
 	renderData[0] = cos(thetaGlobal) * distToVertex + x;
-	renderData[0] = renderData[0] / ARENASIZEX;
+	renderData[0] = (renderData[0] - ARENASIZEX / 2) / (ARENASIZEX / 2);
 	renderData[1] = sin(thetaGlobal) * distToVertex + y;
-	renderData[1] = renderData[1] / ARENASIZEY;
+	renderData[1] = (renderData[1] - ARENASIZEY / 2) / (ARENASIZEY / 2);
 	renderData[6] = -cos(thetaGlobal) * distToVertex + x;
-	renderData[6] = renderData[6] / ARENASIZEX;
+	renderData[6] = (renderData[6] - ARENASIZEX / 2) / (ARENASIZEX / 2);
 	renderData[7] = -sin(thetaGlobal) * distToVertex + y;
-	renderData[7] = renderData[7] / ARENASIZEY;
+	renderData[7] = (renderData[7] - ARENASIZEY / 2) / (ARENASIZEY / 2);
 	renderData[12] = cos(thetaGlobal2) * distToVertex + x;
-	renderData[12] = renderData[12] / ARENASIZEX;
+	renderData[12] = (renderData[12] - ARENASIZEX / 2) / (ARENASIZEX / 2);
 	renderData[13] = sin(thetaGlobal2) * distToVertex + y;
-	renderData[13] = renderData[13] / ARENASIZEY;
+	renderData[13] = (renderData[13] - ARENASIZEY / 2) / (ARENASIZEY / 2);
 	renderData[18] = -cos(thetaGlobal2) * distToVertex + x;
-	renderData[18] = renderData[18] / ARENASIZEX;
+	renderData[18] = (renderData[18] - ARENASIZEX / 2) / (ARENASIZEX / 2);
 	renderData[19] = -sin(thetaGlobal2) * distToVertex + y;
-	renderData[19] = renderData[19] / ARENASIZEY;
+	renderData[19] = (renderData[19] - ARENASIZEY / 2) / (ARENASIZEY / 2);
 }
 
 void Rectangle::render()

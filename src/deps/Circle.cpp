@@ -42,9 +42,11 @@ void Circle::update()
 		for (int ii {0}; ii < 3; ++ii)
 		{
 			renderData[i + 6 * ii] = x + cos(thetas[ii]) * radius;
-			renderData[i + 6 * ii] = renderData[i + 6 * ii] / ARENASIZEX;
+			renderData[i + 6 * ii] = (renderData[i + 6 * ii] - ARENASIZEX / 2)
+				/ (ARENASIZEX / 2);
 			renderData[i + 1 + 6 * ii] = y + sin(thetas[ii]) * radius;
-			renderData[i + 1 + 6 * ii] = renderData[i + 1 + 6 * ii] / ARENASIZEY;
+			renderData[i + 1 + 6 * ii] = (renderData[i + 1 + 6 * ii] - ARENASIZEY / 2)
+				/ (ARENASIZEY / 2);
 			updateTheta(thetas[ii], 2 * PI / (3 * 359));
 		}
 	}
