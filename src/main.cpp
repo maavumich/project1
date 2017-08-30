@@ -12,6 +12,8 @@ void vehicleMoveForward(Vehicle& vehicle);
 void vehicleMoveBackward(Vehicle& vehicle);
 void vehicleMoveLeftward(Vehicle& vehicle);
 void vehicleMoveRightward(Vehicle& vehicle);
+void vehicleYawLeft(Vehicle& vehicle);
+void vehicleYawRight(Vehicle& vehicle);
 
 // Create the grid lines function
 void createGridLines(SimWindow& win);
@@ -130,45 +132,25 @@ void updateRoombaLocation(Roomba& roomba)
 
 void vehicleMoveForward(Vehicle& vehicle)
 {
-	vehicle.setYaw(Constants::pi / 2);
-	vehicle.setSpeed(VEHICLE_SPEED);
-
-	float theta = vehicle.getYaw();
-	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
-
-	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
-		vehicle.getYPos() + speed * sin(theta));
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.05);
 }
 void vehicleMoveBackward(Vehicle& vehicle)
 {
-	vehicle.setYaw(-1 * Constants::pi / 2);
-	vehicle.setSpeed(VEHICLE_SPEED);
-
-	float theta = vehicle.getYaw();
-	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
-
-	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
-		vehicle.getYPos() + speed * sin(theta));
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.05);
 }
 void vehicleMoveLeftward(Vehicle& vehicle)
 {
-	vehicle.setYaw(Constants::pi);
-	vehicle.setSpeed(VEHICLE_SPEED);
-
-	float theta = vehicle.getYaw();
-	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
-
-	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
-		vehicle.getYPos() + speed * sin(theta));
+	vehicle.setPosition(vehicle.getXPos() - 0.05, vehicle.getYPos());
 }
 void vehicleMoveRightward(Vehicle& vehicle)
 {
-	vehicle.setYaw(0);
-	vehicle.setSpeed(VEHICLE_SPEED);
-
-	float theta = vehicle.getYaw();
-	float speed = vehicle.getSpeed() / SIMULATION_DT_MS;
-
-	vehicle.setPosition(vehicle.getXPos() +  speed * cos(theta),
-		vehicle.getYPos() + speed * sin(theta));
+	vehicle.setPosition(vehicle.getXPos() + 0.05, vehicle.getYPos());
+}
+void vehicleYawLeft(Vehicle& vehicle)
+{
+	vehicle.setYaw(vehicle.getYaw() + Constants::pi / 180);
+}
+void vehicleYawRight(Vehicle& vehicle)
+{
+	vehicle.setYaw(vehicle.getYaw() - Constants::pi / 180);
 }

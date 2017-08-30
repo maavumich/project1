@@ -68,6 +68,11 @@ public:
 		redLinePosition = newPos;
 	}
 
+	////////////////TEST COLLISION FUNCTIONS/////////////////////
+	static bool detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b);
+
+	static void resolveCollision(AnimatedEntity* a, AnimatedEntity* b);
+
 private:
 
 	// Checks if two objects are colliding

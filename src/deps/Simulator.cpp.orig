@@ -383,7 +383,7 @@ int Simulator::roombaInGoal(const AnimatedEntity& roomba)
 
 	return 0;
 }
-<<<<<<< 45e0dcd51a01f0f77703069725d5cdf7c946f86d
+<<<<<<< 6046cf314a5f742e6468d65efeadbf6f46edf51d
 =======
 
 void Simulator::speedDecay(AnimatedEntity& aEnt, const unsigned dt)
@@ -452,4 +452,20 @@ bool Simulator::isWallCollision(const AnimatedEntity& aEnt)
 
 	return false;
 }
->>>>>>> Tuned collision
+
+////////////////////TEST PHYSICS/////////////////////////////
+bool Simulator::detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b)
+{
+	float r = a->getRadius() + b->getRadius();
+	float xSum = a->getXPos() + b->getXPos();
+	float ySum = a->getYPos() + b->getYPos();
+	return r * r < ((xSum * xSum) + (ySum * ySum));
+}
+
+void Simulator::resolveCollision(AnimatedEntity* a, AnimatedEntity* b)
+{
+	vec2 dv = a->getVelocity() - b->getVelocity();
+
+
+}
+>>>>>>> Started physics work
