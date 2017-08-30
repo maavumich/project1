@@ -44,6 +44,12 @@ struct EntityInfo
 	std::vector<float> color;
 };
 
+struct RectangleInfo
+{
+	float x, y, yaw, height, width;
+	std::vector<float> color;
+};
+
 /**
 * @brief RenderArea provides a widget-style interface for using the Renderer with a Simulator.
 */
@@ -69,6 +75,13 @@ public:
 	*/
 	void queueObstacleConstruction(EntityInfo cinfo);
 
+	/**
+	* @brief Queues construction of a Rectangle object in Renderer
+	*
+	* @param cinfo Construction info
+	*/
+	void queueGridLineConstruction(RectangleInfo cinfo);
+
 private:
 	// The renderer which draws in this area
 	std::unique_ptr<Renderer> renderer;
@@ -91,6 +104,7 @@ private:
 	// Obstacle and Roomba construction info
 	std::vector<EntityInfo> roombaInfo;
 	std::vector<EntityInfo> obstacleInfo;
+	std::vector<RectangleInfo> rectangleInfo;
 }; // class RenderArea
 
 ///////////////////////////////////////////Window//////////////////////////////////////////////////
@@ -131,6 +145,13 @@ public:
 	void createRoomba(float x, float y, float yaw, float radius, std::vector<float> color);
 
 	void createObstacle(float x, float y, float yaw, float radius, std::vector<float> color);
+
+	void createGridLine(float x, float y, float yaw, std::vector<float> color, float height,
+		float width);
+
+	void setGreenLinePosition(LinePosition newPos);
+
+	void setRedLinePosition(LinePosition newPos);
 
 	void setRoombaUpdateFunc(RoombaCallback func);
 

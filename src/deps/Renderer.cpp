@@ -117,4 +117,6 @@ void Renderer::addRectangle(float xInit, float yInit, float yawInit, float radiu
 	const float *colorIn, Program *program, float widthIn, float heightIn)
 {
 	field.emplace_back(xInit,yInit,yawInit,radiusInit,colorIn,program,widthIn,heightIn);
+	field.back().setYaw(yawInit);
+	field.back().update();
 }
