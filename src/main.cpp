@@ -9,6 +9,8 @@ void vehicleMoveForward(Vehicle& vehicle);
 void vehicleMoveBackward(Vehicle& vehicle);
 void vehicleMoveLeftward(Vehicle& vehicle);
 void vehicleMoveRightward(Vehicle& vehicle);
+void vehicleYawLeft(Vehicle& vehicle);
+void vehicleYawRight(Vehicle& vehicle);
 
 int main(int argc, char** argv)
 {
@@ -25,6 +27,8 @@ int main(int argc, char** argv)
 	win.attachHoldHandler(GDK_KEY_s, vehicleMoveBackward);
 	win.attachHoldHandler(GDK_KEY_a, vehicleMoveLeftward);
 	win.attachHoldHandler(GDK_KEY_d, vehicleMoveRightward);
+	win.attachHoldHandler(GDK_KEY_q, vehicleYawLeft);
+	win.attachHoldHandler(GDK_KEY_e, vehicleYawRight);
 
 	return app->run(win);
 }
@@ -44,17 +48,25 @@ void updateRoombaLocation(Roomba& roomba)
 
 void vehicleMoveForward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.1);
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() + 0.05);
 }
 void vehicleMoveBackward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.1);
+	vehicle.setPosition(vehicle.getXPos(), vehicle.getYPos() - 0.05);
 }
 void vehicleMoveLeftward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() - 0.1, vehicle.getYPos());
+	vehicle.setPosition(vehicle.getXPos() - 0.05, vehicle.getYPos());
 }
 void vehicleMoveRightward(Vehicle& vehicle)
 {
-	vehicle.setPosition(vehicle.getXPos() + 0.1, vehicle.getYPos());
+	vehicle.setPosition(vehicle.getXPos() + 0.05, vehicle.getYPos());
+}
+void vehicleYawLeft(Vehicle& vehicle)
+{
+	vehicle.setYaw(vehicle.getYaw() + Constants::pi / 180);
+}
+void vehicleYawRight(Vehicle& vehicle)
+{
+	vehicle.setYaw(vehicle.getYaw() - Constants::pi / 180);
 }

@@ -425,3 +425,19 @@ bool Simulator::isWallCollision(const AnimatedEntity& aEnt)
 
 	return false;
 }
+
+////////////////////TEST PHYSICS/////////////////////////////
+bool Simulator::detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b)
+{
+	float r = a->getRadius() + b->getRadius();
+	float xSum = a->getXPos() + b->getXPos();
+	float ySum = a->getYPos() + b->getYPos();
+	return r * r < ((xSum * xSum) + (ySum * ySum));
+}
+
+void Simulator::resolveCollision(AnimatedEntity* a, AnimatedEntity* b)
+{
+	vec2 dv = a->getVelocity() - b->getVelocity();
+
+
+}
