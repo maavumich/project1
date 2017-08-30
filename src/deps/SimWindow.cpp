@@ -27,10 +27,10 @@ void RenderArea::on_map()
 	renderer->resize({get_width(), get_height()});
 	sim->createVehicle(renderer->getProgram());
 	for(auto i : roombaInfo) {
-		sim->createRoomba(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color);
+		sim->createRoomba(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color.data());
 	}
 	for(auto i : obstacleInfo) {
-		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color);
+		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color.data());
 	}
 }
 
@@ -142,12 +142,12 @@ bool SimWindow::attachHoldHandler(int key, VehiCallback func)
 
 void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<float> color)
 {
-	renderArea.queueRoombaConstruction({x, y, yaw, radius, color.data()});
+	renderArea.queueRoombaConstruction({x, y, yaw, radius, color});
 }
 
 void SimWindow::createObstacle(float x, float y, float yaw, float radius, vector<float> color)
 {
-	renderArea.queueObstacleConstruction({x, y, yaw, radius, color.data()});
+	renderArea.queueObstacleConstruction({x, y, yaw, radius, color});
 }
 
 void SimWindow::setRoombaUpdateFunc(RoombaCallback func)
