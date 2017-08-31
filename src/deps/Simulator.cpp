@@ -437,7 +437,14 @@ bool Simulator::detectCollision(const AnimatedEntity* const a, const AnimatedEnt
 
 void Simulator::resolveCollision(AnimatedEntity* a, AnimatedEntity* b)
 {
-	vec2 dv = a->getVelocity() - b->getVelocity();
+	vec2 dv = b->getVelocity() - a->getVelocity();
+	vec2 normal = b->getPos() - b->getPos();
+	float nvel = dot(dv, normal);
+	if(nvel > 0) return; // don't resolve if objects moving away from each other
 
-
+	float emin = glm::min(a->getRestitution(), b->getRestitution());
+	float j = -1 * (1 + emin) * nvel;
+	j /= 1/a->getMass() + 1/b->getMass();
+	vec2 impulse = j * normal;
+	a->setVelocity(a->getVelocity() - (1 / a->getMass() * impulse));
 }

@@ -1,27 +1,40 @@
 #include "AnimatedEntity.hpp"
 
-AnimatedEntity::AnimatedEntity(float speedIn, float massIn,float xInit, float yInit, float yawInit,
-	float radiusInit, Program *program) : Entity(xInit,yInit,yawInit,radiusInit,program),
-	mass {massIn}, speed {speedIn}
+AnimatedEntity::AnimatedEntity(float massIn,float xInit,
+			       float yInit, float yawInit,
+			       float radiusInit, float restitutionInt,
+			       Program *program)
+	: Entity(xInit, yInit, yawInit, radiusInit, program), mass{massIn},
+	forceFriction{0}, restitution{restitutionInt}
 {
 
 }
 
-int AnimatedEntity::getMass()
+float AnimatedEntity::getMass() const
 {
 	return mass;
 }
 
-float AnimatedEntity::getSpeed()
+float AnimatedEntity::getSpeed() const
 {
-	return speed;
-}
-
-void AnimatedEntity::setSpeed(float newSpeed)
-{
-	speed = newSpeed;
+	return length(velocity);
 }
 
 float AnimatedEntity::getForceFriction() const{
 	return Constants::coeffFriction * mass;
+}
+
+glm::vec2 AnimatedEntity::getVelocity() const
+{
+	return velocity;
+}
+
+void AnimatedEntity::setVelocity(glm::vec2& vel)
+{
+	velocity = vel;
+}
+
+float AnimatedEntity::getRestitution() const
+{
+	return restitution;
 }

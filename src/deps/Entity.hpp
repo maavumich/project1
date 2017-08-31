@@ -5,6 +5,9 @@
 #include <iostream>
 #include <cstdint>
 #include <epoxy/gl.h>
+#include <glm/vec2.hpp>
+#include <glm/geometric.hpp>// glm::dot, glm::length
+#include <glm/glm.hpp>
 #include "Program.hpp"
 #include "Constants.hpp"
 
@@ -31,6 +34,8 @@ public:
 	virtual float getXPos() const;
 	// return current y coordinate
 	virtual float getYPos() const;
+	// return the position as a vec2
+	virtual glm::vec2 getPos() const;
 	// return current yaw
 	virtual float getYaw() const;
 	// Defines the collision radius

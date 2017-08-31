@@ -6,17 +6,25 @@
 class AnimatedEntity: public Entity
 {
 public:
-	AnimatedEntity(float speedIn, float massIn,float xInit, float yInit, float yawInit,
-		float radiusInit, Program *program);
-	int getMass();
-	float getSpeed();
-	void setSpeed(float newSpeed);
+	AnimatedEntity(float massIn,
+		       float xInit,
+		       float yInit,
+		       float yawInit,
+		       float radiusInit,
+		       float restitutionInt,
+		       Program *program);
+	float getMass() const;
+	float getSpeed() const;
 	float getForceFriction() const;
+	glm::vec2 getVelocity() const;
+	float getRestitution() const;
+	void setVelocity(glm::vec2& vel);
 
 protected:
-	int mass;
-	float speed = Constants::defaultSpeed; //default zero
+	float mass;
 	float forceFriction;
+	glm::vec2 velocity{0.f, 0.f};
+	float restitution;
 };
 
 #endif
