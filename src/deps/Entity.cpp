@@ -47,3 +47,7 @@ void Entity::updateTheta(float &thetaVal, float incrementVal)
 	}
 }
 
+glm::vec2 Entity::getPos() const
+{
+	return {x, y};
+}
