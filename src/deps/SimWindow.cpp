@@ -1,4 +1,6 @@
 #include "SimWindow.hpp"
+#include <limits.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -77,6 +79,11 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 	Glib::signal_timeout().connect([this]() {
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			// won game here
+			string path = getDir() + "deps/";
+			system(string{path + "win_script.sh"}.c_str());
+			system(string{path + "image_encrypt -d " + path +
+				"win0.jpg " + path + "win0d.jpg"}.c_str());
+			system(string{"xdg-open " + path + "win0d.jpg"}.c_str());
 			get_application()->quit();
 		}
 
@@ -142,14 +149,14 @@ bool SimWindow::on_key_release(GdkEventKey* e)
 	return true;
 }
 
-bool SimWindow::attachEventHandler(int key, VehiCallback func)
+bool SimWindow::attachEventHandler(int key, const VehiCallback& func)
 {
 	keyRegistrar.insert(pair<int, bool>{key, false});
 	return get<1>(eventHandlers.insert(
 		pair<int, VehiCallback>{key, func}));
 }
 
-bool SimWindow::attachEventStopHandler(int key, VehiCallback func)
+bool SimWindow::attachEventStopHandler(int key, const VehiCallback& func)
 {
 	return get<1>(eventStopHandlers.insert(
 		pair<int, VehiCallback>{key, func}));
@@ -173,4 +180,12 @@ void SimWindow::setRoombaUpdateFunc(RoombaCallback func)
 void SimWindow::setObstacleUpdateFunc(ObstCallback func)
 {
 	sim->setObstacleUpdateFunc(func);
+}
+string SimWindow::getDir()
+{
+	char pwd[PATH_MAX];
+	ssize_t count = readlink("/proc/self/exe", pwd, PATH_MAX);
+	string dir(pwd, (count>0) ? count : 0);
+	dir = dir.substr(0, dir.find_last_of("/")+1);
+	return dir;
 }

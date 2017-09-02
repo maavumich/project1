@@ -9,11 +9,14 @@
 * attaches.
 *
 * @author Romario Pashollari (rpash@umich.edu)
+*
+* Image Encryptor credit: Mark Watson: https://github.com/markwatson/Image-Encrypt
 */
 
 #include <memory>
 #include <functional>
 #include <map>
+#include <string>
 
 #include <glibmm/main.h>
 #include <gtkmm.h>
@@ -126,8 +129,8 @@ public:
 	*
 	* @return True if this event handler is new, false if it replaced a previous event handler
 	*/
-	bool attachEventHandler(int key, const VehiCallback func);
-	bool attachEventStopHandler(int key, const VehiCallback func);
+	bool attachEventHandler(int key, const VehiCallback& func);
+	bool attachEventStopHandler(int key, const VehiCallback& func);
 
 	void createRoomba(float x, float y, float yaw, float radius, std::vector<float> color);
 
@@ -169,6 +172,9 @@ private:
 	std::map<int, VehiCallback> eventHandlers;
 	std::map<int, VehiCallback> eventStopHandlers;
 	std::map<int, bool> keyRegistrar;
+
+	// Get current directory of this executable
+	std::string getDir();
 }; // Class SimWindow
 
 #endif
