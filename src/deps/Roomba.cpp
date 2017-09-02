@@ -3,8 +3,9 @@
 
 Roomba::Roomba(float xInit, float yInit, float yawInit, float radiusInit,
 	const float *colorIn, Program *program) :
-	AnimatedEntity(Constants::defaultSpeed,
-		Constants::roombaMass,xInit,yInit,yawInit,radiusInit,program),
+	AnimatedEntity(Constants::roombaMass,
+		xInit, yInit, yawInit, radiusInit,
+		Constants::roombaRestitution, program),
 
 	border {Circle(xInit,yInit,yawInit,radiusInit,Constants::black,program)},
 
@@ -21,29 +22,31 @@ Roomba::Roomba(float xInit, float yInit, float yawInit, float radiusInit,
 	color[0] = colorIn[0];
 	color[1] = colorIn[1];
 	color[2] = colorIn[2];
-	update();
+	update(0);
 }
 
-void Roomba::update()
+void Roomba::update(unsigned dt)
 {
+	// update position based on velocity
+	AnimatedEntity::update(dt);
 	// Set the position of the large panel
 	float panelX {radius * 0.3f * (float)cos(yaw) * -1.0f + x};
 	float panelY {radius * 0.3f * (float)sin(yaw) * -1.0f + y};
 	panelLarge.setPosition(panelX,panelY);
 	panelLarge.setYaw(yaw);
-	panelLarge.update();
+	panelLarge.update(dt);
 	// Set the position of the small panel
 	panelSmall.setPosition(x,y);
 	panelSmall.setYaw(yaw);
-	panelSmall.update();
+	panelSmall.update(dt);
 	// Set the position of the roombaBody
 	roombaBody.setPosition(x,y);
 	roombaBody.setYaw(yaw);
-	roombaBody.update();
+	roombaBody.update(dt);
 	// Set the border position and update
 	border.setPosition(x,y);
 	border.setYaw(yaw);
-	border.update();
+	border.update(dt);
 }
 
 void Roomba::render()

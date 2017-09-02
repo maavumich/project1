@@ -24,10 +24,11 @@ public:
 	Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program);
 	// Set the new position
 	virtual void setPosition(float inX, float inY);
+	virtual void setPosition(glm::vec2 pos_in);
 	// Set the new yaw in Radians
 	virtual void setYaw(float inTheta);
 	// Update the position of sub objects based on new position
-	virtual void update() = 0;
+	virtual void update(unsigned dt) = 0;
 	// Puts render data into openGL buffer and  renders this object
 	virtual void render() = 0;
 	// return current x coordinate

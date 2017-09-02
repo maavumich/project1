@@ -13,6 +13,12 @@ void Entity::setPosition(float inX, float inY)
 	y = inY;
 }
 
+void Entity::setPosition(glm::vec2 pos_in)
+{
+	x = pos_in[0];
+	y = pos_in[1];
+}
+
 void Entity::setYaw(float inTheta)
 {
 	yaw = inTheta;

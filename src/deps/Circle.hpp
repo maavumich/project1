@@ -8,7 +8,7 @@ class Circle : public Entity
 public:
 	Circle(float xInit, float yInit, float angleInit, float radiusInit,
 		const float colorIn[], Program *program);
-	virtual void update();
+	virtual void update(unsigned dt);
 	virtual void render();
 private:
 	float color[3];

@@ -75,11 +75,6 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 	set_title("Spooky Thing"); // Credit for name: @dziedada
 
 	Glib::signal_timeout().connect([this]() {
-		for(const auto& handler : holdHandlers) {
-			if (handler.second.second) {
-				sim->addAction(handler.second.first);
-			}
-		}
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			// won game here
 			get_application()->quit();
@@ -125,28 +120,39 @@ bool SimWindow::on_key_press(GdkEventKey* e)
 {
 	if(e->keyval == GDK_KEY_Escape) {
 		get_application()->quit();
-	}
-	const auto& act = holdHandlers.find(e->keyval);
-	if(act != holdHandlers.end()) {
-		act->second.second = true;
-
+	} else {
+		auto func = eventHandlers.find(e->keyval);
+		auto pressed = keyRegistrar.find(e->keyval);
+		if(func != eventHandlers.end() && pressed != keyRegistrar.end() && !pressed->second) {
+			func->second(sim->getVehicle()[0]);
+			pressed->second = true;
+		}
 	}
 	return true;
 }
 
 bool SimWindow::on_key_release(GdkEventKey* e)
 {
-	const auto& act = holdHandlers.find(e->keyval);
-	if(act != holdHandlers.end()) {
-		act->second.second = false;
+	auto func = eventStopHandlers.find(e->keyval);
+	auto pressed = keyRegistrar.find(e->keyval);
+	if(func != eventStopHandlers.end() && pressed != keyRegistrar.end()) {
+		func->second(sim->getVehicle()[0]);
+		pressed->second = false;
 	}
 	return true;
 }
 
-bool SimWindow::attachHoldHandler(int key, VehiCallback func)
+bool SimWindow::attachEventHandler(int key, VehiCallback func)
 {
-	return get<1>(holdHandlers.insert(
-		pair<int, pair<VehiCallback, bool> >(key, {func, false})));
+	keyRegistrar.insert(pair<int, bool>{key, false});
+	return get<1>(eventHandlers.insert(
+		pair<int, VehiCallback>{key, func}));
+}
+
+bool SimWindow::attachEventStopHandler(int key, VehiCallback func)
+{
+	return get<1>(eventStopHandlers.insert(
+		pair<int, VehiCallback>{key, func}));
 }
 
 void SimWindow::createRoomba(float x, float y, float yaw, float radius, vector<float> color)

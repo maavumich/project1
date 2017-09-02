@@ -15,7 +15,7 @@ public:
 	Obstacle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *colorIn, Program *program);
 	virtual void render();
-	virtual void update();
+	virtual void update(unsigned dt);
 	float getSpeed();
 	void setSpeed(float newSpeed);
 	std::function<void(Obstacle&)> updateLocation;
