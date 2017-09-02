@@ -35,3 +35,5 @@ target_link_libraries(maavsquare
 	${EPOXY_LIBRARIES}
 	${GTKMM_LIBRARIES}
 )
+
+add_subdirectory(deps)
