@@ -61,18 +61,15 @@ void Renderer::render(const std::vector<Vehicle>& vehicles,
 	}
 	for (auto roomba : roombas)
 	{
-		roomba.update();
 		roomba.render();
 	}
 	for (auto obstacle : obstacles)
 	{
-		obstacle.update();
 		obstacle.render();
 	}
 	// Renders the vehicle last
 	for (auto vehicle : vehicles)
 	{
-		vehicle.update();
 		vehicle.render();
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER,0);

@@ -1,7 +1,7 @@
 /**
 * @file Simulator.hpp
 *
-* @author Ryan Wunderly (rywunder@umich.edu)
+* @author Ryan Wunderly (rywunder@umich.edu), Romario Pashollari (rpash@umich.edu)
 * @date 2017-08-22
 */
 
@@ -51,7 +51,7 @@ public:
 	const std::vector<Obstacle>& getObstacleList();
 
 	// Returns the vector of Vehicles
-	const std::vector<Vehicle>& getVehicle();
+	std::vector<Vehicle>& getVehicle();
 
 	// Get score to update text
 	int getScore();
@@ -68,10 +68,6 @@ public:
 		redLinePosition = newPos;
 	}
 
-	////////////////TEST COLLISION FUNCTIONS/////////////////////
-	static bool detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b);
-
-	static void resolveCollision(AnimatedEntity* a, AnimatedEntity* b);
 
 private:
 
@@ -84,7 +80,15 @@ private:
 	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
 
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
-	int roombaInGoal(Roomba&);
+	int roombaInGoal(const Roomba* const roomba);
+
+	// Collision detection and resolution
+	bool detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b);
+	void resolveCollision(AnimatedEntity* a, AnimatedEntity* b);
+	void handleWallCollision(AnimatedEntity* a);
+	void handleWallCollision(Roomba* a);
+	void handleWallCollision(Obstacle* a);
+	void handleWallCollision(Vehicle* a);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;

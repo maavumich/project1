@@ -140,7 +140,8 @@ public:
 	*
 	* @return True if this event handler is new, false if it replaced a previous event handler
 	*/
-	bool attachHoldHandler(int key, const VehiCallback func);
+	bool attachEventHandler(int key, const VehiCallback func);
+	bool attachEventStopHandler(int key, const VehiCallback func);
 
 	void createRoomba(float x, float y, float yaw, float radius, std::vector<float> color);
 
@@ -186,7 +187,9 @@ private:
 	sigc::connection timeout;
 
 	// Container for all attached key handlers
-	std::map<int, std::pair<VehiCallback, bool> > holdHandlers;
+	std::map<int, VehiCallback> eventHandlers;
+	std::map<int, VehiCallback> eventStopHandlers;
+	std::map<int, bool> keyRegistrar;
 }; // Class SimWindow
 
 #endif

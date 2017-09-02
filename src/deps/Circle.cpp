@@ -31,10 +31,10 @@ Circle::Circle(float xInit, float yInit, float yawInit, float radiusInit,
 		renderData[i - 1] = 0.0f;
 	}
 	// Initializes the vertices
-	update();
+	update(0);
 }
 
-void Circle::update()
+void Circle::update(unsigned)
 {
 	float thetas[3] {0.0f, 2.0f * PI / 3.0f, 4.0f * PI / 3.0f};
 	for (int i {0}; i < 18 * 360; i += 18)

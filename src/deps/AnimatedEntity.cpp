@@ -29,9 +29,24 @@ glm::vec2 AnimatedEntity::getVelocity() const
 	return velocity;
 }
 
-void AnimatedEntity::setVelocity(glm::vec2& vel)
+glm::vec2 AnimatedEntity::getCollisionVel() const
+{
+	return collisionVelocity;
+}
+
+glm::vec2 AnimatedEntity::getVelocitySum() const
+{
+	return velocity + collisionVelocity;
+}
+
+void AnimatedEntity::setVelocity(glm::vec2 vel)
 {
 	velocity = vel;
+}
+
+void AnimatedEntity::setCollisionVel(glm::vec2 vel)
+{
+	collisionVelocity = vel;
 }
 
 float AnimatedEntity::getRestitution() const
@@ -39,12 +54,9 @@ float AnimatedEntity::getRestitution() const
 	return restitution;
 }
 
-float AnimatedEntity::getYawPhysics() const
+void AnimatedEntity::update(unsigned dt)
 {
-	return yawPhysics;
-}
-
-void AnimatedEntity::setYawPhysics(float yaw_in)
-{
-	yawPhysics = yaw_in;
+	x += getVelocitySum()[0] * dt / 1000;
+	y += getVelocitySum()[1] * dt / 1000;
+	collisionVelocity -= 0.2f * collisionVelocity / mass;
 }

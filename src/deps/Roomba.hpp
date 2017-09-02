@@ -11,10 +11,21 @@
 class Roomba : public AnimatedEntity
 {
 public:
+	/**
+	* @brief Creates Roomba to render
+	*
+	* @param xInit Initial x position
+	* @param yInit Initial y position
+	* @param yawInit Initial yaw
+	* @param radiusInit Radius of roomba
+	* @param color Colot of plate
+	* @param program The shader program to use in drawing this Roomba
+	*/
 	Roomba(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *color, Program *program);
+
 	// Update
-	virtual void update();
+	virtual void update(unsigned dt);
 	// Called by renderer to render object
 	virtual void render();
 	// Returns 'r' for red, 'g' for green, 'b' for blue

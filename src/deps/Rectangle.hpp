@@ -8,7 +8,7 @@ class Rectangle : public Entity
 public:
 	Rectangle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float *colorIn, Program *program, float widthIn, float heightIn);
-	virtual void update();
+	virtual void update(unsigned dt);
 	virtual void render();
 	float getWidth();
 	float getHeight();

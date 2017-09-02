@@ -41,10 +41,10 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 		renderData[i - 1] = 0.0f;
 	}
 	// Initializes the vertices
-	update();
+	update(0);
 }
 
-void Rectangle::update()
+void Rectangle::update(unsigned)
 {
 	float theta = atan(height/width);
 	float thetaGlobal = theta + yaw - PI / 2;

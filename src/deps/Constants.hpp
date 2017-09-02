@@ -20,6 +20,9 @@ namespace Constants
 	constexpr float pillarWhite[3] = {white[0] + 0.3f, white[1] + 0.3f, white[2] + 0.8f};
 	constexpr float inPillar[3] = {white[0] - 0.4f, white[1] - 0.4f, white[2] - 0.4f};
 	constexpr int numRectsInRing = 360;
+	constexpr float roombaRestitution = 0.2;
+	constexpr float obstacleRestitution = 0.2;
+	constexpr float vehicleRestitution = 0.3;
 
 	// Vehicle bars connecting to ring and prop caps
 	constexpr float barColor[3] = {0.6f,0.6f,0.6f};
@@ -35,6 +38,12 @@ namespace Constants
 	constexpr float playerOneColor[3] = {0.7f,0.7f,0.0f};
 	constexpr float playerTwoColor[3] = {0.6f,0.0f,0.7f};
 	constexpr float coeffFriction = 0.23;
+	constexpr bool changeColors = false;
+	constexpr float clearColor[3] = {0.5f,0.6f,0.8f};
+	constexpr float changeColor[3] = {0.05f,-0.025f,0.025f};
+	constexpr float defaultChangeColors[3] = {0.0f,1.0f,0.0f};
+
+
 }
 
 #endif

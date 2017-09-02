@@ -13,7 +13,7 @@ class Vehicle : public AnimatedEntity
 public:
 	Vehicle(float xInit, float yInit, float yawInit, float radiusInit,
 		const float* colorIn, Program *program);
-	virtual void update();
+	virtual void update(unsigned dt);
 	virtual void render();
 private:
 	Rectangle body;
