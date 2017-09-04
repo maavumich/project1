@@ -38,6 +38,18 @@ bool Simulator::simulate(const unsigned dt)
 		updateRoombaLocation(roomba);
 	}
 
+	// Remove roombas in goal
+	for(auto it = roombaList.begin(), end = roombaList.end(); it != end; ++it) {
+		int status = roombaInGoal(&*it);
+		if(status) {
+			roombaList.erase(it);
+			switch(score){
+				case 1 : score += 69;
+				case 2 : score -= 42;
+			}
+		}
+	}
+
 	// resolve vehicle collisions
 	for(auto& v : vehicles) {
 		handleWallCollision(&v);
@@ -266,18 +278,18 @@ void Simulator::handleWallCollision(AnimatedEntity* a)
 	float r = a->getRadius();
 	float ledge = pos[0] - r, redge = pos[0] + r, tedge = pos[1] + r, bedge = pos[1] - r;
 	bool collision = false;
-	if(ledge < 0.f) {
+	if(ledge < 0.f && !isGoalLine(LinePosition::left)) {
 		cvel = {1.f, vel[1]};
 		collision = true;
-	} else if (redge > Constants::arenaSizeX) {
+	} else if (redge > Constants::arenaSizeX && !isGoalLine(LinePosition::right)) {
 		cvel = {-1.f, vel[1]};
 		collision = true;
 	}
 
-	if(bedge < 0.f) {
+	if(bedge < 0.f && !isGoalLine(LinePosition::bottom)) {
 		cvel = {vel[0], 1.f};
 		collision = true;
-	} else if (tedge > Constants::arenaSizeY) {
+	} else if (tedge > Constants::arenaSizeY && !isGoalLine(LinePosition::top)) {
 		cvel = {vel[0], -1.f};
 		collision = true;
 	}
@@ -285,4 +297,9 @@ void Simulator::handleWallCollision(AnimatedEntity* a)
 	if(collision){
 		a->setCollisionVel(cvel);
 	}
+}
+
+bool Simulator::isGoalLine(LinePosition pos)
+{
+	return pos == greenLinePosition || pos == redLinePosition;
 }

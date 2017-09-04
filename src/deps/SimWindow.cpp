@@ -1,6 +1,7 @@
 #include "SimWindow.hpp"
 #include <limits.h>
 #include <unistd.h>
+#include <thread>
 
 using namespace std;
 
@@ -78,12 +79,9 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 
 	Glib::signal_timeout().connect([this]() {
 		if(sim->simulate(SIMULATION_DT_MS)) {
-			// won game here
 			string path = getDir() + "deps/";
+			iconify();
 			system(string{path + "win_script.sh"}.c_str());
-			system(string{path + "image_encrypt -d " + path +
-				"win0.jpg " + path + "win0d.jpg"}.c_str());
-			system(string{"xdg-open " + path + "win0d.jpg"}.c_str());
 			get_application()->quit();
 		}
 
