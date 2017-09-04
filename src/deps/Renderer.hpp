@@ -44,12 +44,12 @@ public:
 
 	Program* getProgram();
 
-	void addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
+	void addRectangle(float xInit, float yInit, float yawInit,
 		const float *colorIn, Program *program, float widthIn, float heightIn);
 
 private:
 	// Color array when using changing colors
-	float color[3] = {Constants::defaultChangeColors[0],Constants::defaultChangeColors[1],
+	float color[3] = {Constants::defaultChangeColors[0], Constants::defaultChangeColors[1],
 		Constants::defaultChangeColors[2]};
 	// updates the clear color if using the changing colors mode
 	void updateColor();
@@ -66,7 +66,7 @@ private:
 	glm::ivec2 curSize;
 
 	// Controls the chaning of the colors
-	float colorChangers[3] = {Constants::changeColor[0],Constants::changeColor[1],
+	float colorChangers[3] = {Constants::changeColor[0], Constants::changeColor[1],
 		Constants::changeColor[2]};
 };
 

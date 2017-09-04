@@ -110,10 +110,10 @@ void Renderer::resize(const glm::ivec2& size)
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGB565, size.x, size.y);
 }
 
-void Renderer::addRectangle(float xInit, float yInit, float yawInit, float radiusInit,
+void Renderer::addRectangle(float xInit, float yInit, float yawInit,
 	const float *colorIn, Program *program, float widthIn, float heightIn)
 {
-	field.emplace_back(xInit,yInit,yawInit,radiusInit,colorIn,program,widthIn,heightIn);
+	field.emplace_back(xInit, yInit, yawInit, colorIn, program, widthIn, heightIn);
 	field.back().setYaw(yawInit);
-	field.back().update();
+	field.back().update(0);
 }

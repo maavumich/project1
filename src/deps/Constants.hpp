@@ -9,7 +9,6 @@ namespace Constants
 	constexpr float vehicleMass = 50.0f;
 	constexpr float obstacleMass = 15.0f;
 	constexpr float defaultSpeed = 0.01f;
-	constexpr float coeffFriction = 0.00005;
 
 	constexpr float arenaSizeX = 10.0f;
 	constexpr float arenaSizeY = 10.0f;

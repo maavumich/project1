@@ -91,6 +91,7 @@ private:
 
 	// A shard pointer to the simulator
 	std::shared_ptr<Simulator> sim;
+
 	// Sets up a new renderer when the window is mapped.
 	void on_map();
 
@@ -137,6 +138,7 @@ public:
 	* The event must be passed in as a GDK keysym. A list can be found here:
 	* https://git.gnome.org/browse/gtk+/tree/gdk/gdkkeysyms.h
 	* The `func` parameter can be either a function pointer, a functor, or a lambda.
+	* (Hint: change vehicle velocites not positions)
 	*
 	* @param key The event (as an int) which this event handler is associated with.
 	* @param func The function that handles this event. It operates on the simulator
@@ -144,21 +146,86 @@ public:
 	* @return True if this event handler is new, false if it replaced a previous event handler
 	*/
 	bool attachEventHandler(int key, const VehiCallback& func);
+
+	/**
+	* @brief Attach an event un-handler to this window
+	*
+	* @details These event handlers must generally undo any changes made by those attached by
+	* `attachEventHandler`. This is what will make the Simulator stop doing what the attached
+	* event handler has it do. Essentially, an event will activate upon keypress. these event
+	* "stoppers" will activate once the key is released.
+	* (Hint: change vehicle velocites not positions)
+	*
+	* @param key The key for which the event should be stopped
+	* @param func The function which stops the event
+	*
+	* @return
+	*/
 	bool attachEventStopHandler(int key, const VehiCallback& func);
 
+	/**
+	* @brief Creates a Roomba on the field
+	*
+	* @param x The initial x position
+	* @param y The initial y position
+	* @param yaw The intial yaw
+	* @param radius The radius
+	* @param color The color in RGB [0, 1]
+	*/
 	void createRoomba(float x, float y, float yaw, float radius, std::vector<float> color);
 
+	/**
+	* @brief Creates an Obstacle on the field
+	*
+	* @param x The initial x position
+	* @param y The initial y position
+	* @param yaw The intial yaw
+	* @param radius The radius
+	* @param color The color in RGB [0, 1]
+	*/
 	void createObstacle(float x, float y, float yaw, float radius, std::vector<float> color);
 
+	/**
+	* @brief Creates a rectangle representing grid lines on the field
+	*
+	* @param x The x position
+	* @param y The y position
+	* @param yaw The yaw or angle of the Rectangle
+	* @param color The color
+	* @param height The height of the rectangle
+	* @param width The width of the rectangle
+	*/
 	void createGridLine(float x, float y, float yaw, std::vector<float> color, float height,
 		float width);
 
+	/**
+	* @brief Sets the green goal line position
+	*
+	* @param newPos The position to set the green goal line to
+	*/
 	void setGreenLinePosition(LinePosition newPos);
 
+	/**
+	* @brief Sets the red line position
+	*
+	* @param newPos The position to set the red line to
+	*/
 	void setRedLinePosition(LinePosition newPos);
 
+	/**
+	* @brief Sets the function that should be called each simulator step to update roombas
+	* (Hint: change roomba velocities not positions)
+	*
+	* @param func The update function
+	*/
 	void setRoombaUpdateFunc(RoombaCallback func);
 
+	/**
+	* @brief Sets the function that should be called each simulation step to update obstacles
+	* (Hint: change obstacle velocities not positions)
+	*
+	* @param func
+	*/
 	void setObstacleUpdateFunc(ObstCallback func);
 
 protected:

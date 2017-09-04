@@ -138,11 +138,6 @@ void updateRoombaLocation(Roomba& roomba)
 {
 	//roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
 	//roomba.setPosition(roomba.getXPos() + 0.1f, roomba.getYPos());
-	float theta = roomba.getYawPhysics();
-	float speed = roomba.getSpeed() / SIMULATION_DT_MS;
-
-	roomba.setPosition(roomba.getXPos() +  speed * cos(theta),
-		roomba.getYPos() + speed * sin(theta));
 }
 
 void vehicleMoveForward(Vehicle& vehicle)

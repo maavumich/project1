@@ -21,18 +21,31 @@ public:
 	* @param color Colot of plate
 	* @param program The shader program to use in drawing this Roomba
 	*/
-	Roomba(float xInit, float yInit, float yawInit, float radiusInit,
-		const float *color, Program *program);
+	Roomba(float xInit,
+	       float yInit,
+	       float yawInit,
+	       float radiusInit,
+	       const float *color,
+	       Program *program);
 
-	// Update
+	/**
+	* @brief Updates the position and vertex data
+	*
+	* @param dt Time since the last simulation step in milliseconds
+	*/
 	virtual void update(unsigned dt);
-	// Called by renderer to render object
+
+	/**
+	* @brief Draws this object in the rendered world
+	*/
 	virtual void render();
-	// Returns 'r' for red, 'g' for green, 'b' for blue
+
+	/**
+	* @brief Gets the color as a character. r for red, g for green, b for blue
+	*
+	* @return The color: red, green, or blue
+	*/
 	char getColor();
-	
-	// Updates the location of this object
-	std::function<void(Roomba&)> updateLocation;
 private:
 	float color[3];
 	Circle border;

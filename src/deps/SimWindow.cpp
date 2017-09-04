@@ -30,13 +30,15 @@ void RenderArea::on_map()
 	renderer->resize({get_width(), get_height()});
 	sim->createVehicle(renderer->getProgram());
 	for(auto i : roombaInfo) {
-		sim->createRoomba(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color.data());
+		sim->createRoomba(i.x, i.y, i.yaw, i.radius, renderer->getProgram(),
+			i.color.data());
 	}
 	for(auto i : obstacleInfo) {
-		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(), i.color.data());
+		sim->createObstacle(i.x, i.y, i.yaw, i.radius, renderer->getProgram(),
+			i.color.data());
 	}
 	for(auto i : rectangleInfo) {
-		renderer->addRectangle(i.x, i.y, i.yaw, 1.f, i.color.data(), renderer->getProgram(),
+		renderer->addRectangle(i.x, i.y, i.yaw, i.color.data(), renderer->getProgram(),
 			i.width, i.height);
 	}
 }
@@ -88,8 +90,8 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 	Glib::signal_timeout().connect([this]() {
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			string path = getDir() + "deps/";
-			iconify();
-			system(string{path + "win_script.sh"}.c_str());
+			cerr << "Your score: " << sim->getScore() << endl;
+			system(string{path + "win_script.sh &"}.c_str());
 			get_application()->quit();
 		}
 

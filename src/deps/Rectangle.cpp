@@ -1,8 +1,13 @@
 #include "Rectangle.hpp"
 
-Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
-	const float *colorIn, Program *program, float widthIn, float heightIn) :
-	Entity(xInit,yInit,yawInit,yawInit,program),
+Rectangle::Rectangle(float xInit,
+		     float yInit,
+		     float yawInit,
+		     const float *colorIn,
+		     Program *program,
+		     float widthIn,
+		     float heightIn) :
+	Entity(xInit, yInit, yawInit, widthIn, program),
 	width {widthIn}, height {heightIn}
 {
 	// Initialize color
@@ -10,31 +15,32 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 	color[1] = colorIn[1];
 	color[2] = colorIn[2];
 	// Creates required openGL buffers
-	glGenBuffers(1,&VBO);
-	glGenVertexArrays(1,&VAO);
-	glGenBuffers(1,&EBO);
+	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &EBO);
 	// Binds buffers
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	// Create attrib pointers
-	glVertexAttribPointer(program->vert(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),(void*)0);
+	glVertexAttribPointer(program->vert(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)0);
 	glEnableVertexAttribArray(program->vert());
-	glVertexAttribPointer(program->color(),3,GL_FLOAT,GL_FALSE,6 * sizeof(float),
-		(void*)(sizeof(float) * 3));
+	glVertexAttribPointer(program->color(), 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+		(GLvoid*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(program->color());
 	// Create Element buffer data and store it
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(rectangleIndices),rectangleIndices,
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(rectangleIndices), rectangleIndices,
 		GL_STATIC_DRAW);
 	// Unbind buffers
 	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	// Sets the color in Render data, as well as depth (z)
 	// Only needs to be set once
-	for (int i {3}; i < 24; i += 6)
+	for (int i = 3; i < 24; i += 6)
 	{
-		for (int ii {0}; ii < 3; ++ii)
+		for (int ii = 0; ii < 3; ++ii)
 		{
 			renderData[i + ii] = color[ii];
 		}
@@ -46,7 +52,7 @@ Rectangle::Rectangle(float xInit, float yInit, float angleInit, float yawInit,
 
 void Rectangle::update(unsigned)
 {
-	float theta = atan(height/width);
+	float theta = atan(height / width);
 	float thetaGlobal = theta + yaw - PI / 2;
 	float thetaGlobal2 = thetaGlobal + (PI / 2 - theta) * 2;
 	float hDiv2 = height / 2;
@@ -74,13 +80,13 @@ void Rectangle::render()
 {
 	glUseProgram(shaderProgramId);
 	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,EBO);
-	glBufferData(GL_ARRAY_BUFFER,sizeof(renderData),renderData,GL_STREAM_DRAW);
-	glDrawElements(GL_TRIANGLES,6, GL_UNSIGNED_INT, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(renderData), renderData, GL_STREAM_DRAW);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER,0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 float Rectangle::getWidth()

@@ -1,8 +1,13 @@
 #include "Entity.hpp"
 
-Entity::Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program) :
-	x {xInit}, y {yInit}, yaw {yawInit}, radius {radiusInit},
-	shaderProgramId {program->prog()}
+Entity::Entity(float xInit,
+	       float yInit,
+	       float yawInit,
+	       float radiusInit,
+	       Program *program)
+	: x {xInit}, y {yInit},
+	  yaw {yawInit}, radius {radiusInit},
+	  shaderProgramId {program->prog()}
 {
 
 }

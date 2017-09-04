@@ -31,13 +31,11 @@ bool Simulator::simulate(const unsigned dt)
 	for(auto& obstacle: obstacleList)
 	{
 		updateObstacleLocation(obstacle);
-		speedDecay(obstacle, dt);
 	}
 
 	for(auto& roomba: roombaList)
 	{
 		updateRoombaLocation(roomba);
-		speedDecay(roomba, dt);
 	}
 
 	// Remove roombas in goal
@@ -67,7 +65,8 @@ bool Simulator::simulate(const unsigned dt)
 		}
 		for(auto& o : obstacleList) {
 			if(detectCollision(&v, &o)) {
-				resolveCollision(&v, &o);
+				return true; // Game ends on collision with obstacle
+				//resolveCollision(&v, &o);
 			}
 		}
 	}
@@ -155,12 +154,12 @@ void Simulator::createVehicle(Program* prog)
 	}
 }
 
-const std::vector<Roomba>& Simulator::getRoombaList()
+std::vector<Roomba>& Simulator::getRoombaList()
 {
 	return roombaList;
 }
 
-const std::vector<Obstacle>& Simulator::getObstacleList()
+std::vector<Obstacle>& Simulator::getObstacleList()
 {
 	return obstacleList;
 }
@@ -179,8 +178,6 @@ int Simulator::getScore()
 // Return 0: not in goal, 1: in goal, 2: in incorrect goal
 int Simulator::roombaInGoal(const Roomba* const roomba)
 {
-	float x  = roomba.getXPos(), y  = roomba.getYPos(), r = roomba.getRadius();
-
 	switch(greenLinePosition)
 	{
 		case LinePosition::top :
@@ -258,23 +255,6 @@ void Simulator::resolveCollision(AnimatedEntity* a, AnimatedEntity* b)
 
 void Simulator::handleWallCollision(Roomba* a)
 {
-	if(!roombaInGoal(a)) handleWallCollision(dynamic_cast<AnimatedEntity*>(a));
-}
-
-void Simulator::handleWallCollision(Obstacle* a)
-{
-	// Do something unique here
-	handleWallCollision(dynamic_cast<AnimatedEntity*>(a));
-}
-
-void Simulator::handleWallCollision(Vehicle* a)
-{
-	// Do something unique here or pass off to Animated Entity handler
-	(void)a;
-}
-
-void Simulator::handleWallCollision(AnimatedEntity* a)
-{
 	vec2 pos = a->getPos();
 	vec2 vel = a->getVelocitySum();
 	vec2 cvel;
@@ -300,6 +280,41 @@ void Simulator::handleWallCollision(AnimatedEntity* a)
 	if(collision){
 		a->setCollisionVel(cvel);
 	}
+}
+
+void Simulator::handleWallCollision(Obstacle* a)
+{
+	vec2 pos = a->getPos();
+	vec2 vel = a->getVelocitySum();
+	vec2 cvel;
+	float r = a->getRadius();
+	float ledge = pos[0] - r, redge = pos[0] + r, tedge = pos[1] + r, bedge = pos[1] - r;
+	bool collision = false;
+	if(ledge < 0.f) {
+		cvel = {1.f, vel[1]};
+		collision = true;
+	} else if (redge > Constants::arenaSizeX) {
+		cvel = {-1.f, vel[1]};
+		collision = true;
+	}
+
+	if(bedge < 0.f) {
+		cvel = {vel[0], 1.f};
+		collision = true;
+	} else if (tedge > Constants::arenaSizeY) {
+		cvel = {vel[0], -1.f};
+		collision = true;
+	}
+
+	if(collision){
+		a->setCollisionVel(cvel);
+	}
+}
+
+void Simulator::handleWallCollision(Vehicle* a)
+{
+	// Do something unique here or pass off to Animated Entity handler
+	(void)a;
 }
 
 bool Simulator::isGoalLine(LinePosition pos)

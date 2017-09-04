@@ -15,31 +15,87 @@ constexpr static float ARENASIZEX = Constants::arenaSizeX;
 constexpr static float ARENASIZEY = Constants::arenaSizeY;
 constexpr static float PI = Constants::pi;
 
+/**
+* @brief The position of the goal lines (red and green lines)
+*/
 enum class LinePosition {top, bottom, left, right};
 
+/**
+* @brief A class representing an object in the rendered world
+*/
 class Entity
 {
 public:
-	// Constructor, creates entity, pass in all initial conditions and shader program id
+	/**
+	* @brief Creates an Entity and sets up rendering for that Entity
+	*
+	* @param xInit The initial x position
+	* @param yInit The initial y position
+	* @param yawInit The initial yaw
+	* @param radiusInit The radius
+	* @param program The shader program used to draw this Entity
+	*/
 	Entity(float xInit, float yInit, float yawInit, float radiusInit, Program *program);
-	// Set the new position
+
+	/**
+	* @brief Sets the x and y positions of this Entity
+	*
+	* @param inX The x position
+	* @param inY The y position
+	*/
 	virtual void setPosition(float inX, float inY);
+
+	/**
+	* @breif Sets the x and y position of this Entity
+	*
+	* @param pos_in The position as a vector (x, y)
+	*/
 	virtual void setPosition(glm::vec2 pos_in);
-	// Set the new yaw in Radians
+
+	/**
+	* @brief Sets the yaw
+	*
+	* @param inTheta The yaw
+	*/
 	virtual void setYaw(float inTheta);
-	// Update the position of sub objects based on new position
+
+	/**
+	* @brief Updates this Entity every simulation step. Must be implemented
+	* in all derived classes
+	*
+	* @param dt The time since the last simulation step in milliseconds
+	*/
 	virtual void update(unsigned dt) = 0;
-	// Puts render data into openGL buffer and  renders this object
+
+	/**
+	* @brief Draws this object in the rendered world. Must be implemented in
+	* all derived classes
+	*/
 	virtual void render() = 0;
-	// return current x coordinate
+
+	/**
+	* @return The x position
+	*/
 	virtual float getXPos() const;
-	// return current y coordinate
+
+	/**
+	* @return The y position
+	*/
 	virtual float getYPos() const;
-	// return the position as a vec2
+
+	/**
+	* @return The position as a vector (x, y)
+	*/
 	virtual glm::vec2 getPos() const;
-	// return current yaw
+
+	/**
+	* @return The yaw in radians
+	*/
 	virtual float getYaw() const;
-	// Defines the collision radius
+
+	/**
+	* @return The radius
+	*/
 	virtual float getRadius() const;
 protected:
 	// Position, orientation, color data, as well as the shader program to use
@@ -48,10 +104,7 @@ protected:
 	float yaw;
 	float radius;
 	GLuint shaderProgramId;
-	// Constant expressions to
-	constexpr static float ARENASIZEX = Constants::arenaSizeX;
-	constexpr static float ARENASIZEY = Constants::arenaSizeY;
-	constexpr static float PI = Constants::pi;
+
 	static void updateTheta(float &thetaVal, float incrementVal);
 };
 

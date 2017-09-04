@@ -18,51 +18,113 @@
 #include "Constants.hpp"
 
 
+/**
+* @brief A class representing the simulated world
+*/
 class Simulator
 {
 public:
+	/**
+	* @brief Constructs an empty simulator
+	*/
 	Simulator();
 
-	//Updates positions of objects, detects collisions, wins game
-	//return true when the game ends, member function for if we won or lost
+	/**
+	* @brief Executes a simulation step
+	*
+	* @detailed Updates the position of all objects based on a preset update function. Detects
+	* collisions between objets in the simulation and the field borders and resolves any such
+	* collisions. Calculates the game score based on how many Roombas left on the right side of
+	* the arena. Will always return false unless the simulation has to end.
+	*
+	* @param dt Time since the last simulation step in milliseconds
+	*
+	* @return Whether the simulation should continue
+	*/
 	bool simulate(const unsigned dt);
 
-	// Adds Roomba to roombaList, the function pointer should be nothing by default
+	/**
+	* @brief Creates a Roomba in the rendered world
+	*
+	* @param xInit The intial x position
+	* @param yInit The intial y position
+	* @param angleInit The initial yaw
+	* @param radiusInit The radius
+	* @param shaderProgramIdIn The shader program to use in rendering
+	* @param color The color of this Roomba
+	*/
 	void createRoomba(float xInit, float yInit, float angleInit, float radiusInit,
 		Program* shaderProgramIdIn, float *color);
 
-	// Adds Obstacle to obstacleList
+	/**
+	* @brief Creates a Obstacle in the rendered world
+	*
+	* @param xInit The intial x position
+	* @param yInit The intial y position
+	* @param angleInit The initial yaw
+	* @param radiusInit The radius
+	* @param shaderProgramIdIn The shader program to use in rendering
+	* @param color The color of this Obstacle
+	*/
 	void createObstacle(float xInit, float yInit, float angleInit, float radiusInit,
 		Program* shaderProgramIdIn, float *color);
 
-	// Sets the function to call for updating roombas
+	/**
+	* @brief Sets the function to be called that updates the Roombas each simulation step
+	*
+	* @param func The function to call each simulation step
+	*/
 	void setRoombaUpdateFunc(std::function<void(Roomba&)> func);
 
-	// Sets the function to call for updating obstacles
+	/**
+	* @brief Sets the function to be called that updates the Obstacles each simulation step
+	*
+	* @param func The function to call each simulation step
+	*/
 	void setObstacleUpdateFunc(std::function<void(Obstacle&)> func);
 
-	// Creates and intializes the vehicle on the environment
+	/**
+	* @brief Creates a Vehicle in the field. A max of two Vehicles can be created
+	*
+	* @param prog The shader program to use in rendering the vehicle
+	*/
 	void createVehicle(Program* prog);
 
-	// Returns the vector of Roombas
-	const std::vector<Roomba>& getRoombaList();
+	/**
+	* @return A vector of Roombas in the Simulator
+	*/
+	std::vector<Roomba>& getRoombaList();
 
-	// Returns the vector of Obstacles
-	const std::vector<Obstacle>& getObstacleList();
+	/**
+	* @return A vector of Obstacles in the Simulator
+	*/
+	std::vector<Obstacle>& getObstacleList();
 
-	// Returns the vector of Vehicles
+	/**
+	* @return A vector of Vehicles in the Simulator
+	*/
 	std::vector<Vehicle>& getVehicle();
 
-	// Get score to update text
+	/**
+	* @return The points scored this game
+	*/
 	int getScore();
 
-	void addAction(std::function <void(Vehicle&)> action);
-
+	/**
+	* @brief Sets the position of the green score line
+	*
+	* @param newPos The position of the line
+	*/
 	void setGreenLinePosition(LinePosition newPos)
 	{
 		greenLinePosition = newPos;
 	}
 
+	/**
+	* @brief Sets the position of the red score line
+	*
+	* @param newPos The position of the line
+	*/
 	void setRedLinePosition(LinePosition newPos)
 	{
 		redLinePosition = newPos;
@@ -70,31 +132,66 @@ public:
 
 
 private:
-
-	// Checks if two objects are colliding
-	bool isCollision(const AnimatedEntity& aEnt1, const AnimatedEntity& aEnt2);
-
-	//Objects collided so what happens to them?
-	//Effects updates positions of the animated entities to point at collision
-	//http://vobarian.com/collisions/2dcollisions2.pdf
-	void physicsCollision(AnimatedEntity& aEnt1, AnimatedEntity& aEnt2, const unsigned dt);
-
 	// Return 0: not in goal, 1: in goal, 2: in incorrect goal
+	/**
+	* @brief Finds out whether the roomba is considered past a goal line
+	*
+	* @param roomba The roomba to check
+	*
+	* @return 0 if not in goal, 1 if in correct goal, 2 if in incorrect goal
+	*/
 	int roombaInGoal(const Roomba* const roomba);
 
-	// Collision detection and resolution
-	bool detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b);
-	void resolveCollision(AnimatedEntity* a, AnimatedEntity* b);
-	void handleWallCollision(AnimatedEntity* a);
-	void handleWallCollision(Roomba* a);
-	void handleWallCollision(Obstacle* a);
-	void handleWallCollision(Vehicle* a);
+	/**
+	* @brief Checks whether a particular position is a goal line
+	*
+	* @param pos The position to check
+	*
+	* @return Whether the position is a goal line
+	*/
 	bool isGoalLine(LinePosition pos);
 
-	// Function keeps roombas stationary
-	std::function <void(Roomba&)> updateRoombaLocation;
+	/**
+	* @brief Detects Circle v Cricle collisions
+	*
+	* @param a An AnimatedEntity to check
+	* @param b An AnimatedEntity to check
+	*
+	* @return Whether the two AnimatedEntities collide
+	*/
+	bool detectCollision(const AnimatedEntity* const a, const AnimatedEntity* const b);
 
-	// Function defined by the student
+	/**
+	* @brief Performs impulse resolution on detected collisions
+	*
+	* @param a An AnimatedEntity to perform collision resolution on
+	* @param b An AnimatedEntity to perform collision resolution on
+	*/
+	void resolveCollision(AnimatedEntity* a, AnimatedEntity* b);
+
+	/**
+	* @brief Handles Roomba v Wall collisions
+	*
+	* @param a The Roomba to handle
+	*/
+	void handleWallCollision(Roomba* a);
+
+	/**
+	* @brief Handles Obstacle v Wall collisions
+	*
+	* @param a The Obstacle to handle
+	*/
+	void handleWallCollision(Obstacle* a);
+
+	/**
+	* @brief Handles Vehicle v Wall collisions
+	*
+	* @param a The Vehicle to handle
+	*/
+	void handleWallCollision(Vehicle* a);
+
+	// Update functions for Roombas and Obstacles
+	std::function <void(Roomba&)> updateRoombaLocation;
 	std::function<void(Obstacle&)> updateObstacleLocation;
 
 	// Objects in the environment
@@ -102,14 +199,12 @@ private:
 	std::vector<Obstacle> obstacleList;
 	std::vector<Vehicle> vehicles;
 
+	// Positions of goal lines
 	LinePosition redLinePosition = LinePosition::left;
 	LinePosition greenLinePosition = LinePosition::right;
 
-	int sizeEnvironment = 10; // Default 10X10m
-	int score = 0;
-
-	std::queue<std::function <void(Vehicle&)> > actionQueue;
-
+	int sizeEnvironment{10}; // Default 10X10m
+	int score{0};
 };
 
 #endif
