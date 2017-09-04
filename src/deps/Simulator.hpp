@@ -89,6 +89,7 @@ private:
 	void handleWallCollision(Roomba* a);
 	void handleWallCollision(Obstacle* a);
 	void handleWallCollision(Vehicle* a);
+	bool isGoalLine(LinePosition pos);
 
 	// Function keeps roombas stationary
 	std::function <void(Roomba&)> updateRoombaLocation;

@@ -1,5 +1,6 @@
 #include "deps/SimWindow.hpp"
 #include "deps/Constants.hpp"
+#include <thread>
 
 using namespace std;
 using std::cos;
