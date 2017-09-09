@@ -2,7 +2,7 @@
 #include "deps/Constants.hpp"
 #include <thread>
 
-// These are hire to help you.
+// These are here to help you.
 using namespace std;
 using std::cos;
 using std::sin;
