@@ -97,6 +97,16 @@ public:
 	* @return The radius
 	*/
 	virtual float getRadius() const;
+
+	/**
+	* @brief Decides if two floating point numbers are close enough to be considered equal
+	*
+	* @param a The first number
+	* @param b The second number
+	*
+	* @return Whether the numbers are close enough to be considered equal
+	*/
+	static bool approxEq(float a, float b);
 protected:
 	// Position, orientation, color data, as well as the shader program to use
 	float x;

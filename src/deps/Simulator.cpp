@@ -43,9 +43,9 @@ bool Simulator::simulate(const unsigned dt)
 		int status = roombaInGoal(&*it);
 		if(status) {
 			roombaList.erase(it);
-			switch(score){
-				case 1 : score += 69;
-				case 2 : score -= 42;
+			switch(status){
+				case 1 : score += 69; break;
+				case 2 : score -= 42; break;
 			}
 		}
 	}

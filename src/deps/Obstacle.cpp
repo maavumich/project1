@@ -53,3 +53,9 @@ void Obstacle::render()
 	innerBorder.render();
 	insidePillar.render();
 }
+
+float Obstacle::getTheta() const
+{
+	float rx = getXPos() - (ARENASIZEX / 2.f), ry = getYPos() - (ARENASIZEY / 2.f);
+	return glm::atan(ry, rx) + PI;
+}

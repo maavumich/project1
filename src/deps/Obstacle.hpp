@@ -41,6 +41,8 @@ public:
 	*/
 	virtual void update(unsigned dt);
 
+	float getTheta() const;
+
 private:
 	Circle border;
 	Circle roombaBody;
@@ -48,6 +50,7 @@ private:
 	Circle outerBorder;
 	Circle innerBorder;
 	Circle insidePillar;
+	float theta;
 };
 
 #endif

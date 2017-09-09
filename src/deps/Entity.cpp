@@ -62,3 +62,11 @@ glm::vec2 Entity::getPos() const
 {
 	return {x, y};
 }
+
+bool Entity::approxEq(float a, float b)
+{
+	if (a > b)
+		return abs(a - b) < 0.00001f;
+	return abs(b - a) < 0.00001f;
+
+}

@@ -27,8 +27,6 @@ void createRoombas(SimWindow& win);
 void createObstacles(SimWindow& win);
 
 
-constexpr float VEHICLE_SPEED = 1.f;
-
 int main(int argc, char** argv)
 {
 	auto app = Gtk::Application::create(argc, argv, "org.maav.training.simulation");
@@ -119,12 +117,10 @@ void createObstacles(SimWindow& win)
 
 void updateObstacleLocation(Obstacle &obstacle)
 {
-	/*
-	float radius = sqrt(obstacle.getXpos() * obstacle.getXPos() + obstacle.getYPos() *
-		obstacle.getYPos());
-	float theta = obstacle.getyaw();
-	obstacle.getXPos();
-	*/
+	float theta = obstacle.getTheta();
+	vec2 newVel{-sin(theta),
+		    cos(theta)};
+	obstacle.setVelocity(newVel);
 }
 
 // Write event handler function implementations here
@@ -136,8 +132,7 @@ void updateObstacleLocation(Obstacle &obstacle)
 // Effects:  Rotates roomba
 void updateRoombaLocation(Roomba& roomba)
 {
-	//roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
-	//roomba.setPosition(roomba.getXPos() + 0.1f, roomba.getYPos());
+	roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
 }
 
 void vehicleMoveForward(Vehicle& vehicle)

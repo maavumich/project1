@@ -14,24 +14,14 @@ include_directories(
 	${GLM_INCLUDE_DIRS}
 	${GTKMM_INCLUDE_DIRS}
 )
-add_executable(maavsquare
+add_executable(spooky-thing
 	main.cpp
-	deps/Renderer.cpp
-	deps/Program.cpp
-	deps/SimWindow.cpp
-	deps/Simulator.cpp
-	deps/Roomba.cpp
-	deps/Obstacle.cpp
-	deps/Vehicle.cpp
-	deps/Rectangle.cpp
-	deps/Circle.cpp
-	deps/Entity.cpp
-	deps/AnimatedEntity.cpp
 )
 
-install(TARGETS maavsquare RUNTIME DESTINATION bin)
+install(TARGETS spooky-thing RUNTIME DESTINATION bin)
 
-target_link_libraries(maavsquare
+target_link_libraries(spooky-thing
+	Simulation
 	${EPOXY_LIBRARIES}
 	${GTKMM_LIBRARIES}
 )
