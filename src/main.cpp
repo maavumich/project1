@@ -2,12 +2,21 @@
 #include "deps/Constants.hpp"
 #include <thread>
 
+// These are hire to help you.
 using namespace std;
 using std::cos;
 using std::sin;
 using glm::vec2;
+auto TOP = LinePosition::top;
+auto BOTTOM = LinePosition::bottom;
+auto LEFT = LinePosition::left;
+auto RIGHT = LinePosition::right;
 
-// Write event handler function prototypes here
+
+/**
+ * Function prototypes. These let the main function know that these functions exist. They are
+ * defined below along with a breif description of what they should do.
+ */
 void updateRoombaLocation(Roomba& roomba);
 void updateObstacleLocation(Obstacle& obstacle);
 void vehicleMoveForward(Vehicle& vehicle);
@@ -20,8 +29,6 @@ void vehicleStopMoveForward(Vehicle& vehicleStop);
 void vehicleStopMoveBackward(Vehicle& vehicleStop);
 void vehicleStopMoveLeftward(Vehicle& vehicleStop);
 void vehicleStopMoveRightward(Vehicle& vehicleStop);
-
-// Create the grid lines function
 void createGridLines(SimWindow& win);
 void createRoombas(SimWindow& win);
 void createObstacles(SimWindow& win);
@@ -46,60 +53,161 @@ int main(int argc, char** argv)
 	win.attachEventHandler(GDK_KEY_s, vehicleMoveBackward);
 	win.attachEventHandler(GDK_KEY_a, vehicleMoveLeftward);
 	win.attachEventHandler(GDK_KEY_d, vehicleMoveRightward);
-	win.attachEventHandler(GDK_KEY_q, vehicleYawLeft);
-	win.attachEventHandler(GDK_KEY_e, vehicleYawRight);
 	// Stop vehicle movement when key is released
 	win.attachEventStopHandler(GDK_KEY_w, vehicleStopMoveForward);
 	win.attachEventStopHandler(GDK_KEY_s, vehicleStopMoveBackward);
 	win.attachEventStopHandler(GDK_KEY_a, vehicleStopMoveLeftward);
 	win.attachEventStopHandler(GDK_KEY_d, vehicleStopMoveRightward);
+	// Attach any other key bindings you want here (before the return statement)
 
 	return app->run(win);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// You must implement the following functions. Below this section are functions which have already
+// been implemented for you. You may look at them for "inspiration" if you get stuck
+// The starter code can be compiled successfully, though nothing will remain on screen for more than
+// a fraction of a second until you place at least one roomba. You can exit the simulation at any
+// time by pressing the escape "Esc" key on your keyboard
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+* REQUIRES: win is a valid SimWindow
+*
+* EFFECTS: Draws grid lines. The lines should appear at every meter on the field. It should look
+* like graph paper if done correctly. Also sets the green and red line positions on the field.
+*
+* MODIFIER: The field in the simulation
+*/
 void createGridLines(SimWindow& win)
 {
-	float height = 10.f;
-	float width = 0.1f;
-	std::vector<float> color = {0.85f,0.8f,0.77f};
-	std::vector<float> red = {0.8f,0.1f,0.1f};
-	std::vector<float> green = {0.1f,0.8f,0.1f};
-	for (int i {0}; i < 11; ++i)
-	{
-		win.createGridLine((float)i,5.f,Constants::pi / 2,color,height,width);
-	}
-	for (int i {1}; i < 10; ++i)
-	{
-		win.createGridLine(5.f,(float)i,0.f,color,height,width);
-	}
-	win.createGridLine(5.f,0.f,0.f,red,height,width);
-	win.createGridLine(5.f,10.f,0.f,green,height,width);
-	win.setGreenLinePosition(LinePosition::top);
-	win.setRedLinePosition(LinePosition::bottom);
+	// Write code to place grid lines in field here. USE LOOPS!
 }
+
+/**
+* REQUIRES: win is a valid SimWindow
+*
+* EFFECTS: Places 8 to 10 Roombas in a circle about the center of the field. The roombas must be
+* half red and half green. Roombas of like color must be next to each other.
+*
+* MODIFIES: The field in the simulation
+*/
 
 void createRoombas(SimWindow& win)
 {
-	float radius = 2.f;
-	float size = 0.4f;
-	std::vector<float> green = {0.15f,0.7f,0.15f};
-	std::vector<float> red = {0.7f,0.15f,0.15f};
-	for (int i {0}; i < 8; ++i)
-	{
-		float theta = i * Constants::pi / 4;
-		float x = 5.f + cos(theta) * radius;
-		float y = 5.f + sin(theta) * radius;
-		if (i < 4)
-		{
-			win.createRoomba(x, y, theta, size, green);
-		}
-		else
-		{
-			win.createRoomba(x, y, theta, size, red);
-		}
-	}
+	// Write code to place roombas on the field here
 }
 
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to move forward
+*
+* MODIFIES: The vehicle
+*/
+
+void vehicleMoveForward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to move backward
+*
+* MODIFIES: The vehicle
+*/
+void vehicleMoveBackward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to move left
+*
+* MODIFIES: The vehicle
+*/
+void vehicleMoveLeftward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to move right
+*
+* MODIFIES: The vehicle
+*/
+void vehicleMoveRightward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to stop moving forward
+*
+* MODIFIES: The vehicle
+*/
+void vehicleStopMoveForward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to stop moving backward
+*
+* MODIFIES: The vehicle
+*/
+void vehicleStopMoveBackward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to stop moving left
+*
+* MODIFIES: The vehicle
+*/
+void vehicleStopMoveLeftward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+/**
+* REQUIRES: vehicle is a valid Vehicle
+*
+* EFFECTS: Causes the vehicle to stop moving right
+*
+* MODIFIES: The vehicle
+*/
+void vehicleStopMoveRightward(Vehicle& vehicle)
+{
+	// Implement this
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// The following functions have been implemented for you. You may use them for "inspiration"
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/**
+* REQUIRES: win is a valid SimWindow
+*
+* EFFECTS: Places 4 obstacles in the arena in a square about the center of the field.
+*
+* MODIFIER: The field in the simulation
+*/
 void createObstacles(SimWindow& win)
 {
 	float radius = 3.f;
@@ -108,13 +216,20 @@ void createObstacles(SimWindow& win)
 	for (int i {0}; i < 4; ++i)
 	{
 		radius *= 1.03f;
-		float theta = i * Constants::pi / 2 - Constants::pi / 4;
+		float theta = i * PI / 2 - PI / 4;
 		float x = 5.f + cos(theta) * radius;
 		float y = 5.f + sin(theta) * radius;
 		win.createObstacle(x, y, theta, size, pink);
 	}
 }
 
+/**
+* REQUIRES: obstacle is a valid obstacle (Assume this condition is satisfied)
+*
+* EFFECTS: Moves the roombas in a circle around the center
+*
+* MODIFIES: The velocity of the Obstacle
+*/
 void updateObstacleLocation(Obstacle &obstacle)
 {
 	float theta = obstacle.getTheta();
@@ -123,63 +238,15 @@ void updateObstacleLocation(Obstacle &obstacle)
 	obstacle.setVelocity(newVel);
 }
 
-// Write event handler function implementations here
-
-// Function Pointers for simulator class, passed to simwindow and used to create
-// Roomba and Obstacle
-
-// Modifies: Roomba object
-// Effects:  Rotates roomba
+/**
+* REQUIRES: roomba is a valid Roomba
+*
+* EFFECTS: Updates the roomba's state. By default this just makes the roomba rotate in place.
+*
+* MODIFIES: The Roomba
+*/
 void updateRoombaLocation(Roomba& roomba)
 {
 	roomba.setYaw(roomba.getYaw() + Constants::pi / 180);
 }
 
-void vehicleMoveForward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() + vec2{0.f, 3.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleMoveBackward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() + vec2{0.f, -3.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleMoveLeftward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() + vec2{-3.f, 0.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleMoveRightward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() + vec2{3.f, 0.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleYawLeft(Vehicle& vehicle)
-{
-	vehicle.setYaw(vehicle.getYaw() + Constants::pi / 180);
-}
-void vehicleYawRight(Vehicle& vehicle)
-{
-	vehicle.setYaw(vehicle.getYaw() - Constants::pi / 180);
-}
-void vehicleStopMoveForward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() - vec2{0.f, 3.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleStopMoveBackward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() - vec2{0.f, -3.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleStopMoveLeftward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() - vec2{-3.f, 0.f};
-	vehicle.setVelocity(vel);
-}
-void vehicleStopMoveRightward(Vehicle& vehicle)
-{
-	vec2 vel = vehicle.getVelocity() - vec2{3.f, 0.f};
-	vehicle.setVelocity(vel);
-}
