@@ -10,20 +10,20 @@ projects.
 
 You can find the spec for this project by following this link:
 
-	https://drive.google.com/open?id=0B5O7hcI4VaMMQkFrd0dVVFlQd0E
+https://drive.google.com/open?id=0B5O7hcI4VaMMQkFrd0dVVFlQd0E
 
 There also exist several reference sheets that you fill find useful throughout these projects.
 You can find a C++ reference sheet here:
 
-	https://drive.google.com/open?id=0B5O7hcI4VaMMS0xUWDZucnRHR0E
+https://drive.google.com/open?id=0B5O7hcI4VaMMS0xUWDZucnRHR0E
 
 You can find a Linux terminal reference sheet here:
 
-	https://drive.google.com/open?id=0Bz0tMI9ydfZjaGNNbzU0VTZXWWc
+https://drive.google.com/open?id=0Bz0tMI9ydfZjaGNNbzU0VTZXWWc
 
 You can find a git reference sheet here:
 
-	https://drive.google.com/open?id=0B5O7hcI4VaMMbGRqRmMtVEJnMHc
+https://drive.google.com/open?id=0B5O7hcI4VaMMbGRqRmMtVEJnMHc
 
 Please refer to the style guide that comes with this project if you have any questions about coding
 style. While we encourage you to use MAAV coding style in this project, we do not require it. You
