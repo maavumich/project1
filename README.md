@@ -1,85 +1,25 @@
+# Training Project 1
 To clone this project, run the command:
 
-		git clone https://github.com/maavumich/project0
+		git clone https://github.com/maavumich/project1
 
-...in a terminal. This will create a directory in the present working
-directory ("`PWD`") called `project0` that contains all of the files in
-this repository.
+This project will put to use the skills you learned in project 0 as well as allow you to develop new
+skills in C++. You will also learn to work with a preexisting codebase. This latter skill is
+important since you will be working with the MAAV codebase following the completion of these
+projects.
 
-# Training Project 0
+You can find the spec for this project by following this link:
+		https://drive.google.com/open?id=0B5O7hcI4VaMMQkFrd0dVVFlQd0E
 
-The basics of C++. Basic syntax, header files, Makefiles, Linux terminal
-commands. The optional zeroth project in the core training sequence.
+There also exist several reference sheets that you fill find useful throughout these projects.
+You can find a C++ reference sheet here:
+		https://drive.google.com/open?id=0B5O7hcI4VaMMS0xUWDZucnRHR0E
+You can find a Linux terminal reference sheet here:
+		https://drive.google.com/open?id=0Bz0tMI9ydfZjaGNNbzU0VTZXWWc
+You can find a git reference sheet here:
+		https://drive.google.com/open?id=0B5O7hcI4VaMMbGRqRmMtVEJnMHc
 
-Trainees will write functions that solve "basic coding knowledge interview
-questions", as well as the additional "infrastructure" needed to compile
-that code. Trainees will also learn how to Linux.
-
-The goal of Training Project 0 is to bring trainees up to speed with the
-particulars of C++ syntax and the quirks of coding in the language.
-
-Instructions and pass requirements are found in the `./docs` folder inside
-`./docs/assignment.md`.
-
-## Topics Covered
-
-If this list looks imposing, don't let it frighten you. The author of this
-project likes tryharding and big words.
-
-* How to terminal
-	* File-system navigation
-	* File manipulation (creating and removing folders; creating, renaming,
-	  and moving files)
-	* The `rm` command
-	* Basic regular expressions (or, "why `rm -rf ~/*` will make you deeply sad)
-	* `stdout`, `stderr`, and file redirection
-* Basic SSH usage
-	* The university's CAEN servers
-	* Command-line text editors
-	* Copying files with `scp`
-	* SSH aliases
-* C++ syntax
-	* Meaningful-versus-non-meaningful whitespace
-	* Semicolons
-	* Variables and variable scopes
-	* Conditional statements (if-then)
-	* Loops (while, for, range-for)
-	* Switch cases
-	* Function headers and forward declaration
-* Coding style
-	* Indentation (tabs vs. spaces vs. tabs-with-spaces-for-alignment)
-	* Where to put curly braces (Kernighan and Ritchie vs. Allman)
-* The compilation process / What `#include` actually does
-* Main functions
-* Classes
-	* The `new` keyword and how it might not do what you expect
-	* Constructors and constructing objects
-	* Access specifiers (`public`, `private`)
-
-## Directory Structure
-
-### Documentation 			[`./docs`]
-
-The project spec, as well as informational resources on the topics covered
-by this project.
-
-Contains:
-* The assignment, in detail (`./docs/assignment.md`)
-* How to self-grade your project (`./docs/grading.md`)
-* Links to other helpful resources (`./docs/notes.md`).
-
-### Source					[`./src`]
-
-The actual project implementation.
-
-Contains:
-* Starter files
-	* `./src/AClass.cpp`
-	* `./src/AStruct.cpp`
-	* `./src/Makefile`
-	* `./src/project0.cpp`
-
-### Potentially Useful		[`./maybe_useful`]
-
-Some resources that you might find useful while working on your project.
-Non-essential to the project itself.
+Please refer to the style guide that comes with this project if you have any questions about coding
+style. While we encourage you to use MAAV coding style in this project, we do not require it. You
+will be expected to adhere to the style guide when you contribute to the MAAV codebase so you will
+need to learn it eventually. May as well start now if you can.
