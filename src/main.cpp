@@ -42,17 +42,19 @@ int main(int argc, char** argv)
 
 	// Attach event handlers here
 	win.setRoombaUpdateFunc(updateRoombaLocation);
+	win.setObstacleUpdateFunc(updateObstacleLocation);
+
 	// Set up the arena
 	createGridLines(win);
 	createRoombas(win);
 	createObstacles(win);
-	win.setObstacleUpdateFunc(updateObstacleLocation);
 
 	// Attach Key Bindings
 	win.attachEventHandler(GDK_KEY_w, vehicleMoveForward);
 	win.attachEventHandler(GDK_KEY_s, vehicleMoveBackward);
 	win.attachEventHandler(GDK_KEY_a, vehicleMoveLeftward);
 	win.attachEventHandler(GDK_KEY_d, vehicleMoveRightward);
+
 	// Stop vehicle movement when key is released
 	win.attachEventStopHandler(GDK_KEY_w, vehicleStopMoveForward);
 	win.attachEventStopHandler(GDK_KEY_s, vehicleStopMoveBackward);
@@ -60,6 +62,7 @@ int main(int argc, char** argv)
 	win.attachEventStopHandler(GDK_KEY_d, vehicleStopMoveRightward);
 	// Attach any other key bindings you want here (before the return statement)
 
+	// The simulation starts here. DON'T WRITE ANY CODE AFTER THIS LINE!
 	return app->run(win);
 }
 
@@ -69,6 +72,9 @@ int main(int argc, char** argv)
 // The starter code can be compiled successfully, though nothing will remain on screen for more than
 // a fraction of a second until you place at least one roomba. You can exit the simulation at any
 // time by pressing the escape "Esc" key on your keyboard
+//
+// HINT: Check the last section in the spec for a brief overview of some functions you may need to
+// use in this project (or you can look at the header files in the `deps` directory).
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
