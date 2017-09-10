@@ -2,6 +2,7 @@ set(RENDER_MODEL_RESOURCES
     win_script.sh
     image_encrypt
     win0.jpg
+    win1.jpg
 )
 
 foreach (res ${RENDER_MODEL_RESOURCES})

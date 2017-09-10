@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <unistd.h>
 #include <thread>
+#include <sstream>
 
 using namespace std;
 
@@ -90,8 +91,12 @@ SimWindow::SimWindow() : sim{make_shared<Simulator>()}, renderArea{sim}
 	Glib::signal_timeout().connect([this]() {
 		if(sim->simulate(SIMULATION_DT_MS)) {
 			string path = getDir() + "deps/";
-			cerr << "Your score: " << sim->getScore() << endl;
-			system(string{path + "win_script.sh &"}.c_str());
+			stringstream score;
+			score << sim->getScore();
+			cerr << "Your score: " << score.str() << endl;
+			string winscript = path + "win_script.sh -s ";
+			winscript += score.str() + " &";
+			system(winscript.c_str());
 			get_application()->quit();
 		}
 
